@@ -15,9 +15,12 @@
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
 {
+    CGPoint thing_pos;
+	CGPoint thing_vel;
+	CGPoint thing_acc;
 }
 
-@property (nonatomic, strong) CCSprite * spaceCargoShip;
+@property (nonatomic, strong) CCSprite * redCircle;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;

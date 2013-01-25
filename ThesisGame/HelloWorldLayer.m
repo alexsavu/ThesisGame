@@ -14,13 +14,21 @@
 #import "AppDelegate.h"
 
 #define kHeroMovementAction 1
-#define kPlayerSpeed 100
+#define kPlayerSpeed 300
+#define kFilteringFactor 0.1
+
+@interface HelloWorldLayer (){
+}
+
+- (void)step:(ccTime)dt;
+
+@end
 
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
-@synthesize spaceCargoShip = _spaceCargoShip;
+@synthesize redCircle = _redCircle;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -103,61 +111,52 @@
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
         
-        self.spaceCargoShip = [CCSprite spriteWithFile:@"dpadDown.png"];
-        [self.spaceCargoShip setPosition:ccp(size.width/2, size.height/2)];
-        [self addChild:self.spaceCargoShip];
+        self.redCircle = [CCSprite spriteWithFile:@"dpadDown.png"];
+        [self.redCircle setPosition:ccp(size.width/2, size.height/2)];
+        [self addChild:self.redCircle];
+        
+        //This is the function that will be scheduled to load continuously
+        //as long as our game is running
+        [self schedule:@selector(step:)];
 
 	}
 	return self;
 }
 
-- (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
-//    // use the running scene to grab the appropriate game layer by it's tag
-//    GameLayer *layer = (GameLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:kTagGameLayer];
-//    // grab the player sprite from that layer using it's tag
-//    CCSprite *playerSprite = (CCSprite *)[layer getChildByTag:kTagSpritePlayer];
-    float destX, destY;
-    BOOL shouldMove = NO;
+//the function schedule and call everything as needed
+- (void)step:(ccTime)dt {
+	
+	thing_pos.x += thing_vel.x * dt;
+	
+	//set the maximun and minimum positions where our character could be on screen
+	//in the X axis... this prevents the character to go out of screen on the sides
+	CGSize thing_size = self.redCircle.contentSize;
+	float max_x = 480-thing_size.width/2;
+	float min_x = 0+thing_size.width/2;
     
-    float currentX = self.spaceCargoShip.position.x;
-    float currentY = self.spaceCargoShip.position.y;
+    float max_y = 320-thing_size.width/2;
+	float min_y = 0+thing_size.width/2;
+	
+	if(thing_pos.x>max_x) thing_pos.x = max_x;
+	if(thing_pos.x<min_x) thing_pos.x = min_x;
     
-    if(acceleration.x > 0.25) {  // tilting the device upwards
-        destX = currentX - (acceleration.y * kPlayerSpeed);
-        destY = currentY + (acceleration.x * kPlayerSpeed);
-        shouldMove = YES;
-    } else if (acceleration.x < -0.25) {  // tilting the device downwards
-        destX = currentX - (acceleration.y * kPlayerSpeed);
-        destY = currentY + (acceleration.x * kPlayerSpeed);
-        shouldMove = YES;
-    } else if(acceleration.y < -0.25) {  // tilting the device to the right
-        destX = currentX - (acceleration.y * kPlayerSpeed);
-        destY = currentY + (acceleration.x * kPlayerSpeed);
-        shouldMove = YES;
-    } else if (acceleration.y > 0.25) {  // tilting the device to the left
-        destX = currentX - (acceleration.y * kPlayerSpeed);
-        destY = currentY + (acceleration.x * kPlayerSpeed);
-        shouldMove = YES;
-    } else {
-        destX = currentX;
-        destY = currentY;
-    }
+    if(thing_pos.y>max_y) thing_pos.y = max_y;
+	if(thing_pos.y<min_y) thing_pos.y = min_y;
+	
+	thing_vel.y += thing_acc.y * dt;
+	thing_pos.y += thing_vel.y * dt;
     
-    if(shouldMove) {
-        CGSize wins = [[CCDirector sharedDirector] winSize];
-        // ensure we aren't moving out of bounds
-        if(destX < 30 || destX > wins.width - 30 || destY < 30 || destY > wins.height - 100) {
-            // do nothing
-        } else {
-            CCAction *action = [CCMoveTo actionWithDuration:1 position: CGPointMake(destX, destY)];
-            [action setTag:kHeroMovementAction];
-            [self.spaceCargoShip runAction:action];
-        }
-    } else {
-        // should stop
-        [self.spaceCargoShip stopActionByTag:kHeroMovementAction];
-    }
-    
+    thing_vel.x += thing_acc.x * dt;
+	thing_pos.x += thing_vel.x * dt;
+	
+	self.redCircle.position = ccp(thing_pos.x,thing_pos.y);
+}
+
+- (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
+	float accel_filter = 0.1f;
+	//handle our character on-screen via accelerometer
+	thing_vel.x = thing_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
+    thing_vel.y = thing_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
 }
 
 // on "dealloc" you need to release all your retained objects
