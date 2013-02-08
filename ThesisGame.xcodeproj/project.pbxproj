@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */; };
+		3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */; };
+		3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */; };
+		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
 		3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD716B18277006F740A /* OpenAL.framework */; };
@@ -137,6 +141,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E0ED32116BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GKMatchmakerViewController-LandscapeOnly.h"; sourceTree = "<group>"; };
+		3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GKMatchmakerViewController-LandscapeOnly.m"; sourceTree = "<group>"; };
+		3E0ED3AF16C3D549003AF327 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
+		3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
+		3E0ED3B416C50E0E003AF327 /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
+		3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLayer.m; sourceTree = "<group>"; };
+		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		3EA4CC3A16BC44E9002F9B10 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		3EA4CC3B16BC44E9002F9B10 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		3EA4CC3F16BD2516002F9B10 /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
+		3EA4CC4016BD2D43002F9B10 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCHelper.h; sourceTree = "<group>"; };
+		3EA4CC4116BD2D43002F9B10 /* GCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCHelper.m; sourceTree = "<group>"; };
 		3ECACACF16B18277006F740A /* ThesisGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThesisGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECACAD316B18277006F740A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3ECACAD516B18277006F740A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -407,6 +423,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ECACAE416B18277006F740A /* GameKit.framework in Frameworks */,
 				3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */,
 				3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */,
 				3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */,
@@ -415,13 +432,35 @@
 				3ECACADE16B18277006F740A /* UIKit.framework in Frameworks */,
 				3ECACAE016B18277006F740A /* Foundation.framework in Frameworks */,
 				3ECACAE216B18277006F740A /* CoreGraphics.framework in Frameworks */,
-				3ECACAE416B18277006F740A /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E0ED3B216C3D70E003AF327 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3E0ED3AF16C3D549003AF327 /* UIDevice+Hardware.h */,
+				3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		3E0ED3B316C50A23003AF327 /* GameCenter */ = {
+			isa = PBXGroup;
+			children = (
+				3E0ED32116BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.h */,
+				3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */,
+				3EA4CC4016BD2D43002F9B10 /* GCHelper.h */,
+				3EA4CC4116BD2D43002F9B10 /* GCHelper.m */,
+				3EA4CC3F16BD2516002F9B10 /* GameConstants.h */,
+				3EA4CC3A16BC44E9002F9B10 /* RootViewController.h */,
+				3EA4CC3B16BC44E9002F9B10 /* RootViewController.m */,
+			);
+			name = GameCenter;
+			sourceTree = "<group>";
+		};
 		3ECACAC416B18277006F740A = {
 			isa = PBXGroup;
 			children = (
@@ -458,12 +497,17 @@
 		3ECACAE516B18277006F740A /* ThesisGame */ = {
 			isa = PBXGroup;
 			children = (
+				3E0ED3B316C50A23003AF327 /* GameCenter */,
+				3EA4CC3916BC44E9002F9B10 /* GameConfig.h */,
 				3ECACC5D16B18279006F740A /* AppDelegate.h */,
 				3ECACC5E16B18279006F740A /* AppDelegate.m */,
 				3ECACC6016B18279006F740A /* HelloWorldLayer.h */,
 				3ECACC6116B18279006F740A /* HelloWorldLayer.m */,
 				3ECACC6316B18279006F740A /* IntroLayer.h */,
 				3ECACC6416B18279006F740A /* IntroLayer.m */,
+				3E0ED3B416C50E0E003AF327 /* BackgroundLayer.h */,
+				3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */,
+				3E0ED3B216C3D70E003AF327 /* Categories */,
 				3ECACAE616B18277006F740A /* Resources */,
 				3ECACB0016B18277006F740A /* libs */,
 				3ECACC5916B18279006F740A /* Supporting Files */,
@@ -1013,6 +1057,10 @@
 				3ECACC5F16B18279006F740A /* AppDelegate.m in Sources */,
 				3ECACC6216B18279006F740A /* HelloWorldLayer.m in Sources */,
 				3ECACC6516B18279006F740A /* IntroLayer.m in Sources */,
+				3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */,
+				3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */,
+				3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */,
+				3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,13 +1118,13 @@
 				GCC_PREFIX_HEADER = ThesisGame/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"ThesisGame/libs/kazmath/include\"";
 				INFOPLIST_FILE = ThesisGame/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1091,13 +1139,13 @@
 				GCC_PREFIX_HEADER = ThesisGame/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"ThesisGame/libs/kazmath/include\"";
 				INFOPLIST_FILE = ThesisGame/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
