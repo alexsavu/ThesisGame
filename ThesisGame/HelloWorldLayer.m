@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import "UIDevice+Hardware.h"
+#import "BackgroundLayer.h"
 
 #define kHeroMovementAction 1
 #define kPlayerSpeed 300
@@ -31,6 +32,8 @@
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
 @synthesize redCircle = _redCircle;
+@synthesize backgroundLayer = _backgroundLayer;
+@synthesize background = _background;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -110,6 +113,13 @@
 //		// Add the menu to the layer
 //		[self addChild:menu];
         
+//        self.backgroundLayer = [BackgroundLayer node];
+//        [self addChild:self.backgroundLayer z:0];
+        
+        self.background = [CCSprite spriteWithFile:@"background.png"];
+        self.background.position = ccp(size.width/2, size.height/2);
+        [self addChild:self.background];
+        
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
         
@@ -117,7 +127,7 @@
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
         
         self.redCircle = [CCSprite spriteWithFile:@"dpadDown.png"];
-        [self.redCircle setPosition:ccp(size.width/2, size.height/2)];
+        [self.redCircle setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.redCircle];
         
         //This is the function that will be scheduled to load continuously
@@ -184,16 +194,22 @@
 - (void)step:(ccTime)dt {
 	
 	thing_pos.x += thing_vel.x * dt;
+//    background_pos.x += background_vel.x *dt;
 	
 	//set the maximun and minimum positions where our character could be on screen
 	//in the X axis... this prevents the character to go out of screen on the sides
 	CGSize thing_size = self.redCircle.contentSize;
+    CGSize background_size = self.background.contentSize;
     float max_x = 0;
 	float min_x = 0;
-    
     float max_y = 0;
 	float min_y = 0;
     
+    float background_max_x = 0;
+	float background_min_x = 0;
+    
+    float background_max_y = 0;
+	float background_min_y = 0;
 //    if([UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad) {
 //        //Device is ipad
 //        max_x = 1024 - thing_size.width/2;
@@ -215,8 +231,14 @@
         max_x = 1024 - thing_size.width/2;
         min_x = 0 + thing_size.width/2;
         
+        background_max_x = 2048 - background_size.width/2;
+        background_min_x = 0 + background_size.width/2;
+        
         max_y = 768 - thing_size.width/2;
         min_y = 0 + thing_size.width/2;
+        
+        background_max_y = 1536 - background_size.height/2;
+        background_min_y = 0 + background_size.height/2;
     }else{
         //Device is iphone
         max_x = 480 - thing_size.width/2;
@@ -231,14 +253,37 @@
     
     if(thing_pos.y>max_y) thing_pos.y = max_y;
 	if(thing_pos.y<min_y) thing_pos.y = min_y;
+    
+    if(background_pos.x>background_max_x) background_pos.x = background_max_x;
+	if(background_pos.x<background_min_x) background_pos.x = background_min_x;
+    
+    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
+	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
 	
 	thing_vel.y += thing_acc.y * dt;
-	thing_pos.y += thing_vel.y * dt;
+//	thing_pos.y += thing_vel.y * dt;
     
     thing_vel.x += thing_acc.x * dt;
 	thing_pos.x += thing_vel.x * dt;
+    
+    
+    background_vel.y += background_acc.y * dt;
+	background_pos.y += background_vel.y * dt;
+    
+    background_vel.x += background_acc.x * dt;
+//	background_pos.x += background_vel.x * dt;
 	
 	self.redCircle.position = ccp(thing_pos.x,thing_pos.y);
+//    if (self.redCircle.position.y >= [[CCDirector sharedDirector] winSize].width/2 && self.redCircle.position.x >= [[CCDirector sharedDirector] winSize].height/2) {
+//        self.background.position = ccp(background_pos.x,background_pos.y);
+//    } else {
+//        [self.background setPosition:CGPointMake(0, 0)];
+//    }
+    self.background.position = ccp(background_pos.x,background_pos.y);
+    
+    NSLog(@"Position X: %f",self.background.position.x);
+    NSLog(@"Position Y: %f",self.background.position.y);
+    NSLog(@"Background height: %f", self.background.contentSize.height);
 }
 
 - (void)tryStartGame {
@@ -255,6 +300,9 @@
 	//handle our character on-screen via accelerometer
 	thing_vel.x = thing_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     thing_vel.y = thing_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
+    
+    background_vel.x = background_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
+    background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
 }
 
 // on "dealloc" you need to release all your retained objects

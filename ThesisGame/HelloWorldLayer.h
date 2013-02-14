@@ -13,6 +13,8 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
+@class BackgroundLayer;
+
 typedef enum {
     kGameStateWaitingForMatch = 0,
     kGameStateWaitingForRandomNumber,
@@ -62,6 +64,9 @@ typedef struct {
     CGPoint thing_pos;
 	CGPoint thing_vel;
 	CGPoint thing_acc;
+    CGPoint background_pos;
+    CGPoint background_vel;
+    CGPoint background_acc;
     //Multiplayer
     uint32_t ourRandom;
     BOOL receivedRandom;
@@ -71,6 +76,8 @@ typedef struct {
 }
 
 @property (nonatomic, strong) CCSprite * redCircle;
+@property (nonatomic, strong) BackgroundLayer *backgroundLayer;
+@property (nonatomic, strong) CCSprite *background;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;

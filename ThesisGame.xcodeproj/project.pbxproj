@@ -10,6 +10,9 @@
 		3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */; };
 		3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */; };
 		3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */; };
+		3E0ED3BE16C56142003AF327 /* fff.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BD16C56142003AF327 /* fff.png */; };
+		3E0ED3C016C5620B003AF327 /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BF16C5620B003AF327 /* background-hd.png */; };
+		3E0ED56616C65863003AF327 /* dpadDown-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED56516C65863003AF327 /* dpadDown-hd.png */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
@@ -137,7 +140,6 @@
 		3ECACC5F16B18279006F740A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC5E16B18279006F740A /* AppDelegate.m */; };
 		3ECACC6216B18279006F740A /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC6116B18279006F740A /* HelloWorldLayer.m */; };
 		3ECACC6516B18279006F740A /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC6416B18279006F740A /* IntroLayer.m */; };
-		3ECACC7E16B1A491006F740A /* dpadDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ECACC7D16B1A491006F740A /* dpadDown.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +149,9 @@
 		3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		3E0ED3B416C50E0E003AF327 /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
 		3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLayer.m; sourceTree = "<group>"; };
+		3E0ED3BD16C56142003AF327 /* fff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fff.png; sourceTree = "<group>"; };
+		3E0ED3BF16C5620B003AF327 /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-hd.png"; sourceTree = "<group>"; };
+		3E0ED56516C65863003AF327 /* dpadDown-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dpadDown-hd.png"; sourceTree = "<group>"; };
 		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		3EA4CC3A16BC44E9002F9B10 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		3EA4CC3B16BC44E9002F9B10 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -415,7 +420,6 @@
 		3ECACC6116B18279006F740A /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
 		3ECACC6316B18279006F740A /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		3ECACC6416B18279006F740A /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
-		3ECACC7D16B1A491006F740A /* dpadDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dpadDown.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -518,7 +522,9 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3ECACC7D16B1A491006F740A /* dpadDown.png */,
+				3E0ED56516C65863003AF327 /* dpadDown-hd.png */,
+				3E0ED3BF16C5620B003AF327 /* background-hd.png */,
+				3E0ED3BD16C56142003AF327 /* fff.png */,
 				3ECACAE716B18277006F740A /* Default.png */,
 				3ECACAE916B18277006F740A /* Default-Landscape~ipad.png */,
 				3ECACAEB16B18277006F740A /* fps_images.png */,
@@ -942,7 +948,9 @@
 				3ECACAFC16B18277006F740A /* Icon@2x.png in Resources */,
 				3ECACAFF16B18277006F740A /* iTunesArtwork in Resources */,
 				3ECACC3D16B18279006F740A /* ChangeLog in Resources */,
-				3ECACC7E16B1A491006F740A /* dpadDown.png in Resources */,
+				3E0ED3BE16C56142003AF327 /* fff.png in Resources */,
+				3E0ED3C016C5620B003AF327 /* background-hd.png in Resources */,
+				3E0ED56616C65863003AF327 /* dpadDown-hd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

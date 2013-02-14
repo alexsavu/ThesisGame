@@ -40,6 +40,8 @@
 
 	// ask director for the window size
 	CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    NSLog(@"Screen size width: %f", size.width);
 
 	CCSprite *background;
 	
