@@ -14,6 +14,7 @@
 #import "cocos2d.h"
 
 @class BackgroundLayer;
+@class Player;
 
 typedef enum {
     kGameStateWaitingForMatch = 0,
@@ -67,6 +68,10 @@ typedef struct {
     CGPoint background_pos;
     CGPoint background_vel;
     CGPoint background_acc;
+    
+    CGPoint background2_pos;
+    CGPoint background2_vel;
+    CGPoint background2_acc;
     //Multiplayer
     uint32_t ourRandom;
     BOOL receivedRandom;
@@ -75,9 +80,11 @@ typedef struct {
     GameState gameState;
 }
 
-@property (nonatomic, strong) CCSprite * redCircle;
+//@property (nonatomic, strong) CCSprite * redCircle;
+@property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) BackgroundLayer *backgroundLayer;
 @property (nonatomic, strong) CCSprite *background;
+@property (nonatomic, strong) CCSprite *background2;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
