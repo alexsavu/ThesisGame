@@ -16,6 +16,7 @@
 		3E12B0BF16CE73B600B5485D /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0BE16CE73B600B5485D /* GameCharacter.m */; };
 		3E12B0C216CE7F5D00B5485D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C116CE7F5D00B5485D /* Player.m */; };
 		3E12B0C616CE95A800B5485D /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C516CE95A800B5485D /* GameManager.m */; };
+		3E15396E16D8F9D30087B42C /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E15396D16D8F9D30087B42C /* Obstacle.m */; };
 		3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B116D62D9F007C0FF2 /* GameObject.m */; };
 		3E5A73B516D6354E007C0FF2 /* GameplayScrollingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B416D6354E007C0FF2 /* GameplayScrollingLayer.m */; };
 		3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5A73B616D7778F007C0FF2 /* redBackground.png */; };
@@ -165,6 +166,8 @@
 		3E12B0C116CE7F5D00B5485D /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		3E12B0C416CE95A800B5485D /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		3E12B0C516CE95A800B5485D /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
+		3E15396C16D8F9D30087B42C /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obstacle.h; sourceTree = "<group>"; };
+		3E15396D16D8F9D30087B42C /* Obstacle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obstacle.m; sourceTree = "<group>"; };
 		3E5A73B016D62D9F007C0FF2 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		3E5A73B116D62D9F007C0FF2 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
 		3E5A73B316D6354E007C0FF2 /* GameplayScrollingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScrollingLayer.h; sourceTree = "<group>"; };
@@ -948,6 +951,8 @@
 				3E12B0BE16CE73B600B5485D /* GameCharacter.m */,
 				3E12B0C016CE7F5D00B5485D /* Player.h */,
 				3E12B0C116CE7F5D00B5485D /* Player.m */,
+				3E15396C16D8F9D30087B42C /* Obstacle.h */,
+				3E15396D16D8F9D30087B42C /* Obstacle.m */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -1143,6 +1148,7 @@
 				3E12B0C616CE95A800B5485D /* GameManager.m in Sources */,
 				3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */,
 				3E5A73B516D6354E007C0FF2 /* GameplayScrollingLayer.m in Sources */,
+				3E15396E16D8F9D30087B42C /* Obstacle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
