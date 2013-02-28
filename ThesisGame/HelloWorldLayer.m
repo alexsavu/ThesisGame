@@ -158,12 +158,55 @@
         //as long as our game is running
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(step:)];
+        [self schedule:@selector(obstacleMove:) interval:2.0];
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
 
 	}
 	return self;
+}
+
+#pragma mark Obstacle
+
+-(void)addTarget {
+    
+    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png"];
+    
+    // Determine where to spawn the target along the Y axis
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    int minX = self.obstacle.contentSize.width/2;
+    int maxX = winSize.height - self.obstacle.contentSize.width/2;
+    int rangeX = maxX - minX;
+    int actualX = (arc4random() % rangeX) + minX;
+    
+    // Create the target slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+    self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
+    [self addChild:self.obstacle];
+    
+    // Determine speed of the target
+    int minDuration = 2.0;
+    int maxDuration = 4.0;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+    
+    // Create the actions
+    id actionMove = [CCMoveTo actionWithDuration:actualDuration
+                                        position:ccp(actualX ,-self.obstacle.contentSize.height/2)];
+    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+                                             selector:@selector(spriteMoveFinished:)];
+    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    
+}
+
+- (void)obstacleMove:(ccTime)dt{
+    [self addTarget];
+}
+
+-(void)spriteMoveFinished:(id)sender {
+    Obstacle *obstacle = (Obstacle *)sender;
+    [self removeChild:obstacle cleanup:YES];
 }
 
 - (void)restartTapped:(id)sender {
@@ -222,7 +265,7 @@
 }
 
 //the function schedule and call everything as needed
-- (void)step:(ccTime)dt {    
+- (void)step:(ccTime)dt {
 	thing_pos.x += thing_vel.x * dt;
 //    background_pos.x += background_vel.x *dt;
 	
