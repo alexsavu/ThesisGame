@@ -15,6 +15,7 @@
 
 @class BackgroundLayer;
 @class Player;
+@class Obstacle;
 
 typedef enum {
     kGameStateWaitingForMatch = 0,
@@ -82,6 +83,7 @@ typedef struct {
 
 //@property (nonatomic, strong) CCSprite * redCircle;
 @property (nonatomic, strong) Player *player;
+@property (nonatomic, strong) Obstacle *obstacle;
 @property (nonatomic, strong) BackgroundLayer *backgroundLayer;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;

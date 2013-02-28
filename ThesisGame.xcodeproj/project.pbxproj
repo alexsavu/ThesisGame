@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E0E885016DF5F7300A1AB72 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E884F16DF5F7300A1AB72 /* Obstacle.m */; };
+		3E0E885216DF663600A1AB72 /* handUp~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E885116DF663600A1AB72 /* handUp~ipad.png */; };
 		3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */; };
 		3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */; };
 		3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */; };
-		3E0ED3BE16C56142003AF327 /* fff.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BD16C56142003AF327 /* fff.png */; };
-		3E0ED3C016C5620B003AF327 /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BF16C5620B003AF327 /* background-hd.png */; };
-		3E0ED56616C65863003AF327 /* dpadDown-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED56516C65863003AF327 /* dpadDown-hd.png */; };
+		3E0ED3C016C5620B003AF327 /* background~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BF16C5620B003AF327 /* background~ipad.png */; };
+		3E0ED56616C65863003AF327 /* dpadDown~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED56516C65863003AF327 /* dpadDown~ipad.png */; };
 		3E12B0BF16CE73B600B5485D /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0BE16CE73B600B5485D /* GameCharacter.m */; };
 		3E12B0C216CE7F5D00B5485D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C116CE7F5D00B5485D /* Player.m */; };
 		3E12B0C616CE95A800B5485D /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C516CE95A800B5485D /* GameManager.m */; };
 		3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B116D62D9F007C0FF2 /* GameObject.m */; };
 		3E5A73B516D6354E007C0FF2 /* GameplayScrollingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B416D6354E007C0FF2 /* GameplayScrollingLayer.m */; };
 		3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5A73B616D7778F007C0FF2 /* redBackground.png */; };
-		3E9A121416D79B050005B669 /* desert_race_map.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 3E9A121316D79B050005B669 /* desert_race_map.tmx */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
@@ -150,15 +150,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E0E884E16DF5F7300A1AB72 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obstacle.h; sourceTree = "<group>"; };
+		3E0E884F16DF5F7300A1AB72 /* Obstacle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obstacle.m; sourceTree = "<group>"; };
+		3E0E885116DF663600A1AB72 /* handUp~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handUp~ipad.png"; sourceTree = "<group>"; };
 		3E0ED32116BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GKMatchmakerViewController-LandscapeOnly.h"; sourceTree = "<group>"; };
 		3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GKMatchmakerViewController-LandscapeOnly.m"; sourceTree = "<group>"; };
 		3E0ED3AF16C3D549003AF327 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
 		3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		3E0ED3B416C50E0E003AF327 /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
 		3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLayer.m; sourceTree = "<group>"; };
-		3E0ED3BD16C56142003AF327 /* fff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fff.png; sourceTree = "<group>"; };
-		3E0ED3BF16C5620B003AF327 /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-hd.png"; sourceTree = "<group>"; };
-		3E0ED56516C65863003AF327 /* dpadDown-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dpadDown-hd.png"; sourceTree = "<group>"; };
+		3E0ED3BF16C5620B003AF327 /* background~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background~ipad.png"; sourceTree = "<group>"; };
+		3E0ED56516C65863003AF327 /* dpadDown~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dpadDown~ipad.png"; sourceTree = "<group>"; };
 		3E12B0BD16CE73B600B5485D /* GameCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCharacter.h; sourceTree = "<group>"; };
 		3E12B0BE16CE73B600B5485D /* GameCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCharacter.m; sourceTree = "<group>"; };
 		3E12B0C016CE7F5D00B5485D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
@@ -170,7 +172,6 @@
 		3E5A73B316D6354E007C0FF2 /* GameplayScrollingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayScrollingLayer.h; sourceTree = "<group>"; };
 		3E5A73B416D6354E007C0FF2 /* GameplayScrollingLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameplayScrollingLayer.m; sourceTree = "<group>"; };
 		3E5A73B616D7778F007C0FF2 /* redBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redBackground.png; sourceTree = "<group>"; };
-		3E9A121316D79B050005B669 /* desert_race_map.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = desert_race_map.tmx; sourceTree = "<group>"; };
 		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		3EA4CC3A16BC44E9002F9B10 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		3EA4CC3B16BC44E9002F9B10 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -555,11 +556,10 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3E9A121316D79B050005B669 /* desert_race_map.tmx */,
+				3E0E885116DF663600A1AB72 /* handUp~ipad.png */,
 				3E5A73B616D7778F007C0FF2 /* redBackground.png */,
-				3E0ED56516C65863003AF327 /* dpadDown-hd.png */,
-				3E0ED3BF16C5620B003AF327 /* background-hd.png */,
-				3E0ED3BD16C56142003AF327 /* fff.png */,
+				3E0ED56516C65863003AF327 /* dpadDown~ipad.png */,
+				3E0ED3BF16C5620B003AF327 /* background~ipad.png */,
 				3ECACAE716B18277006F740A /* Default.png */,
 				3ECACAE916B18277006F740A /* Default-Landscape~ipad.png */,
 				3ECACAEB16B18277006F740A /* fps_images.png */,
@@ -948,6 +948,8 @@
 				3E12B0BE16CE73B600B5485D /* GameCharacter.m */,
 				3E12B0C016CE7F5D00B5485D /* Player.h */,
 				3E12B0C116CE7F5D00B5485D /* Player.m */,
+				3E0E884E16DF5F7300A1AB72 /* Obstacle.h */,
+				3E0E884F16DF5F7300A1AB72 /* Obstacle.m */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -1015,11 +1017,10 @@
 				3ECACAFC16B18277006F740A /* Icon@2x.png in Resources */,
 				3ECACAFF16B18277006F740A /* iTunesArtwork in Resources */,
 				3ECACC3D16B18279006F740A /* ChangeLog in Resources */,
-				3E0ED3BE16C56142003AF327 /* fff.png in Resources */,
-				3E0ED3C016C5620B003AF327 /* background-hd.png in Resources */,
-				3E0ED56616C65863003AF327 /* dpadDown-hd.png in Resources */,
+				3E0ED3C016C5620B003AF327 /* background~ipad.png in Resources */,
+				3E0ED56616C65863003AF327 /* dpadDown~ipad.png in Resources */,
 				3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */,
-				3E9A121416D79B050005B669 /* desert_race_map.tmx in Resources */,
+				3E0E885216DF663600A1AB72 /* handUp~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1143,6 +1144,7 @@
 				3E12B0C616CE95A800B5485D /* GameManager.m in Sources */,
 				3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */,
 				3E5A73B516D6354E007C0FF2 /* GameplayScrollingLayer.m in Sources */,
+				3E0E885016DF5F7300A1AB72 /* Obstacle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

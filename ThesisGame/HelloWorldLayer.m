@@ -16,6 +16,7 @@
 #import "UIDevice+Hardware.h"
 #import "BackgroundLayer.h"
 #import "Player.h"
+#import "Obstacle.h"
 
 #define kHeroMovementAction 1
 #define kPlayerSpeed 300
@@ -38,6 +39,7 @@
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player = _player;
+@synthesize obstacle = _obstacle;
 
 @synthesize stop = _stop;
 
@@ -148,12 +150,13 @@
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
         
-        self.player = [[Player alloc] initWithFile:@"dpadDown.png"];
+        self.player = [[Player alloc] initWithFile:@"handUp.png"];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player];
         
         //This is the function that will be scheduled to load continuously
         //as long as our game is running
+        [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(step:)];
         
         ourRandom = arc4random();
@@ -210,6 +213,12 @@
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageGameOver)];
     [self sendData:data];
     
+}
+
+#pragma mark Step methods
+
+-(void)obstaclesStep:(ccTime)dt{
+    [self addObstacles];
 }
 
 //the function schedule and call everything as needed
@@ -308,6 +317,58 @@
     
     //up scroll
     [self scrollUpwards];
+}
+
+#pragma mark Obstacles
+
+-(void)addObstacles{
+    
+    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png"];
+    
+    // Determine where to spawn the target along the Y axis
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    int minX = self.obstacle.contentSize.width/2;
+    int maxX = winSize.width - self.obstacle.contentSize.width/2;
+    int rangeX = maxX - minX;
+    int actualX = (arc4random() % rangeX) + minX;
+    
+    // Create the target slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+    self.obstacle.position = ccp(actualX ,winSize.width + (self.obstacle.contentSize.width/2));
+    [self addChild:self.obstacle];
+    
+    // Determine speed of the target
+    int minDuration = 2.0;
+    int maxDuration = 4.0;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+    
+    // Create the actions
+    id actionMove = [CCMoveTo actionWithDuration:actualDuration
+                                        position:ccp(actualX, -self.obstacle.contentSize.width/2)];
+    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+                                             selector:@selector(obstacleMoveFinished:)];
+    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    
+}
+
+//Remove obstacle
+-(void)obstacleMoveFinished:(id)sender {
+    
+	Obstacle *sprite = (Obstacle *)sender;
+	[self removeChild:sprite cleanup:YES];
+	
+//	if (sprite.tag == 1) { // target
+//		[_targets removeObject:sprite];
+//		
+//		GameOverScene *gameOverScene = [GameOverScene node];
+//		[gameOverScene.layer.label setString:@"You Lose :["];
+//		[[CCDirector sharedDirector] replaceScene:gameOverScene];
+//		
+//	} else if (sprite.tag == 2) { // projectile
+//		[_projectiles removeObject:sprite];
+//	}
+	
 }
 
 //very dirty method to scroll the background.
