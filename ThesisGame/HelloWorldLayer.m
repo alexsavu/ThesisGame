@@ -40,6 +40,9 @@
 @synthesize background2 = _background2;
 @synthesize player = _player;
 @synthesize obstacle = _obstacle;
+//collision sprites
+@synthesize playerSprite = _playerSprite;
+@synthesize obstacleSprite = _obstacleSprite;
 
 @synthesize stop = _stop;
 
@@ -133,16 +136,16 @@
         
         self.stop = NO;
         
-        self.background = [CCSprite spriteWithFile:@"background.png"];
+        self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background.anchorPoint = ccp(0, 0);
         self.background.position = ccp(0, 0);
         [self addChild:self.background];
         
-        self.background2 = [CCSprite spriteWithFile:@"redBackground.png"];
+        self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background2.anchorPoint = ccp(0, 1);
         self.background2.position = ccp(0 , -self.background.boundingBox.size.height);
         NSLog(@"Come On :%f", self.background2.boundingBox.size.height);
-        [self addChild:self.background2];
+        [self addChild:self.background2 ];
         
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
@@ -150,13 +153,16 @@
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
         
-        self.player = [[Player alloc] initWithFile:@"handUp.png"];
+        self.player = [[Player alloc] initWithFile:@"handUp.png" alphaThreshold:0];
+//        self.playerSprite = [KKPixelMaskSprite spriteWithFile:@"handUp.png" alphaThreshold:0];
+//        [self.playerSprite setAnchorPoint:ccp(0.f, 0.f)];
+//        [self.playerSprite setPosition:ccp(0.f, 0.f)];
+//        [self.player addChild:self.playerSprite z:0 tag:1];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
-        [self addChild:self.player];
+        [self addChild:self.player z:0 tag:1];
         
         //This is the function that will be scheduled to load continuously
         //as long as our game is running
-        [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(step:)];
         [self schedule:@selector(obstacleMove:) interval:2.0];
         
@@ -171,7 +177,11 @@
 
 -(void)addTarget {
     
-    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png"];
+    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+//    self.obstacleSprite = [KKPixelMaskSprite spriteWithFile:@"dpadDown.png" alphaThreshold:0];
+//    [self.obstacleSprite setAnchorPoint:ccp(0.f, 0.f)];
+//    [self.obstacleSprite setPosition:ccp(0.f, 0.f)];
+//    [self.obstacle addChild:self.obstacleSprite z:0 tag:1];
     
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
@@ -183,7 +193,7 @@
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
     self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle];
+    [self addChild:self.obstacle z:0 tag:2];
     
     // Determine speed of the target
     int minDuration = 2.0;
@@ -200,10 +210,20 @@
     
 }
 
+#pragma mark Collision Detection
+
+-(void)checkForCollision{
+    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
+        NSLog(@"@@@@@@@@@@@@");
+    }
+}
+
+//Step function to move the obstacles
 - (void)obstacleMove:(ccTime)dt{
     [self addTarget];
 }
 
+//Remove onstacle after going out of screen
 -(void)spriteMoveFinished:(id)sender {
     Obstacle *obstacle = (Obstacle *)sender;
     [self removeChild:obstacle cleanup:YES];
@@ -360,6 +380,8 @@
     
     //up scroll
     [self scrollUpwards];
+    
+    [self checkForCollision];
 }
 
 #pragma mark Obstacles

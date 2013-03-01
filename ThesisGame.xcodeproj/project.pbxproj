@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		3E0E885016DF5F7300A1AB72 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E884F16DF5F7300A1AB72 /* Obstacle.m */; };
 		3E0E885216DF663600A1AB72 /* handUp~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E885116DF663600A1AB72 /* handUp~ipad.png */; };
+		3E0E888B16E0B50F00A1AB72 /* CCNodeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888416E0B50F00A1AB72 /* CCNodeExtensions.m */; };
+		3E0E888C16E0B50F00A1AB72 /* KKPixelMaskSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888616E0B50F00A1AB72 /* KKPixelMaskSprite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3E0E888D16E0B50F00A1AB72 /* KKScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888816E0B50F00A1AB72 /* KKScreenshot.m */; };
+		3E0E888E16E0B50F00A1AB72 /* ReturnToMainMenuNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888A16E0B50F00A1AB72 /* ReturnToMainMenuNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3E0E889516E0B6F600A1AB72 /* bitarray.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888F16E0B6F600A1AB72 /* bitarray.c */; };
+		3E0E889616E0B6F600A1AB72 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889116E0B6F600A1AB72 /* COPYING */; };
+		3E0E889716E0B6F600A1AB72 /* COPYING.LESSER in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889216E0B6F600A1AB72 /* COPYING.LESSER */; };
+		3E0E889816E0B6F600A1AB72 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E889316E0B6F600A1AB72 /* Makefile */; };
+		3E0E889916E0B6F600A1AB72 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889416E0B6F600A1AB72 /* README */; };
+		3E0E889B16E0E60000A1AB72 /* Prototype1Background~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */; };
 		3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */; };
 		3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */; };
 		3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */; };
@@ -153,6 +163,23 @@
 		3E0E884E16DF5F7300A1AB72 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obstacle.h; sourceTree = "<group>"; };
 		3E0E884F16DF5F7300A1AB72 /* Obstacle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obstacle.m; sourceTree = "<group>"; };
 		3E0E885116DF663600A1AB72 /* handUp~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handUp~ipad.png"; sourceTree = "<group>"; };
+		3E0E888116E0B50F00A1AB72 /* ccMoreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccMoreMacros.h; sourceTree = "<group>"; };
+		3E0E888216E0B50F00A1AB72 /* ccMoreTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccMoreTypes.h; sourceTree = "<group>"; };
+		3E0E888316E0B50F00A1AB72 /* CCNodeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeExtensions.h; sourceTree = "<group>"; };
+		3E0E888416E0B50F00A1AB72 /* CCNodeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNodeExtensions.m; sourceTree = "<group>"; };
+		3E0E888516E0B50F00A1AB72 /* KKPixelMaskSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKPixelMaskSprite.h; sourceTree = "<group>"; };
+		3E0E888616E0B50F00A1AB72 /* KKPixelMaskSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKPixelMaskSprite.m; sourceTree = "<group>"; };
+		3E0E888716E0B50F00A1AB72 /* KKScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKScreenshot.h; sourceTree = "<group>"; };
+		3E0E888816E0B50F00A1AB72 /* KKScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKScreenshot.m; sourceTree = "<group>"; };
+		3E0E888916E0B50F00A1AB72 /* ReturnToMainMenuNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReturnToMainMenuNode.h; sourceTree = "<group>"; };
+		3E0E888A16E0B50F00A1AB72 /* ReturnToMainMenuNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReturnToMainMenuNode.m; sourceTree = "<group>"; };
+		3E0E888F16E0B6F600A1AB72 /* bitarray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitarray.c; sourceTree = "<group>"; };
+		3E0E889016E0B6F600A1AB72 /* bitarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitarray.h; sourceTree = "<group>"; };
+		3E0E889116E0B6F600A1AB72 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		3E0E889216E0B6F600A1AB72 /* COPYING.LESSER */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING.LESSER; sourceTree = "<group>"; };
+		3E0E889316E0B6F600A1AB72 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		3E0E889416E0B6F600A1AB72 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prototype1Background~ipad.png"; sourceTree = "<group>"; };
 		3E0ED32116BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GKMatchmakerViewController-LandscapeOnly.h"; sourceTree = "<group>"; };
 		3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GKMatchmakerViewController-LandscapeOnly.m"; sourceTree = "<group>"; };
 		3E0ED3AF16C3D549003AF327 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
@@ -464,6 +491,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E0E886916DFA50100A1AB72 /* Collision Detection */ = {
+			isa = PBXGroup;
+			children = (
+				3E0E888016E0B41500A1AB72 /* Helper Files */,
+				3E0E887F16E0B17600A1AB72 /* bitarray_c */,
+			);
+			name = "Collision Detection";
+			sourceTree = "<group>";
+		};
+		3E0E887F16E0B17600A1AB72 /* bitarray_c */ = {
+			isa = PBXGroup;
+			children = (
+				3E0E888F16E0B6F600A1AB72 /* bitarray.c */,
+				3E0E889016E0B6F600A1AB72 /* bitarray.h */,
+				3E0E889116E0B6F600A1AB72 /* COPYING */,
+				3E0E889216E0B6F600A1AB72 /* COPYING.LESSER */,
+				3E0E889316E0B6F600A1AB72 /* Makefile */,
+				3E0E889416E0B6F600A1AB72 /* README */,
+			);
+			name = bitarray_c;
+			sourceTree = "<group>";
+		};
+		3E0E888016E0B41500A1AB72 /* Helper Files */ = {
+			isa = PBXGroup;
+			children = (
+				3E0E888116E0B50F00A1AB72 /* ccMoreMacros.h */,
+				3E0E888216E0B50F00A1AB72 /* ccMoreTypes.h */,
+				3E0E888316E0B50F00A1AB72 /* CCNodeExtensions.h */,
+				3E0E888416E0B50F00A1AB72 /* CCNodeExtensions.m */,
+				3E0E888516E0B50F00A1AB72 /* KKPixelMaskSprite.h */,
+				3E0E888616E0B50F00A1AB72 /* KKPixelMaskSprite.m */,
+				3E0E888716E0B50F00A1AB72 /* KKScreenshot.h */,
+				3E0E888816E0B50F00A1AB72 /* KKScreenshot.m */,
+				3E0E888916E0B50F00A1AB72 /* ReturnToMainMenuNode.h */,
+				3E0E888A16E0B50F00A1AB72 /* ReturnToMainMenuNode.m */,
+			);
+			name = "Helper Files";
+			sourceTree = "<group>";
+		};
 		3E0ED3B216C3D70E003AF327 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +598,7 @@
 		3ECACAE516B18277006F740A /* ThesisGame */ = {
 			isa = PBXGroup;
 			children = (
+				3E0E886916DFA50100A1AB72 /* Collision Detection */,
 				3E5A73B316D6354E007C0FF2 /* GameplayScrollingLayer.h */,
 				3E5A73B416D6354E007C0FF2 /* GameplayScrollingLayer.m */,
 				3EEA983416CE65F600A953EB /* Classes */,
@@ -556,6 +623,7 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */,
 				3E0E885116DF663600A1AB72 /* handUp~ipad.png */,
 				3E5A73B616D7778F007C0FF2 /* redBackground.png */,
 				3E0ED56516C65863003AF327 /* dpadDown~ipad.png */,
@@ -1021,6 +1089,10 @@
 				3E0ED56616C65863003AF327 /* dpadDown~ipad.png in Resources */,
 				3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */,
 				3E0E885216DF663600A1AB72 /* handUp~ipad.png in Resources */,
+				3E0E889616E0B6F600A1AB72 /* COPYING in Resources */,
+				3E0E889716E0B6F600A1AB72 /* COPYING.LESSER in Resources */,
+				3E0E889916E0B6F600A1AB72 /* README in Resources */,
+				3E0E889B16E0E60000A1AB72 /* Prototype1Background~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1145,6 +1217,12 @@
 				3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */,
 				3E5A73B516D6354E007C0FF2 /* GameplayScrollingLayer.m in Sources */,
 				3E0E885016DF5F7300A1AB72 /* Obstacle.m in Sources */,
+				3E0E888B16E0B50F00A1AB72 /* CCNodeExtensions.m in Sources */,
+				3E0E888C16E0B50F00A1AB72 /* KKPixelMaskSprite.m in Sources */,
+				3E0E888D16E0B50F00A1AB72 /* KKScreenshot.m in Sources */,
+				3E0E888E16E0B50F00A1AB72 /* ReturnToMainMenuNode.m in Sources */,
+				3E0E889516E0B6F600A1AB72 /* bitarray.c in Sources */,
+				3E0E889816E0B6F600A1AB72 /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

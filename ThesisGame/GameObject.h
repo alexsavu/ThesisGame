@@ -10,8 +10,9 @@
 #import "cocos2d.h"
 #import "CommonProtocols.h"
 #import "GameManager.h"
+#import "KKPixelMaskSprite.h"
 
-@interface GameObject : CCSprite{
+@interface GameObject : KKPixelMaskSprite{
     BOOL isActive;
     BOOL reactsToScreenBoundaries;
     CGSize screenSize;
