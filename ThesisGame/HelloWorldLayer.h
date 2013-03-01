@@ -9,7 +9,6 @@
 
 #import <GameKit/GameKit.h>
 #import "GCHelper.h"
-#import "KKPixelMaskSprite.h"
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
@@ -88,9 +87,6 @@ typedef struct {
 @property (nonatomic, strong) BackgroundLayer *backgroundLayer;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;
-//sprites for collision
-@property (nonatomic, strong) KKPixelMaskSprite *obstacleSprite;
-@property (nonatomic, strong) KKPixelMaskSprite *playerSprite;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;

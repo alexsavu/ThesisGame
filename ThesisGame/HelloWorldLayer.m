@@ -40,10 +40,6 @@
 @synthesize background2 = _background2;
 @synthesize player = _player;
 @synthesize obstacle = _obstacle;
-//collision sprites
-@synthesize playerSprite = _playerSprite;
-@synthesize obstacleSprite = _obstacleSprite;
-
 @synthesize stop = _stop;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
@@ -142,9 +138,9 @@
         [self addChild:self.background];
         
         self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
-        self.background2.anchorPoint = ccp(0, 1);
-        self.background2.position = ccp(0 , -self.background.boundingBox.size.height);
-        NSLog(@"Come On :%f", self.background2.boundingBox.size.height);
+        self.background2.anchorPoint = ccp(0, 0);
+        self.background2.position = ccp(0, self.background.boundingBox.size.height);
+        NSLog(@"Come On :%f", self.background2.position.y);
         [self addChild:self.background2 ];
         
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
@@ -154,10 +150,6 @@
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
         
         self.player = [[Player alloc] initWithFile:@"handUp.png" alphaThreshold:0];
-//        self.playerSprite = [KKPixelMaskSprite spriteWithFile:@"handUp.png" alphaThreshold:0];
-//        [self.playerSprite setAnchorPoint:ccp(0.f, 0.f)];
-//        [self.playerSprite setPosition:ccp(0.f, 0.f)];
-//        [self.player addChild:self.playerSprite z:0 tag:1];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
@@ -168,7 +160,6 @@
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
-
 	}
 	return self;
 }
@@ -178,11 +169,6 @@
 -(void)addTarget {
     
     self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
-//    self.obstacleSprite = [KKPixelMaskSprite spriteWithFile:@"dpadDown.png" alphaThreshold:0];
-//    [self.obstacleSprite setAnchorPoint:ccp(0.f, 0.f)];
-//    [self.obstacleSprite setPosition:ccp(0.f, 0.f)];
-//    [self.obstacle addChild:self.obstacleSprite z:0 tag:1];
-    
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     int minX = self.obstacle.contentSize.width/2;
@@ -308,8 +294,8 @@
     
     if([[[UIDevice currentDevice] platform] isEqualToString:@"iPad 4 (WiFi)"]) {
         //Device is ipad
-        max_x = 1024 - thing_size.width/2;
-        min_x = 0 + thing_size.width/2;
+        max_x = 858.0 - thing_size.width/2;
+        min_x = 173.0 + thing_size.width/2;
         
         background_max_x = 2048 - background_size.width/2;
         background_min_x = 0 + background_size.width/2;
@@ -335,10 +321,10 @@
     if(thing_pos.y>max_y) thing_pos.y = max_y;
 	if(thing_pos.y<min_y) thing_pos.y = min_y;
     
-    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
-	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
+//    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
+//	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
     
-	if(background2_pos.y<background2_min_y) background2_pos.y = background2_min_y;
+//	if(background2_pos.y<background2_min_y) background2_pos.y = background2_min_y;
     
     
 //    if(background2_pos.x>background_max_x) background2_pos.x = background_max_x;
@@ -346,41 +332,28 @@
 //    
 //    if(background2_pos.y>background_max_y) background2_pos.y = background_max_y;
 //	if(background2_pos.y<background_min_y) background2_pos.y = background_min_y;
-	
-	thing_vel.y += thing_acc.y * dt;
-//	thing_pos.y += thing_vel.y * dt;
     
     thing_vel.x += thing_acc.x * dt;
 	thing_pos.x += thing_vel.x * dt;
-    
     
     if (background_vel.y > 0 && background2_vel.y > 0) {
         background_vel.y += background_acc.y * dt;
         background_pos.y += background_vel.y * dt;
         
-        background_vel.x += background_acc.x * dt;
-        //	background_pos.x += background_vel.x * dt;
-        
-        
         background2_vel.y += background2_acc.y * dt;
         background2_pos.y += background2_vel.y * dt;
-        
-        background2_vel.x += background2_acc.x * dt;
-        //	background_pos.x += background_vel.x * dt;
     }
 	
     self.player.position = ccp(thing_pos.x, thing_pos.y);
-    self.background.position = ccp(0 ,background_pos.y);
+    self.background.position = ccp(0, -background_pos.y);
+    self.background2.position = ccp(0, self.background.position.y + 768.0);
     
-    self.background2.position = ccp(0 ,background2_pos.y);
-    
-//    self.scale = 0.4;
-    
-#pragma mark continious background
+    NSLog(@"player position: %f", self.player.position.x);
     
     //up scroll
     [self scrollUpwards];
     
+    //collision method
     [self checkForCollision];
 }
 
@@ -436,38 +409,39 @@
 	
 }
 
+#pragma mark Scroll Background Method
+
 //very dirty method to scroll the background.
 //TODO: will have to change it
 
 -(void)scrollUpwards{
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        self.background.position = ccp(0, self.background2.position.y - (self.background2.boundingBox.size.height * 2));
+    
+    //the other way
+    if (self.background.position.y < -self.background.boundingBox.size.height) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
     }
     
-    if (self.background2.position.y > 1536.0) {
-        self.background2.position = ccp(0, self.background2.position.y - (self.background2.boundingBox.size.height * 2));
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
     }
     
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        self.background.position = ccp(0, self.background2.position.y - (self.background2.boundingBox.size.height * 2));
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
     }
     
-    if (self.background2.position.y > 1536.0) {
-        self.background2.position = ccp(0, self.background2.position.y - (self.background2.boundingBox.size.height * 2));
-    }
-    
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        self.background.position = ccp(0, self.background2.position.y - (self.background2.boundingBox.size.height * 2));
-    }
-    
-    if (self.background2.position.y > 1536.0) {
-        self.background2.position = ccp(0, self.background2.position.y - (self.background2.boundingBox.size.height * 2));
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
         self.stop = YES;
     }
-    
-    if(self.stop && self.background2.position.y > 768.0){
-        self.background2.position = ccp(0, 768.0);
+       
+    if(self.stop && self.background2.position.y < -768.0){
+        self.background.position = ccp(0, 0);
     }
+
 }
 
 - (void)tryStartGame {
@@ -479,19 +453,18 @@
     
 }
 
+#pragma mark Accelerometer
+
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	float accel_filter = 0.1f;
 	//handle our character on-screen via accelerometer
 	thing_vel.x = thing_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     thing_vel.y = thing_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
     
-//    background_vel.x = background_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
-    
-//    background2_vel.x = background2_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     background2_vel.y = background2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
     
-    NSLog(@"Accelerometer: %f", background2_vel.y);
+//    NSLog(@"Accelerometer: %f", background2_vel.y);
 }
 
 // on "dealloc" you need to release all your retained objects
