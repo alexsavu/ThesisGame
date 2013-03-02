@@ -37,6 +37,7 @@
 		3E91621216E266250068DFD4 /* OptionsButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621016E266250068DFD4 /* OptionsButtonSelected.png */; };
 		3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */; };
 		3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621616E266910068DFD4 /* VikingSpeechFont64.png */; };
+		3E91621D16E27AAF0068DFD4 /* NoObstaclesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E91621C16E27AAF0068DFD4 /* NoObstaclesLayer.m */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
@@ -214,6 +215,8 @@
 		3E91621016E266250068DFD4 /* OptionsButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OptionsButtonSelected.png; sourceTree = "<group>"; };
 		3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VikingSpeechFont64.fnt; sourceTree = "<group>"; };
 		3E91621616E266910068DFD4 /* VikingSpeechFont64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VikingSpeechFont64.png; sourceTree = "<group>"; };
+		3E91621B16E27AAF0068DFD4 /* NoObstaclesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoObstaclesLayer.h; sourceTree = "<group>"; };
+		3E91621C16E27AAF0068DFD4 /* NoObstaclesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoObstaclesLayer.m; sourceTree = "<group>"; };
 		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		3EA4CC3A16BC44E9002F9B10 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		3EA4CC3B16BC44E9002F9B10 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -617,6 +620,15 @@
 				3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		3E91621A16E27A8A0068DFD4 /* Scene2 */ = {
+			isa = PBXGroup;
+			children = (
+				3E91621B16E27AAF0068DFD4 /* NoObstaclesLayer.h */,
+				3E91621C16E27AAF0068DFD4 /* NoObstaclesLayer.m */,
+			);
+			name = Scene2;
 			sourceTree = "<group>";
 		};
 		3ECACAC416B18277006F740A = {
@@ -1044,6 +1056,7 @@
 		3EEA983416CE65F600A953EB /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3E91621A16E27A8A0068DFD4 /* Scene2 */,
 				3E46FA7216E240E900912942 /* Scene1 */,
 				3E46FA7116E240C600912942 /* MainMenu */,
 				3E12B0C316CE955500B5485D /* Singletons */,
@@ -1285,6 +1298,7 @@
 				3E0E889516E0B6F600A1AB72 /* bitarray.c in Sources */,
 				3E0E889816E0B6F600A1AB72 /* Makefile in Sources */,
 				3E46FA7816E246F200912942 /* MainMenuLayer.m in Sources */,
+				3E91621D16E27AAF0068DFD4 /* NoObstaclesLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

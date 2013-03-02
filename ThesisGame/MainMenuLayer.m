@@ -82,7 +82,10 @@
     if ([itemPassedIn tag] == 1) {
         CCLOG(@"Tag 1 found, Scene 1");
         [[GameManager sharedGameManager] runSceneWithID:kGameLevel1];
-    } else {
+    } else if ([itemPassedIn tag] == 2){
+        CCLOG(@"Tag 2 found, Scene 2");
+        [[GameManager sharedGameManager] runSceneWithID:kGameLevel2];
+    }else {
         CCLOG(@"Tag was: %d", [itemPassedIn tag]);
         CCLOG(@"Placeholder for next chapters");
     }
@@ -137,7 +140,7 @@
     }
     
     CCLabelBMFont *playScene1Label =
-    [CCLabelBMFont labelWithString:@"Oli Awakes!"
+    [CCLabelBMFont labelWithString:@"Level without obstacles"
                            fntFile:@"VikingSpeechFont64.fnt"];
     CCMenuItemLabel *playScene1 =
     [CCMenuItemLabel itemWithLabel:playScene1Label target:self
@@ -145,7 +148,7 @@
     [playScene1 setTag:1];
     
     CCLabelBMFont *playScene2Label =
-    [CCLabelBMFont labelWithString:@"Dogs of Loki!"
+    [CCLabelBMFont labelWithString:@"Obstacleeeees!!"
                            fntFile:@"VikingSpeechFont64.fnt"];
     CCMenuItemLabel *playScene2 =
     [CCMenuItemLabel itemWithLabel:playScene2Label target:self

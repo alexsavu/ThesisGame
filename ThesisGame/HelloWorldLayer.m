@@ -35,7 +35,6 @@
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
-@synthesize backgroundLayer = _backgroundLayer;
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player = _player;
@@ -121,20 +120,6 @@
         [self setGameState:kGameStateWaitingForMatch];
 	}
 	return self;
-}
-
-#pragma mark Collision Detection
-
--(void)checkForCollision{
-    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
-        NSLog(@"@@@@@@@@@@@@");
-    }
-}
-
-//Remove onstacle after going out of screen
--(void)spriteMoveFinished:(id)sender {
-    Obstacle *obstacle = (Obstacle *)sender;
-    [self removeChild:obstacle cleanup:YES];
 }
 
 //when the authentication has changed restart this scene
@@ -275,6 +260,14 @@
     [self checkForCollision];
 }
 
+#pragma mark Collision Detection
+
+-(void)checkForCollision{
+    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
+        NSLog(@"@@@@@@@@@@@@");
+    }
+}
+
 #pragma mark Obstacles
 
 -(void)addObstacles{
@@ -307,23 +300,21 @@
     
 }
 
-//Remove obstacle
--(void)obstacleMoveFinished:(id)sender {
+//Remove onstacle after going out of screen
+-(void)spriteMoveFinished:(id)sender {
+    Obstacle *obstacle = (Obstacle *)sender;
+    [self removeChild:obstacle cleanup:YES];
     
-	Obstacle *sprite = (Obstacle *)sender;
-	[self removeChild:sprite cleanup:YES];
-	
-//	if (sprite.tag == 1) { // target
-//		[_targets removeObject:sprite];
-//		
-//		GameOverScene *gameOverScene = [GameOverScene node];
-//		[gameOverScene.layer.label setString:@"You Lose :["];
-//		[[CCDirector sharedDirector] replaceScene:gameOverScene];
-//		
-//	} else if (sprite.tag == 2) { // projectile
-//		[_projectiles removeObject:sprite];
-//	}
-	
+    //	if (sprite.tag == 1) { // target
+    //		[_targets removeObject:sprite];
+    //
+    //		GameOverScene *gameOverScene = [GameOverScene node];
+    //		[gameOverScene.layer.label setString:@"You Lose :["];
+    //		[[CCDirector sharedDirector] replaceScene:gameOverScene];
+    //
+    //	} else if (sprite.tag == 2) { // projectile
+    //		[_projectiles removeObject:sprite];
+    //	}
 }
 
 #pragma mark Scroll Background Method

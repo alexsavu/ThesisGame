@@ -8,7 +8,8 @@
 
 #import "GameManager.h"
 #import "HelloWorldLayer.h"
-#import "MainMenuLayer.h"ß
+#import "MainMenuLayer.h"
+#import "NoObstaclesLayer.h"
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -72,11 +73,11 @@ static GameManager* _sharedGameManager = nil;
 //            sceneToRun = [LevelCompleteScene node];
 //            break;
         case kGameLevel1:
-            sceneToRun = [HelloWorldLayer node];
+            sceneToRun = [NoObstaclesLayer node];
             break;
             
         case kGameLevel2:
-            // Placeholder for Level 2
+            sceneToRun = [HelloWorldLayer node];
             break;
         case kGameLevel3:
             // Placeholder for Level 3
