@@ -9,9 +9,8 @@
 
 #import <GameKit/GameKit.h>
 #import "GCHelper.h"
-
-// When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "GameManager.h"
 
 @class BackgroundLayer;
 @class Player;
@@ -81,7 +80,6 @@ typedef struct {
     GameState gameState;
 }
 
-//@property (nonatomic, strong) CCSprite * redCircle;
 @property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) Obstacle *obstacle;
 @property (nonatomic, strong) BackgroundLayer *backgroundLayer;

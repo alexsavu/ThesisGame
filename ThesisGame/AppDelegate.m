@@ -12,6 +12,7 @@
 #import "HelloWorldLayer.h"
 #import "IntroLayer.h"
 #import "GCHelper.h"
+#import "GameManager.h"
 
 @implementation AppController
 

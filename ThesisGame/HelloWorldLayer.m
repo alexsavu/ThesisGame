@@ -21,11 +21,12 @@
 #define kHeroMovementAction 1
 #define kPlayerSpeed 300
 #define kFilteringFactor 0.1
+#define MIN_COURSE_X 173.0
+#define MAX_COURSE_X 858.0
 
 @interface HelloWorldLayer (){
+    BOOL stop;
 }
-
-@property (nonatomic) BOOL stop;
 - (void)step:(ccTime)dt;
 
 @end
@@ -34,13 +35,11 @@
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
-//@synthesize redCircle = _redCircle;
 @synthesize backgroundLayer = _backgroundLayer;
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player = _player;
 @synthesize obstacle = _obstacle;
-@synthesize stop = _stop;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -76,62 +75,20 @@
 //		
 //		// add the label as a child to this Layer
 //		[self addChild: label];
-//		
-//		
-//		
-//		//
-//		// Leaderboards and Achievements
-//		//
-//		
-//		// Default font size will be 28 points.
-//		[CCMenuItemFont setFontSize:28];
-//		
-//		// Achievement Menu Item using blocks
-//		CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-//			
-//			
-//			GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-//			achivementViewController.achievementDelegate = self;
-//			
-//			AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-//			
-//			[[app navController] presentModalViewController:achivementViewController animated:YES];
-//		}
-//									   ];
-//
-//		// Leaderboard Menu Item using blocks
-//		CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-//			
-//			
-//			GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-//			leaderboardViewController.leaderboardDelegate = self;
-//			
-//			AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-//			
-//			[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-//		}
-//									   ];
-//		
-//		CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, nil];
-//		
-//		[menu alignItemsHorizontallyWithPadding:20];
-//		[menu setPosition:ccp( size.width/2, size.height/2 - 50)];
-//		
-//		// Add the menu to the layer
-//		[self addChild:menu];
+
         
 //        self.backgroundLayer = [BackgroundLayer node];
 //        [self addChild:self.backgroundLayer z:0];
         
-        
-        
+  
 //        self.background = [CCSprite spriteWithFile:@"background.png"];
 //        self.background.position = ccp(size.width/2, size.height/2);
 //        [self addChild:self.background];
         
         
-        self.stop = NO;
+        stop = NO;
         
+        //Adding the backgrounds as a sprite
         self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background.anchorPoint = ccp(0, 0);
         self.background.position = ccp(0, 0);
@@ -140,60 +97,30 @@
         self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
-        NSLog(@"Come On :%f", self.background2.position.y);
         [self addChild:self.background2 ];
         
-        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
-        [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
-        
-        self.isAccelerometerEnabled = YES;
-        [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
-        
+        //Add the player character. It has it's own class derived from GameCharacter
         self.player = [[Player alloc] initWithFile:@"handUp.png" alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
-        //This is the function that will be scheduled to load continuously
+        //The method that gets called to find a match between 2 players
+        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
+        [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
+        
+        //enable accelerometer
+        self.isAccelerometerEnabled = YES;
+        [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
+        
+        //This are the functions that will be scheduled to load continuously
         //as long as our game is running
         [self schedule:@selector(step:)];
-        [self schedule:@selector(obstacleMove:) interval:2.0];
+        [self schedule:@selector(obstaclesStep:) interval:2.0];
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
 	}
 	return self;
-}
-
-#pragma mark Obstacle
-
--(void)addTarget {
-    
-    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
-    // Determine where to spawn the target along the Y axis
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    int minX = self.obstacle.contentSize.width/2;
-    int maxX = winSize.height - self.obstacle.contentSize.width/2;
-    int rangeX = maxX - minX;
-    int actualX = (arc4random() % rangeX) + minX;
-    
-    // Create the target slightly off-screen along the right edge,
-    // and along a random position along the Y axis as calculated above
-    self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle z:0 tag:2];
-    
-    // Determine speed of the target
-    int minDuration = 2.0;
-    int maxDuration = 4.0;
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-    
-    // Create the actions
-    id actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                        position:ccp(actualX ,-self.obstacle.contentSize.height/2)];
-    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-                                             selector:@selector(spriteMoveFinished:)];
-    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-    
 }
 
 #pragma mark Collision Detection
@@ -204,25 +131,19 @@
     }
 }
 
-//Step function to move the obstacles
-- (void)obstacleMove:(ccTime)dt{
-    [self addTarget];
-}
-
 //Remove onstacle after going out of screen
 -(void)spriteMoveFinished:(id)sender {
     Obstacle *obstacle = (Obstacle *)sender;
     [self removeChild:obstacle cleanup:YES];
 }
 
+//when the authentication has changed restart this scene
 - (void)restartTapped:(id)sender {
-    
     // Reload the current scene
     [[CCDirector sharedDirector] replaceScene:[CCTransitionZoomFlipX transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
-    
 }
 
-//Invite
+//Invitation received (call from the CGHelper)
 - (void)inviteReceived {
     [self restartTapped:nil];
 }
@@ -266,6 +187,7 @@
 
 #pragma mark Step methods
 
+//step method fro the obstacles
 -(void)obstaclesStep:(ccTime)dt{
     [self addObstacles];
 }
@@ -273,10 +195,8 @@
 //the function schedule and call everything as needed
 - (void)step:(ccTime)dt {
 	thing_pos.x += thing_vel.x * dt;
-//    background_pos.x += background_vel.x *dt;
 	
 	//set the maximun and minimum positions where our character could be on screen
-	//in the X axis... this prevents the character to go out of screen on the sides
 	CGSize thing_size = self.player.contentSize;
     CGSize background_size = self.background.contentSize;
     float max_x = 0;
@@ -348,8 +268,6 @@
     self.background.position = ccp(0, -background_pos.y);
     self.background2.position = ccp(0, self.background.position.y + 768.0);
     
-    NSLog(@"player position: %f", self.player.position.x);
-    
     //up scroll
     [self scrollUpwards];
     
@@ -361,19 +279,18 @@
 
 -(void)addObstacles{
     
-    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png"];
-    
+    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    int minX = self.obstacle.contentSize.width/2;
-    int maxX = winSize.width - self.obstacle.contentSize.width/2;
+    int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
+    int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
     int rangeX = maxX - minX;
     int actualX = (arc4random() % rangeX) + minX;
     
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
-    self.obstacle.position = ccp(actualX ,winSize.width + (self.obstacle.contentSize.width/2));
-    [self addChild:self.obstacle];
+    self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
+    [self addChild:self.obstacle z:0 tag:2];
     
     // Determine speed of the target
     int minDuration = 2.0;
@@ -383,9 +300,9 @@
     
     // Create the actions
     id actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                        position:ccp(actualX, -self.obstacle.contentSize.width/2)];
+                                        position:ccp(actualX ,-self.obstacle.contentSize.height)];
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
-                                             selector:@selector(obstacleMoveFinished:)];
+                                             selector:@selector(spriteMoveFinished:)];
     [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
     
 }
@@ -435,10 +352,10 @@
     
     if (self.background2.position.y < 0) {
         self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-        self.stop = YES;
+        stop = YES;
     }
        
-    if(self.stop && self.background2.position.y < -768.0){
+    if(stop && self.background2.position.y < -768.0){
         self.background.position = ccp(0, 0);
     }
 
@@ -461,20 +378,27 @@
 	thing_vel.x = thing_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     thing_vel.y = thing_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
     
-    background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
-    background2_vel.y = background2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
+    background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
+    background2_vel.y = background2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
     
-//    NSLog(@"Accelerometer: %f", background2_vel.y);
-}
-
-// on "dealloc" you need to release all your retained objects
-- (void) dealloc
-{
-	// in case you have something to dealloc, do it in this method
-	// in this particular example nothing needs to be released.
-	// cocos2d will automatically release all the children (Label)
-	
-	// don't forget to call "super dealloc"
+    double rollingZ  = acceleration.z;
+    double rollingX = acceleration.x;
+    double inclination = 0;
+    
+    if (rollingZ > 0.0) {
+        inclination = atan(rollingX / rollingZ) + M_PI / 2.0; //LINE 1
+    }
+    else if (rollingZ < 0.0) {
+        inclination = atan(rollingX / rollingZ) - M_PI / 2.0; // LINE 2
+    }
+    else if (rollingX < 0) {
+        inclination = M_PI/2.0; //atan returns a radian
+    }
+    else if (rollingX >= 0) {
+        inclination = 3 * M_PI/2.0;
+    }
+    
+    NSLog(@"Accelerometer: %f", inclination);
 }
 
 - (void)setGameState:(GameState)state {

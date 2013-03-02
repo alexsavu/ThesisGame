@@ -8,6 +8,7 @@
 
 #import "GameManager.h"
 #import "HelloWorldLayer.h"
+#import "MainMenuLayer.h"ß
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -55,9 +56,9 @@ static GameManager* _sharedGameManager = nil;
     
     id sceneToRun = nil;
     switch (sceneID) {
-//        case kMainMenuScene:
-//            sceneToRun = [MainMenuScene node];
-//            break;
+        case kMainMenuScene:
+            sceneToRun = [MainMenuLayer node];
+            break;
 //        case kOptionsScene:
 //            sceneToRun = [OptionsScene node];
 //            break;
