@@ -20,6 +20,7 @@
 @interface NoObstaclesLayer (){
     BOOL stop;
 }
+@property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
 - (void)step:(ccTime)dt;
 @end
 
@@ -28,6 +29,7 @@
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player = _player;
+@synthesize backToMainMenuFromScene2 = _backToMainMenuFromScene2;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -88,7 +90,7 @@
         [self addChild:self.background2 ];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:@"handUp.png" alphaThreshold:0];
+        self.player = [[Player alloc] initWithFile:@"prototypeCharacter.png" alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
@@ -100,8 +102,34 @@
         //as long as our game is running
         [self schedule:@selector(step:)];
         
+        [self addBackButton];
 	}
 	return self;
+}
+
+#pragma Back to Main Menu
+
+//Back to main menu button
+- (void)addBackButton{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCMenuItemImage *backArrow = [CCMenuItemImage
+                                  itemWithNormalImage:@"backButton.png"
+                                  selectedImage:nil
+                                  disabledImage:nil
+                                  target:self
+                                  selector:@selector(goBackToMenu:)];
+    
+    self.backToMainMenuFromScene2 = [CCMenu
+                           menuWithItems:backArrow,nil];
+    [self.backToMainMenuFromScene2 setPosition:ccp(55.f,screenSize.height - 55.f)];
+    //TODO: change tag value because is the same as the main menu
+    [self addChild:self.backToMainMenuFromScene2 z:0 tag:kMainMenuTagValue];
+}
+
+//Selector method for going back to main menu
+-(void)goBackToMenu:(CCMenuItemFont*)itemPassedIn {
+    CCLOG(@"Tag 1 found, Scene 2");
+    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
 }
 
 #pragma mark Step methods
@@ -212,15 +240,63 @@
     
     if (self.background2.position.y < 0) {
         self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
         stop = YES;
     }
     
     if(stop && self.background2.position.y < -768.0){
         self.background.position = ccp(0, 0);
+        [self finishFlagSprite];
     }
     
 }
 
+//Add finish sprite
+-(void)finishFlagSprite{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCSprite *finish = [CCSprite spriteWithFile:@"finish.png"];
+    finish.position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:finish];
+}
 #pragma mark Accelerometer
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {

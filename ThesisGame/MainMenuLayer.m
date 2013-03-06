@@ -184,7 +184,7 @@
                           selector:@selector(displayMainMenu)];
     
     self.sceneSelectMenu = [CCMenu menuWithItems:playScene1,
-                       playScene2,playScene3,playScene4,playScene5,backButton,nil];
+                       playScene2,backButton,nil];
     [self.sceneSelectMenu alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
     [self.sceneSelectMenu setPosition:ccp(screenSize.width * 2,
                                      screenSize.height / 2)];

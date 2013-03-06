@@ -165,6 +165,13 @@
 		3ECACC5F16B18279006F740A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC5E16B18279006F740A /* AppDelegate.m */; };
 		3ECACC6216B18279006F740A /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC6116B18279006F740A /* HelloWorldLayer.m */; };
 		3ECACC6516B18279006F740A /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC6416B18279006F740A /* IntroLayer.m */; };
+		3EF4B71B16E7BB1F00E64996 /* big_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B71A16E7BB1F00E64996 /* big_arrow.png */; };
+		3EF4B71D16E7BFAF00E64996 /* backButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */; };
+		3EF4B72116E7C03500E64996 /* prototypeObstacle~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B71F16E7C03500E64996 /* prototypeObstacle~ipad.png */; };
+		3EF4B72416E7C50F00E64996 /* prototypeCharacter~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72316E7C50F00E64996 /* prototypeCharacter~ipad.png */; };
+		3EF4B72616E7C67B00E64996 /* finish~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72516E7C67B00E64996 /* finish~ipad.png */; };
+		3EF4B72816E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72716E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png */; };
+		3EF4B72C16E7D35C00E64996 /* CCShake.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4B72B16E7D35C00E64996 /* CCShake.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -487,6 +494,14 @@
 		3ECACC6416B18279006F740A /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 		3EEA983816CE682B00A953EB /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		3EEA983916CE682C00A953EB /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		3EF4B71A16E7BB1F00E64996 /* big_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = big_arrow.png; sourceTree = "<group>"; };
+		3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backButton~ipad.png"; sourceTree = "<group>"; };
+		3EF4B71F16E7C03500E64996 /* prototypeObstacle~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prototypeObstacle~ipad.png"; sourceTree = "<group>"; };
+		3EF4B72316E7C50F00E64996 /* prototypeCharacter~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prototypeCharacter~ipad.png"; sourceTree = "<group>"; };
+		3EF4B72516E7C67B00E64996 /* finish~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finish~ipad.png"; sourceTree = "<group>"; };
+		3EF4B72716E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PrototypeCharacter_nonClip~ipad.png"; sourceTree = "<group>"; };
+		3EF4B72A16E7D35C00E64996 /* CCShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCShake.h; sourceTree = "<group>"; };
+		3EF4B72B16E7D35C00E64996 /* CCShake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCShake.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -494,11 +509,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ECACADA16B18277006F740A /* AudioToolbox.framework in Frameworks */,
 				3ECACAE416B18277006F740A /* GameKit.framework in Frameworks */,
 				3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */,
 				3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */,
 				3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */,
-				3ECACADA16B18277006F740A /* AudioToolbox.framework in Frameworks */,
 				3ECACADC16B18277006F740A /* AVFoundation.framework in Frameworks */,
 				3ECACADE16B18277006F740A /* UIKit.framework in Frameworks */,
 				3ECACAE016B18277006F740A /* Foundation.framework in Frameworks */,
@@ -667,6 +682,7 @@
 		3ECACAE516B18277006F740A /* ThesisGame */ = {
 			isa = PBXGroup;
 			children = (
+				3EF4B72916E7D33100E64996 /* Helper */,
 				3E0E886916DFA50100A1AB72 /* Collision Detection */,
 				3E5A73B316D6354E007C0FF2 /* GameplayScrollingLayer.h */,
 				3E5A73B416D6354E007C0FF2 /* GameplayScrollingLayer.m */,
@@ -686,6 +702,10 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3EF4B72216E7C23A00E64996 /* Characters */,
+				3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */,
+				3EF4B72516E7C67B00E64996 /* finish~ipad.png */,
+				3EF4B71A16E7BB1F00E64996 /* big_arrow.png */,
 				3E91621316E266370068DFD4 /* Fonts */,
 				3E91620A16E265CF0068DFD4 /* MainMenu */,
 				3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */,
@@ -1090,6 +1110,25 @@
 			name = "Game Objects";
 			sourceTree = "<group>";
 		};
+		3EF4B72216E7C23A00E64996 /* Characters */ = {
+			isa = PBXGroup;
+			children = (
+				3EF4B72716E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png */,
+				3EF4B72316E7C50F00E64996 /* prototypeCharacter~ipad.png */,
+				3EF4B71F16E7C03500E64996 /* prototypeObstacle~ipad.png */,
+			);
+			name = Characters;
+			sourceTree = "<group>";
+		};
+		3EF4B72916E7D33100E64996 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3EF4B72A16E7D35C00E64996 /* CCShake.h */,
+				3EF4B72B16E7D35C00E64996 /* CCShake.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1167,6 +1206,12 @@
 				3E91621216E266250068DFD4 /* OptionsButtonSelected.png in Resources */,
 				3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */,
 				3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */,
+				3EF4B71B16E7BB1F00E64996 /* big_arrow.png in Resources */,
+				3EF4B71D16E7BFAF00E64996 /* backButton~ipad.png in Resources */,
+				3EF4B72116E7C03500E64996 /* prototypeObstacle~ipad.png in Resources */,
+				3EF4B72416E7C50F00E64996 /* prototypeCharacter~ipad.png in Resources */,
+				3EF4B72616E7C67B00E64996 /* finish~ipad.png in Resources */,
+				3EF4B72816E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1299,6 +1344,7 @@
 				3E0E889816E0B6F600A1AB72 /* Makefile in Sources */,
 				3E46FA7816E246F200912942 /* MainMenuLayer.m in Sources */,
 				3E91621D16E27AAF0068DFD4 /* NoObstaclesLayer.m in Sources */,
+				3EF4B72C16E7D35C00E64996 /* CCShake.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

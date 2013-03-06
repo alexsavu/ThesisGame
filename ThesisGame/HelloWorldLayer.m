@@ -17,6 +17,7 @@
 #import "BackgroundLayer.h"
 #import "Player.h"
 #import "Obstacle.h"
+#import "CCShake.h"
 
 #define kHeroMovementAction 1
 #define kPlayerSpeed 300
@@ -27,6 +28,9 @@
 @interface HelloWorldLayer (){
     BOOL stop;
 }
+@property (nonatomic, strong) CCMenu *backToMainMenu;
+@property (nonatomic, retain) CCLayer *currentLayer;
+
 - (void)step:(ccTime)dt;
 
 @end
@@ -39,6 +43,7 @@
 @synthesize background2 = _background2;
 @synthesize player = _player;
 @synthesize obstacle = _obstacle;
+@synthesize backToMainMenu = _backToMainMenu;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -78,7 +83,6 @@
         
 //        self.backgroundLayer = [BackgroundLayer node];
 //        [self addChild:self.backgroundLayer z:0];
-        
   
 //        self.background = [CCSprite spriteWithFile:@"background.png"];
 //        self.background.position = ccp(size.width/2, size.height/2);
@@ -99,9 +103,9 @@
         [self addChild:self.background2 ];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:@"handUp.png" alphaThreshold:0];
+        self.player = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
-        [self addChild:self.player z:0 tag:1];
+        [self addChild:self.player z:1 tag:1];
         
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
@@ -118,9 +122,37 @@
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
+        
+        [self addBackButton];
 	}
 	return self;
 }
+
+#pragma Back to Main Menu
+
+//Back to main menu button
+- (void)addBackButton{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCMenuItemImage *backArrow = [CCMenuItemImage
+                                       itemWithNormalImage:@"backButton.png"
+                                       selectedImage:nil
+                                       disabledImage:nil
+                                       target:self
+                                        selector:@selector(goBackToMenu:)];
+    
+    self.backToMainMenu = [CCMenu
+                     menuWithItems:backArrow,nil];
+    [self.backToMainMenu setPosition:ccp(55.f,screenSize.height - 55.f)];
+    //TODO: change tag value because is the same as the main menu
+    [self addChild:self.backToMainMenu z:0 tag:kMainMenuTagValue];
+}
+
+//Selector method for going back to main menu
+-(void)goBackToMenu:(CCMenuItemFont*)itemPassedIn {
+    CCLOG(@"Tag 1 found, Scene 1");
+    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
+}
+
 
 //when the authentication has changed restart this scene
 - (void)restartTapped:(id)sender {
@@ -265,6 +297,7 @@
 -(void)checkForCollision{
     if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
         NSLog(@"@@@@@@@@@@@@");
+        [(KKPixelMaskSprite *)[self getChildByTag:2] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(10, 0) dampening:false shakes:2]];
     }
 }
 
@@ -272,7 +305,7 @@
 
 -(void)addObstacles{
     
-    self.obstacle = [[Obstacle alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+    self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
@@ -343,13 +376,62 @@
     
     if (self.background2.position.y < 0) {
         self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
         stop = YES;
     }
-       
+    
     if(stop && self.background2.position.y < -768.0){
         self.background.position = ccp(0, 0);
+        [self finishFlagSprite];
     }
 
+}
+
+//Add finish sprite
+-(void)finishFlagSprite{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCSprite *finish = [CCSprite spriteWithFile:@"finish.png"];
+    finish.position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:finish];
 }
 
 - (void)tryStartGame {
