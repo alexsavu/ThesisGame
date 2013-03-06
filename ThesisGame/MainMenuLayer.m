@@ -141,7 +141,7 @@
     
     CCLabelBMFont *playScene1Label =
     [CCLabelBMFont labelWithString:@"Level without obstacles"
-                           fntFile:@"VikingSpeechFont64.fnt"];
+                           fntFile:@"magneto.fnt"];
     CCMenuItemLabel *playScene1 =
     [CCMenuItemLabel itemWithLabel:playScene1Label target:self
                           selector:@selector(playScene:)];
@@ -149,7 +149,7 @@
     
     CCLabelBMFont *playScene2Label =
     [CCLabelBMFont labelWithString:@"Obstacleeeees!!"
-                           fntFile:@"VikingSpeechFont64.fnt"];
+                           fntFile:@"magneto.fnt"];
     CCMenuItemLabel *playScene2 =
     [CCMenuItemLabel itemWithLabel:playScene2Label target:self
                           selector:@selector(playScene:)];
@@ -157,28 +157,28 @@
     
     CCLabelBMFont *playScene3Label =
     [CCLabelBMFont labelWithString:@"Mad Dreams of the Dead!"
-                           fntFile:@"VikingSpeechFont64.fnt"];
+                           fntFile:@"magneto.fnt"];
     CCMenuItemLabel *playScene3 = [CCMenuItemLabel itemWithLabel:playScene3Label target:self
                                                         selector:@selector(playScene:)];
     [playScene3 setTag:3];
     
     CCLabelBMFont *playScene4Label =
     [CCLabelBMFont labelWithString:@"Descent Into Hades!"
-                           fntFile:@"VikingSpeechFont64.fnt"];
+                           fntFile:@"magneto.fnt"];
 	CCMenuItemLabel *playScene4 = [CCMenuItemLabel itemWithLabel:playScene4Label target:self
 														selector:@selector(playScene:)];
 	[playScene4 setTag:4];
     
     CCLabelBMFont *playScene5Label =
     [CCLabelBMFont labelWithString:@"Escape!"
-                           fntFile:@"VikingSpeechFont64.fnt"];
+                           fntFile:@"magneto.fnt"];
 	CCMenuItemLabel *playScene5 = [CCMenuItemLabel itemWithLabel:playScene5Label target:self
 														selector:@selector(playScene:)];
 	[playScene5 setTag:5];
     
     CCLabelBMFont *backButtonLabel =
     [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"VikingSpeechFont64.fnt"];
+                           fntFile:@"magneto.fnt"];
     CCMenuItemLabel *backButton =
     [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
                           selector:@selector(displayMainMenu)];
