@@ -108,8 +108,8 @@
         [self addChild:self.player z:1 tag:1];
         
         //The method that gets called to find a match between 2 players
-        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
-        [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
+//        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
+//        [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
         
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
