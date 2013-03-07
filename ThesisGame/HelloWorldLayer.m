@@ -103,17 +103,17 @@
         self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background.anchorPoint = ccp(0, 0);
         self.background.position = ccp(0, 0);
-        [self addChild:self.background];
+        [self addChild:self.background z:0 tag:1];
         
         self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
-        [self addChild:self.background2 ];
+        [self addChild:self.background2 z:0 tag:2 ];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
+        self.player = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
-        [self addChild:self.player z:1 tag:1];
+        [self addChild:self.player z:0 tag:3];
         
         //The method that gets called to find a match between 2 players
 //        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
@@ -263,8 +263,8 @@
 	if(thing_pos.x>max_x) thing_pos.x = max_x;
 	if(thing_pos.x<min_x) thing_pos.x = min_x;
     
-    if(thing_pos.y>max_y) thing_pos.y = max_y;
-	if(thing_pos.y<min_y) thing_pos.y = min_y;
+//    if(thing_pos.y>max_y) thing_pos.y = max_y;
+//	if(thing_pos.y<min_y) thing_pos.y = min_y;
     
 //    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
 //	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
@@ -288,7 +288,8 @@
         background2_vel.y += background2_acc.y * dt;
         background2_pos.y += background2_vel.y * dt;
     }
-	
+//	NSLog(@"Thing position y: %f", thing_pos.x);
+    
     self.player.position = ccp(thing_pos.x, thing_pos.y);
     self.background.position = ccp(0, -background_pos.y);
     self.background2.position = ccp(0, self.background.position.y + 768.0);
@@ -303,9 +304,9 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
-        NSLog(@"@@@@@@@@@@@@");
-        [(KKPixelMaskSprite *)[self getChildByTag:2] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(10, 0) dampening:false shakes:2]];
+    if ([(KKPixelMaskSprite *)[self getChildByTag:4] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
+        NSLog(@"@@@@@@@@@@@@: %@", [self getChildByTag:3]);
+        [[self getChildByTag:4] runAction:[CCShake actionWithDuration:1.f amplitude:ccp(0, 5) ]];
     }
 }
 
@@ -313,7 +314,7 @@
 
 -(void)addObstacles{
     
-    self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
+    self.obstacle = [[Obstacle alloc] initWithFile:@"handUp.png" alphaThreshold:0];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
@@ -324,7 +325,7 @@
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
     self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle z:0 tag:2];
+    [self addChild:self.obstacle z:0 tag:4];
     
     // Determine speed of the target
     int minDuration = 2.0;
@@ -338,7 +339,7 @@
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(spriteMoveFinished:)];
     [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-    
+    NSLog(@"Thing position y: %f", self.obstacle.position.y);
 }
 
 //Remove onstacle after going out of screen
@@ -474,8 +475,7 @@
     else if (rollingX >= 0) {
         inclination = 3 * M_PI/2.0;
     }
-    
-    NSLog(@"Accelerometer: %f", inclination);
+//    NSLog(@"Accelerometer: %f", inclination);
 }
 
 - (void)setGameState:(GameState)state {
