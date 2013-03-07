@@ -21,6 +21,7 @@
     BOOL stop;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
+@property (nonatomic, retain) CCSprite *finish;
 - (void)step:(ccTime)dt;
 @end
 
@@ -30,6 +31,7 @@
 @synthesize background2 = _background2;
 @synthesize player = _player;
 @synthesize backToMainMenuFromScene2 = _backToMainMenuFromScene2;
+@synthesize finish = _finish;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -77,6 +79,12 @@
         
         
         stop = NO;
+        
+        //Add finish flag and make it invisible until we need to display it
+        self.finish = [CCSprite spriteWithFile:@"finish.png"];
+        self.finish.position = ccp(size.width/2, size.height/2);
+        self.finish.visible = NO;
+        [self addChild:self.finish z:100];
         
         //Adding the backgrounds as a sprite
         self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
@@ -292,10 +300,7 @@
 
 //Add finish sprite
 -(void)finishFlagSprite{
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCSprite *finish = [CCSprite spriteWithFile:@"finish.png"];
-    finish.position = ccp(screenSize.width/2, screenSize.height/2);
-    [self addChild:finish];
+    self.finish.visible = YES;
 }
 #pragma mark Accelerometer
 

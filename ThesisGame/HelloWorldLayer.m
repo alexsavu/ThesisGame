@@ -30,6 +30,7 @@
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
+@property (nonatomic, retain) CCSprite *finish;
 
 - (void)step:(ccTime)dt;
 
@@ -44,6 +45,7 @@
 @synthesize player = _player;
 @synthesize obstacle = _obstacle;
 @synthesize backToMainMenu = _backToMainMenu;
+@synthesize finish = _finish;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -90,6 +92,12 @@
         
         
         stop = NO;
+        
+        //Add finish flag and make it invisible until we need to display it
+        self.finish = [CCSprite spriteWithFile:@"finish.png"];
+        self.finish.position = ccp(size.width/2, size.height/2);
+        self.finish.visible = NO;
+        [self addChild:self.finish z:100];
         
         //Adding the backgrounds as a sprite
         self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
@@ -423,15 +431,11 @@
         self.background.position = ccp(0, 0);
         [self finishFlagSprite];
     }
-
 }
 
 //Add finish sprite
 -(void)finishFlagSprite{
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCSprite *finish = [CCSprite spriteWithFile:@"finish.png"];
-    finish.position = ccp(screenSize.width/2, screenSize.height/2);
-    [self addChild:finish];
+    self.finish.visible = YES;
 }
 
 - (void)tryStartGame {
