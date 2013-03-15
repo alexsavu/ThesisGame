@@ -8,9 +8,10 @@
 
 #import "NoObstaclesLayer.h"
 #import "AppDelegate.h"
-#import "UIDevice+Hardware.h"
 #import "Player.h"
 
+#define IDIOM    UI_USER_INTERFACE_IDIOM()
+#define IPAD     UIUserInterfaceIdiomPad
 #define kHeroMovementAction 1
 #define kPlayerSpeed 300
 #define kFilteringFactor 0.1
@@ -162,7 +163,7 @@
     
     float background2_min_y = 0;
     
-    if([[[UIDevice currentDevice] platform] isEqualToString:@"iPad 4 (WiFi)"]) {
+    if(IDIOM == IPAD) {
         //Device is ipad
         max_x = 858.0 - thing_size.width/2;
         min_x = 173.0 + thing_size.width/2;

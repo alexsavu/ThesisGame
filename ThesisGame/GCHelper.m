@@ -7,6 +7,8 @@
 //
 
 #import "GCHelper.h"
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] \
+compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 @implementation GCHelper
 @synthesize gameCenterAvailable;
@@ -106,6 +108,22 @@ static GCHelper *sharedHelper = nil;
 
 #pragma mark User functions
 
+- (void)checkLocalPlayer
+{
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    
+    if (localPlayer.isAuthenticated)
+    {
+        /* Perform additional tasks for the authenticated player here */
+        NSLog(@"IS AUTHENTICATED");
+    }
+    else
+    {
+        /* Perform additional tasks for the non-authenticated player here */
+        NSLog(@"IS NOT AUTHENTICATED");
+    }
+}
+
 - (void)authenticateLocalUser {
     
     if (!gameCenterAvailable) return;
@@ -116,6 +134,33 @@ static GCHelper *sharedHelper = nil;
     } else {
         NSLog(@"Already authenticated!");
     }
+    
+//    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+//    
+//    if (SYSTEM_VERSION_LESS_THAN(@"6.0"))
+//    {
+//        // ios 5.x and below
+//        [localPlayer authenticateWithCompletionHandler:^(NSError *error)
+//         {
+////             [self checkLocalPlayer];
+//         }];
+//    }
+//    else
+//    {
+//        // ios 6.0 and above
+//        [localPlayer setAuthenticateHandler:(^(UIViewController* viewcontroller, NSError *error) {
+//            NSLog(@"Error: %@", error);
+//            if (!error && viewcontroller)
+//            {
+//                [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
+//                [self.presentingViewController presentViewController:viewcontroller animated:YES completion:nil];
+//            }
+//            else
+//            {
+//                [self checkLocalPlayer];
+//            }
+//        })];
+//    }
 }
 
 - (void)findMatchWithMinPlayers:(int)minPlayers maxPlayers:(int)maxPlayers

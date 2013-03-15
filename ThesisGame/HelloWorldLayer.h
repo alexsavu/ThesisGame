@@ -62,13 +62,19 @@ typedef struct {
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate>
 {
+    //player 1
     CGPoint thing_pos;
 	CGPoint thing_vel;
 	CGPoint thing_acc;
+    //player2
+    CGPoint thing2_pos;
+	CGPoint thing2_vel;
+	CGPoint thing2_acc;
+    //background 1
     CGPoint background_pos;
     CGPoint background_vel;
     CGPoint background_acc;
-    
+    //background 2
     CGPoint background2_pos;
     CGPoint background2_vel;
     CGPoint background2_acc;
@@ -80,7 +86,8 @@ typedef struct {
     GameState gameState;
 }
 
-@property (nonatomic, strong) Player *player;
+@property (nonatomic, strong) Player *player1;
+@property (nonatomic, strong) Player *player2;
 @property (nonatomic, strong) Obstacle *obstacle;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;

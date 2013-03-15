@@ -20,7 +20,6 @@
 		3E0E889916E0B6F600A1AB72 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889416E0B6F600A1AB72 /* README */; };
 		3E0E889B16E0E60000A1AB72 /* Prototype1Background~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */; };
 		3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */; };
-		3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */; };
 		3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */; };
 		3E0ED3C016C5620B003AF327 /* background~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BF16C5620B003AF327 /* background~ipad.png */; };
 		3E0ED56616C65863003AF327 /* dpadDown~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED56516C65863003AF327 /* dpadDown~ipad.png */; };
@@ -199,8 +198,6 @@
 		3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prototype1Background~ipad.png"; sourceTree = "<group>"; };
 		3E0ED32116BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GKMatchmakerViewController-LandscapeOnly.h"; sourceTree = "<group>"; };
 		3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GKMatchmakerViewController-LandscapeOnly.m"; sourceTree = "<group>"; };
-		3E0ED3AF16C3D549003AF327 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
-		3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		3E0ED3B416C50E0E003AF327 /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
 		3E0ED3B516C50E0E003AF327 /* BackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLayer.m; sourceTree = "<group>"; };
 		3E0ED3BF16C5620B003AF327 /* background~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background~ipad.png"; sourceTree = "<group>"; };
@@ -570,8 +567,6 @@
 		3E0ED3B216C3D70E003AF327 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				3E0ED3AF16C3D549003AF327 /* UIDevice+Hardware.h */,
-				3E0ED3B016C3D549003AF327 /* UIDevice+Hardware.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -688,12 +683,12 @@
 		3ECACAE516B18277006F740A /* ThesisGame */ = {
 			isa = PBXGroup;
 			children = (
+				3E0ED3B316C50A23003AF327 /* GameCenter */,
 				3EF4B72916E7D33100E64996 /* Helper */,
 				3E0E886916DFA50100A1AB72 /* Collision Detection */,
 				3E5A73B316D6354E007C0FF2 /* GameplayScrollingLayer.h */,
 				3E5A73B416D6354E007C0FF2 /* GameplayScrollingLayer.m */,
 				3EEA983416CE65F600A953EB /* Classes */,
-				3E0ED3B316C50A23003AF327 /* GameCenter */,
 				3EA4CC3916BC44E9002F9B10 /* GameConfig.h */,
 				3ECACC5D16B18279006F740A /* AppDelegate.h */,
 				3ECACC5E16B18279006F740A /* AppDelegate.m */,
@@ -1336,7 +1331,6 @@
 				3ECACC6516B18279006F740A /* IntroLayer.m in Sources */,
 				3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */,
 				3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */,
-				3E0ED3B116C3D54A003AF327 /* UIDevice+Hardware.m in Sources */,
 				3E0ED3B616C50E0E003AF327 /* BackgroundLayer.m in Sources */,
 				3E12B0BF16CE73B600B5485D /* GameCharacter.m in Sources */,
 				3E12B0C216CE7F5D00B5485D /* Player.m in Sources */,
@@ -1379,7 +1373,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1403,7 +1397,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1420,7 +1414,7 @@
 				GCC_PREFIX_HEADER = ThesisGame/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"ThesisGame/libs/kazmath/include\"";
 				INFOPLIST_FILE = ThesisGame/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -1441,7 +1435,7 @@
 				GCC_PREFIX_HEADER = ThesisGame/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"ThesisGame/libs/kazmath/include\"";
 				INFOPLIST_FILE = ThesisGame/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
