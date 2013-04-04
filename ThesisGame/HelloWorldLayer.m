@@ -111,7 +111,7 @@
         [self addChild:self.background2 z:0 tag:2 ];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+        self.player = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:3];
         
@@ -314,7 +314,7 @@
 
 -(void)addObstacles{
     
-    self.obstacle = [[Obstacle alloc] initWithFile:@"handUp.png" alphaThreshold:0];
+    self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
