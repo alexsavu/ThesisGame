@@ -7,7 +7,6 @@
 //
 
 #import "CCLayer.h"
-#import "UIDevice+Hardware.h"
 #import "Foundation/Foundation.h"
 #import "cocos2d.h"
 

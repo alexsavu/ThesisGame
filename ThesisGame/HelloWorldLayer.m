@@ -13,12 +13,13 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 #import "RootViewController.h"
-#import "UIDevice+Hardware.h"
 #import "BackgroundLayer.h"
 #import "Player.h"
 #import "Obstacle.h"
 #import "CCShake.h"
 
+#define IDIOM    UI_USER_INTERFACE_IDIOM()
+#define IPAD     UIUserInterfaceIdiomPad
 #define kHeroMovementAction 1
 #define kPlayerSpeed 300
 #define kFilteringFactor 0.1
@@ -42,7 +43,8 @@
 @implementation HelloWorldLayer
 @synthesize background = _background;
 @synthesize background2 = _background2;
-@synthesize player = _player;
+@synthesize player1 = _player1;
+@synthesize player2 = _player2;
 @synthesize obstacle = _obstacle;
 @synthesize backToMainMenu = _backToMainMenu;
 @synthesize finish = _finish;
@@ -108,16 +110,20 @@
         self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
-        [self addChild:self.background2 z:0 tag:2 ];
+        [self addChild:self.background2 z:0 tag:2];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
-        [self.player setPosition:ccp(size.height/2, size.width/2)];
-        [self addChild:self.player z:0 tag:3];
+        self.player1 = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
+        [self.player1 setPosition:ccp(size.height/2, size.width/2)];
+        [self addChild:self.player1 z:0 tag:3];
+        
+        self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+        [self.player2 setPosition:ccp(size.height/2, size.width/2)];
+        [self addChild:self.player2 z:0 tag:4];
         
         //The method that gets called to find a match between 2 players
-//        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
-//        [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
+        AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
+        [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
         
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
@@ -126,6 +132,7 @@
         //This are the functions that will be scheduled to load continuously
         //as long as our game is running
         [self schedule:@selector(step:)];
+//        [self schedule:@selector(moveOtherPlayer:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         
         ourRandom = arc4random();
@@ -182,6 +189,19 @@
     }
 }
 
+- (void)sendData:(NSData *)data withPlayer1Position:(NSData *)player1Position andPlayer2Position:(NSData *)player2Position {
+    NSError *error;
+    NSMutableData *appendedData = [[NSMutableData alloc] init];
+    [appendedData appendData:data];
+    [appendedData appendData:player1Position];
+    [appendedData appendData:player2Position];
+    BOOL success = [[GCHelper sharedInstance].match sendDataToAllPlayers:appendedData withDataMode:GKMatchSendDataReliable error:&error];
+    if (!success) {
+        CCLOG(@"Error sending init packet");
+        [self matchEnded];
+    }
+}
+
 - (void)sendRandomNumber {
     
     MessageRandomNumber message;
@@ -198,6 +218,18 @@
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageGameBegin)];
     [self sendData:data];
     
+}
+
+// Adds methods to send move and game over messages
+- (void)sendMoveWithPositionOfPlayer1:(CGPoint)player1Position andPlayer2:(CGPoint)player2Position
+{
+    
+    MessageMove message;
+    message.message.messageType = kMessageTypeMove;
+    NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageMove)];
+    NSData *dataWithPlayer1Position = [NSData dataWithBytes:&player1Position length:sizeof(player1Position)];
+    NSData *dataWithPlayer2Position = [NSData dataWithBytes:&player2Position length:sizeof(player2Position)];
+    [self sendData:data withPlayer1Position:dataWithPlayer1Position andPlayer2Position:dataWithPlayer2Position];
 }
 
 - (void)sendGameOver:(BOOL)player1Won {
@@ -217,13 +249,46 @@
     [self addObstacles];
 }
 
+-(void)moveOtherPlayer:(ccTime)dt{
+    thing2_pos.x += thing_vel.x * dt;
+	
+	CGSize thing2_size = self.player2.contentSize;
+    float max2_x = 0;
+	float min2_x = 0;
+    float max2_y = 0;
+	float min2_y = 0;
+    
+    if(IDIOM == IPAD) {
+        //Device is ipad
+        max2_x = 858.0 - thing2_size.width/2;
+        min2_x = 173.0 + thing2_size.width/2;
+        
+        max2_y = 768 - thing2_size.width/2;
+        min2_y = 0 + thing2_size.width/2;
+        
+    }else{
+        //Device is iphone
+        max2_x = 480 - thing2_size.width/2;
+        min2_x = 0 + thing2_size.width/2;
+        
+        max2_y = 320 - thing2_size.width/2;
+        min2_y = 0 + thing2_size.width/2;
+    }
+    
+    if(thing2_pos.x>max2_x) thing2_pos.x = max2_x;
+	if(thing2_pos.x<min2_x) thing2_pos.x = min2_x;
+    
+    thing2_vel.x += thing2_acc.x * dt;
+	thing2_pos.x += thing2_vel.x * dt;
+}
+
 //the function schedule and call everything as needed
 - (void)step:(ccTime)dt {
 	thing_pos.x += thing_vel.x * dt;
 	
-	//set the maximun and minimum positions where our character could be on screen
-	CGSize thing_size = self.player.contentSize;
+	CGSize thing_size = self.player1.contentSize;
     CGSize background_size = self.background.contentSize;
+    //set the maximun and minimum positions where our character could be on screen
     float max_x = 0;
 	float min_x = 0;
     float max_y = 0;
@@ -237,7 +302,7 @@
     
     float background2_min_y = 0;
     
-    if([[[UIDevice currentDevice] platform] isEqualToString:@"iPad 4 (WiFi)"]) {
+    if(IDIOM == IPAD) {
         //Device is ipad
         max_x = 858.0 - thing_size.width/2;
         min_x = 173.0 + thing_size.width/2;
@@ -263,6 +328,7 @@
 	if(thing_pos.x>max_x) thing_pos.x = max_x;
 	if(thing_pos.x<min_x) thing_pos.x = min_x;
     
+    
 //    if(thing_pos.y>max_y) thing_pos.y = max_y;
 //	if(thing_pos.y<min_y) thing_pos.y = min_y;
     
@@ -281,6 +347,43 @@
     thing_vel.x += thing_acc.x * dt;
 	thing_pos.x += thing_vel.x * dt;
     
+    
+    //Player 2-------
+    
+    thing2_pos.x += thing2_vel.x * dt;
+	
+	CGSize thing2_size = self.player2.contentSize;
+    float max2_x = 0;
+	float min2_x = 0;
+    float max2_y = 0;
+	float min2_y = 0;
+    
+    if(IDIOM == IPAD) {
+        //Device is ipad
+        max2_x = 858.0 - thing2_size.width/2;
+        min2_x = 173.0 + thing2_size.width/2;
+        
+        max2_y = 768 - thing2_size.width/2;
+        min2_y = 0 + thing2_size.width/2;
+        
+    }else{
+        //Device is iphone
+        max2_x = 480 - thing2_size.width/2;
+        min2_x = 0 + thing2_size.width/2;
+        
+        max2_y = 320 - thing2_size.width/2;
+        min2_y = 0 + thing2_size.width/2;
+    }
+    
+    if(thing2_pos.x>max2_x) thing2_pos.x = max2_x;
+	if(thing2_pos.x<min2_x) thing2_pos.x = min2_x;
+    
+    thing2_vel.x += thing2_acc.x * dt;
+	thing2_pos.x += thing2_vel.x * dt;
+    
+    //-------
+    
+    
     if (background_vel.y > 0 && background2_vel.y > 0) {
         background_vel.y += background_acc.y * dt;
         background_pos.y += background_vel.y * dt;
@@ -288,9 +391,18 @@
         background2_vel.y += background2_acc.y * dt;
         background2_pos.y += background2_vel.y * dt;
     }
-//	NSLog(@"Thing position y: %f", thing_pos.x);
     
-    self.player.position = ccp(thing_pos.x, thing_pos.y);
+    if (isPlayer1) {
+        self.player1.position = ccp(thing_pos.x, thing_pos.y);
+        NSLog(@"Position player 1: %f", thing_pos.x);
+    }else{
+        self.player2.position = ccp(thing2_pos.x, thing2_pos.y);
+        NSLog(@"Position player 2: %f", thing2_pos.x);
+    }
+    
+    if (gameState != kGameStateActive) return;
+    [self sendMoveWithPositionOfPlayer1:self.player1.position andPlayer2:self.player2.position];
+    
     self.background.position = ccp(0, -background_pos.y);
     self.background2.position = ccp(0, self.background.position.y + 768.0);
     
@@ -304,9 +416,9 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-    if ([(KKPixelMaskSprite *)[self getChildByTag:4] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
-        NSLog(@"@@@@@@@@@@@@: %@", [self getChildByTag:3]);
-        [[self getChildByTag:4] runAction:[CCShake actionWithDuration:1.f amplitude:ccp(0, 5) ]];
+    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
+//        NSLog(@"@@@@@@@@@@@@");
+        [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
     }
 }
 
@@ -325,7 +437,7 @@
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
     self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle z:0 tag:4];
+    [self addChild:self.obstacle z:0 tag:5];
     
     // Determine speed of the target
     int minDuration = 2.0;
@@ -339,7 +451,6 @@
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(spriteMoveFinished:)];
     [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-    NSLog(@"Thing position y: %f", self.obstacle.position.y);
 }
 
 //Remove onstacle after going out of screen
@@ -347,16 +458,16 @@
     Obstacle *obstacle = (Obstacle *)sender;
     [self removeChild:obstacle cleanup:YES];
     
-    //	if (sprite.tag == 1) { // target
-    //		[_targets removeObject:sprite];
-    //
-    //		GameOverScene *gameOverScene = [GameOverScene node];
-    //		[gameOverScene.layer.label setString:@"You Lose :["];
-    //		[[CCDirector sharedDirector] replaceScene:gameOverScene];
-    //
-    //	} else if (sprite.tag == 2) { // projectile
-    //		[_projectiles removeObject:sprite];
-    //	}
+//	if (sprite.tag == 1) { // target
+//		[_targets removeObject:sprite];
+//
+//		GameOverScene *gameOverScene = [GameOverScene node];
+//		[gameOverScene.layer.label setString:@"You Lose :["];
+//		[[CCDirector sharedDirector] replaceScene:gameOverScene];
+//
+//	} else if (sprite.tag == 2) { // projectile
+//		[_projectiles removeObject:sprite];
+//	}
 }
 
 #pragma mark Scroll Background Method
@@ -451,10 +562,14 @@
 #pragma mark Accelerometer
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
+    
 	float accel_filter = 0.1f;
 	//handle our character on-screen via accelerometer
 	thing_vel.x = thing_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     thing_vel.y = thing_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
+    //player 2
+    thing2_vel.x = thing2_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
+    thing2_vel.y = thing2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
     
     background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
     background2_vel.y = background2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
@@ -476,6 +591,51 @@
         inclination = 3 * M_PI/2.0;
     }
 //    NSLog(@"Accelerometer: %f", inclination);
+}
+
+#pragma mark End Scene
+
+// Helper code to show a menu to restart the level
+- (void)endScene:(EndReason)endReason {
+    
+    if (gameState == kGameStateDone) return;
+    [self setGameState:kGameStateDone];
+    
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    
+    NSString *message;
+    if (endReason == kEndReasonWin) {
+        message = @"You win!";
+    } else if (endReason == kEndReasonLose) {
+        message = @"You lose!";
+    }
+    
+    CCLabelBMFont *label = [CCLabelBMFont labelWithString:message fntFile:@"magneto.fnt"];
+    label.scale = 0.1;
+    label.position = ccp(winSize.width/2, 180);
+    [self addChild:label];
+    
+    CCLabelBMFont *restartLabel = [CCLabelBMFont labelWithString:@"Restart" fntFile:@"magneto.fnt"];
+    
+    CCMenuItemLabel *restartItem = [CCMenuItemLabel itemWithLabel:restartLabel target:self selector:@selector(restartTapped:)];
+    restartItem.scale = 0.1;
+    restartItem.position = ccp(winSize.width/2, 140);
+    
+    CCMenu *menu = [CCMenu menuWithItems:restartItem, nil];
+    menu.position = CGPointZero;
+    [self addChild:menu];
+    
+    [restartItem runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    [label runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    
+    if (isPlayer1) {
+        if (endReason == kEndReasonWin) {
+            [self sendGameOver:true];
+        } else if (endReason == kEndReasonLose) {
+            [self sendGameOver:false];
+        }
+    }
+    
 }
 
 - (void)setGameState:(GameState)state {
@@ -532,11 +692,11 @@
     
     [[GCHelper sharedInstance].match disconnect];
     [GCHelper sharedInstance].match = nil;
-//    [self endScene:kEndReasonDisconnect];
+    [self endScene:kEndReasonDisconnect];
 }
 
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerID {
-    CCLOG(@"Received data");
+//    CCLOG(@"Received data");
     
     // Store away other player ID for later
     if (otherPlayerID == nil) {
@@ -562,7 +722,6 @@
             CCLOG(@"We are player 2");
             isPlayer1 = NO;
         }
-        
         if (!tie) {
             receivedRandom = YES;
             if (gameState == kGameStateWaitingForRandomNumber) {
@@ -577,12 +736,45 @@
         
     } else if (message->messageType == kMessageTypeMove) {
         
-        CCLOG(@"Received move");
+//        CCLOG(@"Received move");
+//        CGPoint *position = (CGPoint *)[data bytes];
+//        CGPoint player2Position = *position;
+//        CGPoint *player1Position = (CGPoint *)[data bytes];
+        
+        CGPoint *player1Position;
+        CGPoint *player2Position;
+        
+        NSLog(@"Player 1 pooooooooo: %@", data);
+        
+        NSUInteger length = [data length];
+        NSUInteger chunkSize = sizeof(player1Position);
+        NSUInteger offset = 0;
+        
+        do {
+            NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+            NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
+                                                 length:thisChunkSize
+                                           freeWhenDone:NO];
+            offset += thisChunkSize;
+            // do something with chunk
+            if (offset == 8) {
+                player1Position = (CGPoint *)[chunk bytes];
+            }
+            if (offset == 12) {
+                player2Position = (CGPoint *)[chunk bytes];
+            }
+            NSLog(@"Offsettttttttttt: %i", offset);
+        } while (offset < length);
         
         if (isPlayer1) {
+            self.player2.position = ccp(player2Position->y, player2Position->x);
+//            NSLog(@"Position received player 2: %f", player2Position.y);
 //            [player2 moveForward];
         } else {
 //            [player1 moveForward];
+            self.player1.position = ccp(player1Position->x, player1Position->y);
+//             NSLog(@"Position received player 1: %f", player1Position->y);
+//            NSLog(@"Position received player 1: %f", thing_pos.x);
         }
     } else if (message->messageType == kMessageTypeGameOver) {
         
@@ -590,9 +782,9 @@
         CCLOG(@"Received game over with player 1 won: %d", messageGameOver->player1Won);
         
         if (messageGameOver->player1Won) {
-//            [self endScene:kEndReasonLose];
+            [self endScene:kEndReasonLose];
         } else {
-//            [self endScene:kEndReasonWin];    
+            [self endScene:kEndReasonWin];    
         }
         
     }
