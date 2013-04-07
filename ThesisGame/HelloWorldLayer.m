@@ -28,10 +28,13 @@
 
 @interface HelloWorldLayer (){
     BOOL stop;
+    CCSpriteBatchNode *scrollingBatchNode;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
 @property (nonatomic, retain) CCSprite *finish;
+
+@property (nonatomic, retain) CCSprite *cactusSprite;
 
 - (void)step:(ccTime)dt;
 
@@ -48,6 +51,8 @@
 @synthesize obstacle = _obstacle;
 @synthesize backToMainMenu = _backToMainMenu;
 @synthesize finish = _finish;
+
+@synthesize cactusSprite = _cactusSprite;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -121,6 +126,13 @@
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
         
+        //Create cactus
+//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"cactusAtlas.plist"];
+//        scrollingBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"cactusAtlas.png"];
+//        [self addChild:scrollingBatchNode];
+//        [self createCactuses];
+        
+        
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
@@ -141,6 +153,25 @@
         [self addBackButton];
 	}
 	return self;
+}
+
+#pragma mark Create & Reset Cactuses
+
+-(void)createCactuses{
+    NSString *cactusFileName = [NSString stringWithFormat:@"cactusLeftSmall~ipad.png"];
+    CCSprite *cactusSprite = [CCSprite spriteWithSpriteFrameName:cactusFileName];
+    [self resetCactusWithNode:cactusSprite];
+}
+
+-(void)resetCactusWithNode:(id)node{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCNode *cactus = (CCNode *)node;
+    float yOffset = [cactus boundingBox].size.height / 2;
+    
+    int yPosition = screenSize.height + 1 + yOffset;
+    int xPosition = random() % 173;
+    
+    [cactus setPosition:ccp(xPosition, thing_pos.y)];
 }
 
 #pragma Back to Main Menu
@@ -345,8 +376,10 @@
 //	if(background2_pos.y<background_min_y) background2_pos.y = background_min_y;
     
     thing_vel.x += thing_acc.x * dt;
-	thing_pos.x += thing_vel.x * dt;
+    thing_vel.y += thing_acc.y * dt;
     
+	thing_pos.x += thing_vel.x * dt;
+    thing_pos.y += thing_vel.y * dt;
     
     //Player 2-------
     

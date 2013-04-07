@@ -20,9 +20,13 @@
 
 @interface NoObstaclesLayer (){
     BOOL stop;
+    BOOL upScroll;
+    CCSpriteBatchNode *scrollingBatchNode;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
 @property (nonatomic, retain) CCSprite *finish;
+@property (nonatomic, retain) CCSprite *cactusSprite;
+
 - (void)step:(ccTime)dt;
 @end
 
@@ -33,6 +37,7 @@
 @synthesize player = _player;
 @synthesize backToMainMenuFromScene2 = _backToMainMenuFromScene2;
 @synthesize finish = _finish;
+@synthesize cactusSprite = _cactusSprite;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -57,29 +62,30 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
 		
-        //		// create and initialize a Label
-        //		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-        //
-		// ask director for the window size
+//		// create and initialize a Label
+//		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
+//
+// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-        //
-        //		// position the label on the center of the screen
-        //		label.position =  ccp( size.width /2 , size.height/2 );
-        //
-        //		// add the label as a child to this Layer
-        //		[self addChild: label];
-        
-        
-        //        self.backgroundLayer = [BackgroundLayer node];
-        //        [self addChild:self.backgroundLayer z:0];
-        
-        
-        //        self.background = [CCSprite spriteWithFile:@"background.png"];
-        //        self.background.position = ccp(size.width/2, size.height/2);
-        //        [self addChild:self.background];
+//
+//		// position the label on the center of the screen
+//		label.position =  ccp( size.width /2 , size.height/2 );
+//
+//		// add the label as a child to this Layer
+//		[self addChild: label];
+
+
+//        self.backgroundLayer = [BackgroundLayer node];
+//        [self addChild:self.backgroundLayer z:0];
+
+
+//        self.background = [CCSprite spriteWithFile:@"background.png"];
+//        self.background.position = ccp(size.width/2, size.height/2);
+//        [self addChild:self.background];
         
         
         stop = NO;
+        upScroll = NO;
         
         //Add finish flag and make it invisible until we need to display it
         self.finish = [CCSprite spriteWithFile:@"finish.png"];
@@ -93,7 +99,7 @@
         self.background.position = ccp(0, 0);
         [self addChild:self.background];
         
-        self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
+        self.background2 = [CCSprite spriteWithFile:@"background~ipad.png"];
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2 ];
@@ -103,6 +109,16 @@
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
+        //Create cactus
+//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"cactusTextureAtlas_default.plist"];
+//        scrollingBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"cactusTextureAtlas_default.png"];
+//        [self addChild:scrollingBatchNode];
+//        [self createCactuses];
+        
+//        self.cactusSprite = [[CCSprite alloc] initWithFile:@"cactusLeftSmall~ipad.png"];
+//        [self.cactusSprite setPosition:ccp(20.f, size.height)];
+//        [self addChild:self.cactusSprite z:0 tag:5];
+        
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
@@ -111,9 +127,31 @@
         //as long as our game is running
         [self schedule:@selector(step:)];
         
+        self.scale = .4;
+        
         [self addBackButton];
 	}
 	return self;
+}
+
+#pragma mark Create & Reset Cactuses
+
+-(void)createCactuses{
+    NSString *cactusFileName = [NSString stringWithFormat:@"cactusLeftSmall~ipad.png"];
+    CCSprite *cactusSprite = [CCSprite spriteWithSpriteFrameName:cactusFileName];
+    [scrollingBatchNode addChild:cactusSprite];
+    [self resetCactusWithNode:cactusSprite];
+}
+
+-(void)resetCactusWithNode:(id)node{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCNode *cactus = (CCNode *)node;
+    float yOffset = [cactus boundingBox].size.height / 2;
+    
+    int yPosition = screenSize.height + 1 + yOffset;
+    int xPosition = random() % 173;
+    
+    [cactus setPosition:ccp(xPosition, thing_pos.y / 2)];
 }
 
 #pragma Back to Main Menu
@@ -192,35 +230,63 @@
     if(thing_pos.y>max_y) thing_pos.y = max_y;
 	if(thing_pos.y<min_y) thing_pos.y = min_y;
     
-    //    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
-    //	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
-    
-    //	if(background2_pos.y<background2_min_y) background2_pos.y = background2_min_y;
-    
-    
-    //    if(background2_pos.x>background_max_x) background2_pos.x = background_max_x;
-    //	if(background_pos.x<background_min_x) background_pos.x = background_min_x;
-    //
-    //    if(background2_pos.y>background_max_y) background2_pos.y = background_max_y;
-    //	if(background2_pos.y<background_min_y) background2_pos.y = background_min_y;
+//    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
+//	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
+
+//	if(background2_pos.y<background2_min_y) background2_pos.y = background2_min_y;
+
+
+//    if(background2_pos.x>background_max_x) background2_pos.x = background_max_x;
+//	if(background_pos.x<background_min_x) background_pos.x = background_min_x;
+//
+//    if(background2_pos.y>background_max_y) background2_pos.y = background_max_y;
+//	if(background2_pos.y<background_min_y) background2_pos.y = background_min_y;
     
     thing_vel.x += thing_acc.x * dt;
-	thing_pos.x += thing_vel.x * dt;
+    thing_vel.y += thing_acc.y * dt;
     
-    if (background_vel.y > 0 && background2_vel.y > 0) {
+	thing_pos.x += thing_vel.x * dt;
+    thing_pos.y += thing_vel.y * dt;
+    
+//    if (background_vel.y > 0 && background2_vel.y > 0) {
         background_vel.y += background_acc.y * dt;
         background_pos.y += background_vel.y * dt;
         
         background2_vel.y += background2_acc.y * dt;
         background2_pos.y += background2_vel.y * dt;
-    }
+//    }
 	
+    //down scroll
+//    [self scrollDown];
+    if (-background_pos.y < -self.background.boundingBox.size.height) {
+        background_pos.y = -self.boundingBox.size.height;
+//        NSLog(@"Bacl: %f", background2_pos.y);
+        NSLog(@"###########");
+    }
+    
+    if (background_pos.y < 0) {
+        upScroll = YES;
+    }
+    
+    if (upScroll) {
+        background2_pos.y = self.background2.boundingBox.size.height * 2;
+        NSLog(@"Bacl: %f", background2_pos.y);
+    }
+    
+    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+        background2_pos.y = 0;
+//        NSLog(@"?????????????");
+    }
+    
     self.player.position = ccp(thing_pos.x, thing_pos.y);
     self.background.position = ccp(0, -background_pos.y);
-    self.background2.position = ccp(0, self.background.position.y + 768.0);
+    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+
     
-    //up scroll
-    [self scrollUpwards];
+//    NSLog(@"Position Y: %f", thing_pos.y);
+    if (thing_pos.y > 64.f) {
+        self.cactusSprite.position = ccp(20.f, -(thing_pos.y / 2));
+    }
 }
 
 #pragma mark Scroll Background Method
@@ -228,69 +294,77 @@
 //very dirty method to scroll the background.
 //TODO: will have to change it
 
--(void)scrollUpwards{
+-(void)scrollDown{
     
-    //the other way
-    if (self.background.position.y < -self.background.boundingBox.size.height) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
+//    NSLog(@"Background 11111111 position: %f", self.background.position.y);
+//    if (self.background.position.y < -self.background.boundingBox.size.height) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+////        NSLog(@"Background 11111111 position: %f", self.background.position.y);
+////        NSLog(@"Background 22222222 position: %f", self.background2.position.y);
+//    }
     
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+    if (self.background2.position.y < -self.background2.boundingBox.size.height) {
         self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
     }
     
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//    }
+//
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//    }
+//    
+//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+//    }
     
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
+//    if (self.background2.position.y < 0) {
+//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+//        stop = YES;
+//    }
     
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-        stop = YES;
-    }
+//    NSLog(@"Background 22222222 position: %f", self.background2.position.y);
     
     if(stop && self.background2.position.y < -768.0){
         self.background.position = ccp(0, 0);
@@ -331,7 +405,7 @@
         inclination = 3 * M_PI/2.0;
     }
     
-    NSLog(@"Accelerometer: %f", inclination);
+//    NSLog(@"Accelerometer: %f", inclination);
 }
 
 
