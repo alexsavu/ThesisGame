@@ -46,6 +46,7 @@ typedef struct {
 typedef struct {
     Message message;
     uint32_t randomNumber;
+    //uint32_t avatarNumber;
 } MessageRandomNumber;
 
 typedef struct {
