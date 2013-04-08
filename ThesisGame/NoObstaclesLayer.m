@@ -21,13 +21,11 @@
 @interface NoObstaclesLayer (){
     BOOL stop;
     BOOL upScroll;
-    NSInteger avatarInt;
     CCSpriteBatchNode *scrollingBatchNode;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
 @property (nonatomic, retain) CCSprite *finish;
 @property (nonatomic, retain) CCSprite *cactusSprite;
-@property (nonatomic, weak) NSString *avatar;
 
 - (void)step:(ccTime)dt;
 @end
@@ -89,14 +87,6 @@
         stop = NO;
         upScroll = NO;
         
-        //chosen avatar is retrieved from userDefaults
-        NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
-        avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];
-        CCLOG(@"chosenAvatar %i", avatarInt);
-        
-        [self chosenAvatar:avatarInt];
-
-        
         //Add finish flag and make it invisible until we need to display it
         self.finish = [CCSprite spriteWithFile:@"finish.png"];
         self.finish.position = ccp(size.width/2, size.height/2);
@@ -115,7 +105,7 @@
         [self addChild:self.background2 ];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
+        self.player = [[Player alloc] initWithFile:@"prototypeCharacter.png" alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
@@ -139,40 +129,35 @@
         
 //        self.scale = .4;
         
-        [self addBackToMainMenuButton];
+        [self addBackButton];
 	}
 	return self;
 }
 
-//Finds the correct .png for the chosen avatar
-- (void) chosenAvatar: (NSInteger) value {
-    //int response = [[notification object] integerValue];
-    
-    switch(value)
-    {
-        case 1:
-            self.avatar = @"Char1~ipad.png";
-            break;
-        case 2:
-            self.avatar = @"Char2~ipad.png";
-            break;
-        case 3:
-            self.avatar = @"Char3~ipad.png";
-            break;
-        case 4:
-            self.avatar = @"Char4~ipad.png";
-            break;
-        case 5:
-            self.avatar = @"Char5~ipad.png";
-            break;
-    }
+#pragma mark Create & Reset Cactuses
 
+-(void)createCactuses{
+    NSString *cactusFileName = [NSString stringWithFormat:@"cactusLeftSmall~ipad.png"];
+    CCSprite *cactusSprite = [CCSprite spriteWithSpriteFrameName:cactusFileName];
+    [scrollingBatchNode addChild:cactusSprite];
+    [self resetCactusWithNode:cactusSprite];
+}
+
+-(void)resetCactusWithNode:(id)node{
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCNode *cactus = (CCNode *)node;
+    float yOffset = [cactus boundingBox].size.height / 2;
+    
+    int yPosition = screenSize.height + 1 + yOffset;
+    int xPosition = random() % 173;
+    
+    [cactus setPosition:ccp(xPosition, thing_pos.y / 2)];
 }
 
 #pragma Back to Main Menu
 
 //Back to main menu button
-- (void)addBackToMainMenuButton{
+- (void)addBackButton{
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     CCMenuItemImage *backArrow = [CCMenuItemImage
                                   itemWithNormalImage:@"backButton.png"
