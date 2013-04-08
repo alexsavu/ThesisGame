@@ -37,11 +37,10 @@
 		3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */; };
 		3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621616E266910068DFD4 /* VikingSpeechFont64.png */; };
 		3E91621D16E27AAF0068DFD4 /* NoObstaclesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E91621C16E27AAF0068DFD4 /* NoObstaclesLayer.m */; };
-		3E9F87AA170ED4F2008ACBAA /* cactusLeftLarge~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F87A6170ED4F2008ACBAA /* cactusLeftLarge~ipad.png */; };
-		3E9F87AB170ED4F2008ACBAA /* cactusLeftSmall~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F87A7170ED4F2008ACBAA /* cactusLeftSmall~ipad.png */; };
-		3E9F87AC170ED4F2008ACBAA /* cactusRightLarge~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F87A8170ED4F2008ACBAA /* cactusRightLarge~ipad.png */; };
-		3E9F87AD170ED4F2008ACBAA /* cactusRightSmall~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F87A9170ED4F2008ACBAA /* cactusRightSmall~ipad.png */; };
+		3E9C66401710811000E6A4F1 /* cactusTextureAtlas_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C663E1710811000E6A4F1 /* cactusTextureAtlas_default.plist */; };
+		3E9C66411710811000E6A4F1 /* cactusTextureAtlas_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C663F1710811000E6A4F1 /* cactusTextureAtlas_default.png */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
+		3EAD3AEF17118AF4000AF0D2 /* cactusLeftSmall~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAD3AEE17118AF4000AF0D2 /* cactusLeftSmall~ipad.png */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
 		3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD716B18277006F740A /* OpenAL.framework */; };
@@ -227,16 +226,15 @@
 		3E91621616E266910068DFD4 /* VikingSpeechFont64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VikingSpeechFont64.png; sourceTree = "<group>"; };
 		3E91621B16E27AAF0068DFD4 /* NoObstaclesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoObstaclesLayer.h; sourceTree = "<group>"; };
 		3E91621C16E27AAF0068DFD4 /* NoObstaclesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoObstaclesLayer.m; sourceTree = "<group>"; };
-		3E9F87A6170ED4F2008ACBAA /* cactusLeftLarge~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cactusLeftLarge~ipad.png"; sourceTree = "<group>"; };
-		3E9F87A7170ED4F2008ACBAA /* cactusLeftSmall~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cactusLeftSmall~ipad.png"; sourceTree = "<group>"; };
-		3E9F87A8170ED4F2008ACBAA /* cactusRightLarge~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cactusRightLarge~ipad.png"; sourceTree = "<group>"; };
-		3E9F87A9170ED4F2008ACBAA /* cactusRightSmall~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cactusRightSmall~ipad.png"; sourceTree = "<group>"; };
+		3E9C663E1710811000E6A4F1 /* cactusTextureAtlas_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cactusTextureAtlas_default.plist; sourceTree = "<group>"; };
+		3E9C663F1710811000E6A4F1 /* cactusTextureAtlas_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cactusTextureAtlas_default.png; sourceTree = "<group>"; };
 		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		3EA4CC3A16BC44E9002F9B10 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		3EA4CC3B16BC44E9002F9B10 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		3EA4CC3F16BD2516002F9B10 /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
 		3EA4CC4016BD2D43002F9B10 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCHelper.h; sourceTree = "<group>"; };
 		3EA4CC4116BD2D43002F9B10 /* GCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCHelper.m; sourceTree = "<group>"; };
+		3EAD3AEE17118AF4000AF0D2 /* cactusLeftSmall~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cactusLeftSmall~ipad.png"; sourceTree = "<group>"; };
 		3ECACACF16B18277006F740A /* ThesisGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThesisGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECACAD316B18277006F740A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3ECACAD516B18277006F740A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -655,15 +653,22 @@
 			name = Scene2;
 			sourceTree = "<group>";
 		};
-		3E9F879D170DB58E008ACBAA /* Side cactuses */ = {
+		3E9C6634171078D800E6A4F1 /* Cactuses */ = {
 			isa = PBXGroup;
 			children = (
-				3E9F87A6170ED4F2008ACBAA /* cactusLeftLarge~ipad.png */,
-				3E9F87A7170ED4F2008ACBAA /* cactusLeftSmall~ipad.png */,
-				3E9F87A8170ED4F2008ACBAA /* cactusRightLarge~ipad.png */,
-				3E9F87A9170ED4F2008ACBAA /* cactusRightSmall~ipad.png */,
+				3EAD3AEE17118AF4000AF0D2 /* cactusLeftSmall~ipad.png */,
+				3E9C66351710790200E6A4F1 /* Texture Atlas */,
 			);
-			name = "Side cactuses";
+			name = Cactuses;
+			sourceTree = "<group>";
+		};
+		3E9C66351710790200E6A4F1 /* Texture Atlas */ = {
+			isa = PBXGroup;
+			children = (
+				3E9C663E1710811000E6A4F1 /* cactusTextureAtlas_default.plist */,
+				3E9C663F1710811000E6A4F1 /* cactusTextureAtlas_default.png */,
+			);
+			name = "Texture Atlas";
 			sourceTree = "<group>";
 		};
 		3ECACAC416B18277006F740A = {
@@ -722,7 +727,7 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3E9F879D170DB58E008ACBAA /* Side cactuses */,
+				3E9C6634171078D800E6A4F1 /* Cactuses */,
 				3EF4B72216E7C23A00E64996 /* Characters */,
 				3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */,
 				3EF4B72516E7C67B00E64996 /* finish~ipad.png */,
@@ -1235,10 +1240,9 @@
 				3EF4B72816E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png in Resources */,
 				3EF4B72F16E7E4D300E64996 /* magneto.fnt in Resources */,
 				3EF4B73016E7E4D300E64996 /* magneto.png in Resources */,
-				3E9F87AA170ED4F2008ACBAA /* cactusLeftLarge~ipad.png in Resources */,
-				3E9F87AB170ED4F2008ACBAA /* cactusLeftSmall~ipad.png in Resources */,
-				3E9F87AC170ED4F2008ACBAA /* cactusRightLarge~ipad.png in Resources */,
-				3E9F87AD170ED4F2008ACBAA /* cactusRightSmall~ipad.png in Resources */,
+				3E9C66401710811000E6A4F1 /* cactusTextureAtlas_default.plist in Resources */,
+				3E9C66411710811000E6A4F1 /* cactusTextureAtlas_default.png in Resources */,
+				3EAD3AEF17118AF4000AF0D2 /* cactusLeftSmall~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

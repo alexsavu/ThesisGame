@@ -78,6 +78,10 @@ typedef struct {
     CGPoint background2_pos;
     CGPoint background2_vel;
     CGPoint background2_acc;
+    //Cactus
+    CGPoint cactus_pos;
+    CGPoint cactus_vel;
+    CGPoint cactus_acc;
     //Multiplayer
     uint32_t ourRandom;
     BOOL receivedRandom;
