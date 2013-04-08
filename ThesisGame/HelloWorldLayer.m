@@ -26,12 +26,21 @@
 #define MIN_COURSE_X 173.0
 #define MAX_COURSE_X 858.0
 
+#define CACTUS_LEFT_SMALL_SIZE_X 40.f
+#define CACTUS_LEFT_BIG_SIZE_Y 64.f
+
 @interface HelloWorldLayer (){
     BOOL stop;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
 @property (nonatomic, retain) CCSprite *finish;
+
+//Cactuses on the sides
+@property (nonatomic, strong) CCSprite * smallCactusLeft;
+@property (nonatomic, strong) CCSprite * bigCactusLeft;
+@property (nonatomic, strong) CCSprite * smallCactusRight;
+@property (nonatomic, strong) CCSprite * bigCactusRight;
 
 - (void)step:(ccTime)dt;
 
@@ -48,6 +57,12 @@
 @synthesize obstacle = _obstacle;
 @synthesize backToMainMenu = _backToMainMenu;
 @synthesize finish = _finish;
+
+//Cactuses on the sides
+@synthesize smallCactusLeft = _smallCactusLeft;
+@synthesize bigCactusLeft = _bigCactusLeft;
+@synthesize smallCactusRight = _smallCactusRight;
+@synthesize bigCactusRight = _bigCactusRight;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -120,6 +135,15 @@
         self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
+        
+        //Add Left side cactuses
+        self.smallCactusLeft = [[CCSprite alloc] initWithFile:@"cactusLeftSmall~ipad.png"];
+        [self.smallCactusLeft setPosition:ccp(CACTUS_LEFT_SMALL_SIZE_X + 10.f, 40.f)];
+        [self addChild:self.smallCactusLeft z:0 tag:5];
+        
+        self.bigCactusLeft = [[CCSprite alloc] initWithFile:@"cactusLeftLarge~ipad.png"];
+        [self.bigCactusLeft setPosition:ccp(CACTUS_LEFT_SMALL_SIZE_X + 20.f, CACTUS_LEFT_BIG_SIZE_Y * 2 + 30.f)];
+        [self addChild:self.bigCactusLeft z:0 tag:6];
         
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
