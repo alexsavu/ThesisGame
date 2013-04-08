@@ -127,7 +127,7 @@
         //as long as our game is running
         [self schedule:@selector(step:)];
         
-        self.scale = .4;
+//        self.scale = .4;
         
         [self addBackButton];
 	}
@@ -264,18 +264,19 @@
         NSLog(@"###########");
     }
     
-    if (background_pos.y < 0) {
-        upScroll = YES;
-    }
-    
-    if (upScroll) {
-        background2_pos.y = self.background2.boundingBox.size.height * 2;
-        NSLog(@"Bacl: %f", background2_pos.y);
-    }
-    
     if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
         background2_pos.y = 0;
 //        NSLog(@"?????????????");
+    }
+    
+    //backwards scrolling
+    if (self.background2.position.y > self.background.boundingBox.size.height) {
+        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+        NSLog(@"????????????????");
+    }
+
+    if (self.background.position.y > self.background.boundingBox.size.height) {
+        background_pos.y = self.background.boundingBox.size.height;
     }
     
     self.player.position = ccp(thing_pos.x, thing_pos.y);
