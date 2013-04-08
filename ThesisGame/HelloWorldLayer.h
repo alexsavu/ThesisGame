@@ -19,6 +19,7 @@
 typedef enum {
     kGameStateWaitingForMatch = 0,
     kGameStateWaitingForRandomNumber,
+    kGameStateWaitingForAvatarNumber,
     kGameStateWaitingForStart,
     kGameStateActive,
     kGameStateDone
@@ -32,6 +33,7 @@ typedef enum {
 
 typedef enum {
     kMessageTypeRandomNumber = 0,
+    kMessageTypeAvatarNumber,
     kMessageTypeGameBegin,
     kMessageTypeMove,
     kMessageTypeGameOver
@@ -45,6 +47,11 @@ typedef struct {
     Message message;
     uint32_t randomNumber;
 } MessageRandomNumber;
+
+typedef struct {
+    Message message;
+    uint32_t avatarNumber;
+}MessageAvatarNumber;
 
 typedef struct {
     Message message;
@@ -85,6 +92,7 @@ typedef struct {
     //Multiplayer
     uint32_t ourRandom;
     BOOL receivedRandom;
+    BOOL receivedAvatar;
     NSString *otherPlayerID;
     BOOL isPlayer1;
     GameState gameState;
