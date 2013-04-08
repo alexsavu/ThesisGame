@@ -10,6 +10,7 @@
 
 #define kMainMenuTagValue 10
 #define kSceneMenuTagValue 20
+#define kAvatarMenuTagValue 30
 
 typedef enum {
     kNoSceneUninitialized=0,
@@ -18,6 +19,7 @@ typedef enum {
     kCreditsScene=3,
     kIntroScene=4,
     kLevelCompleteScene=5,
+    kAvatarMenuScene=6,
     kGameLevel1=101,
     kGameLevel2=102,
     kGameLevel3=103,
