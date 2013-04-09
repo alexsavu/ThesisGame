@@ -432,7 +432,7 @@
     thing_vel.y += thing_acc.y * dt;
     
 	thing_pos.x += thing_vel.x * dt;
-//    thing_pos.y += thing_vel.y * dt;
+    thing_pos.y += thing_vel.y * dt;
     
     //Player 2-------
     
@@ -465,7 +465,10 @@
 	if(thing2_pos.x<min2_x) thing2_pos.x = min2_x;
     
     thing2_vel.x += thing2_acc.x * dt;
+    thing2_vel.y += thing2_acc.y * dt;
+    
 	thing2_pos.x += thing2_vel.x * dt;
+    thing2_pos.y += thing2_vel.y * dt;
     
     //-------
     
@@ -733,8 +736,8 @@
     } else if (gameState == kGameStateWaitingForRandomNumber) {
         //        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
-    } else if (gameState == kGameStateWaitingForAvatarNumber) {
-        CCLOG(@"Waiting for avatar #");
+//    } else if (gameState == kGameStateWaitingForAvatarNumber) {
+//        CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
         //        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
@@ -767,18 +770,26 @@
 
 - (void)matchStarted {
     CCLOG(@"Match started");
+//    if (receivedRandom) {
+//        if(receivedAvatar){
+//            [self setGameState:kGameStateWaitingForStart];
+//        }
+//        else {
+//            [self setGameState:kGameStateWaitingForAvatarNumber];
+//        }
+//    } else {
+//        [self setGameState:kGameStateWaitingForRandomNumber];
+//    }
+//    [self sendRandomNumber];
+//    [self sendAvatarNumber];
+//    [self tryStartGame];
+    
     if (receivedRandom) {
-        if(receivedAvatar){
-            [self setGameState:kGameStateWaitingForStart];
-        }
-        else {
-            [self setGameState:kGameStateWaitingForAvatarNumber];
-        }
+        [self setGameState:kGameStateWaitingForStart];
     } else {
         [self setGameState:kGameStateWaitingForRandomNumber];
     }
     [self sendRandomNumber];
-    [self sendAvatarNumber];
     [self tryStartGame];
 }
 
@@ -909,7 +920,7 @@
         CGPoint *player1Position;
         CGPoint *player2Position;
         
-        NSLog(@"Player 1 pooooooooo: %@", data);
+//        NSLog(@"Player 1 pooooooooo: %@", data);
         
         NSUInteger length = [data length];
         NSUInteger chunkSize = sizeof(player1Position);
@@ -925,20 +936,19 @@
             if (offset == 8) {
                 player1Position = (CGPoint *)[chunk bytes];
             }
-            if (offset == 12) {
+            if (offset == 16) {
                 player2Position = (CGPoint *)[chunk bytes];
             }
             NSLog(@"Offsettttttttttt: %i", offset);
         } while (offset < length);
         
         if (isPlayer1) {
-            self.player2.position = ccp(player2Position->y, player2Position->x);
-//            NSLog(@"Position received player 2: %f", player2Position.y);
-//            [player2 moveForward];
+            self.player2.position = ccp(player2Position->x, player2Position->y);
+            NSLog(@"Position received player 2: %f", player2Position->y);
         } else {
 //            [player1 moveForward];
             self.player1.position = ccp(player1Position->x, player1Position->y);
-//             NSLog(@"Position received player 1: %f", player1Position->y);
+             NSLog(@"Position received player 1: %f", player1Position->y);
 //            NSLog(@"Position received player 1: %f", thing_pos.x);
         }
     } else if (message->messageType == kMessageTypeGameOver) {
