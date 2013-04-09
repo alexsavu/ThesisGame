@@ -21,7 +21,8 @@ typedef enum {
     kGameStateWaitingForRandomNumber,
     kGameStateWaitingForStart,
     kGameStateActive,
-    kGameStateDone
+    kGameStateDone,
+    kGameStateWaitingForAvatarNumber
 } GameState;
 
 typedef enum {
@@ -34,7 +35,8 @@ typedef enum {
     kMessageTypeRandomNumber = 0,
     kMessageTypeGameBegin,
     kMessageTypeMove,
-    kMessageTypeGameOver
+    kMessageTypeGameOver,
+    kMessageTypeAvatarNumber
 } MessageType;
 
 typedef struct {
@@ -58,6 +60,11 @@ typedef struct {
     Message message;
     BOOL player1Won;
 } MessageGameOver;
+
+typedef struct {
+    Message message;
+    uint32_t avatarNumber;
+}MessageAvatarNumber;
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate>
@@ -85,6 +92,7 @@ typedef struct {
     //Multiplayer
     uint32_t ourRandom;
     BOOL receivedRandom;
+    BOOL receivedAvatar;
     NSString *otherPlayerID;
     BOOL isPlayer1;
     GameState gameState;

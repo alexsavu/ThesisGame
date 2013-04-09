@@ -15,5 +15,6 @@
 
 @property (nonatomic, strong) CCMenu *mainMenu;
 @property (nonatomic, strong) CCMenu *sceneSelectMenu;
+@property (nonatomic, strong) CCMenu *avatarMenu;
 
 @end

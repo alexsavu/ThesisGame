@@ -61,28 +61,9 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
-		
-//		// create and initialize a Label
-//		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-//
-// ask director for the window size
+
+        // ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-//
-//		// position the label on the center of the screen
-//		label.position =  ccp( size.width /2 , size.height/2 );
-//
-//		// add the label as a child to this Layer
-//		[self addChild: label];
-
-
-//        self.backgroundLayer = [BackgroundLayer node];
-//        [self addChild:self.backgroundLayer z:0];
-
-
-//        self.background = [CCSprite spriteWithFile:@"background.png"];
-//        self.background.position = ccp(size.width/2, size.height/2);
-//        [self addChild:self.background];
-        
         
         stop = NO;
         upScroll = NO;
@@ -109,16 +90,6 @@
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
-        //Create cactus
-//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"cactusTextureAtlas_default.plist"];
-//        scrollingBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"cactusTextureAtlas_default.png"];
-//        [self addChild:scrollingBatchNode];
-//        [self createCactuses];
-        
-//        self.cactusSprite = [[CCSprite alloc] initWithFile:@"cactusLeftSmall~ipad.png"];
-//        [self.cactusSprite setPosition:ccp(20.f, size.height)];
-//        [self addChild:self.cactusSprite z:0 tag:5];
-        
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
@@ -127,31 +98,11 @@
         //as long as our game is running
         [self schedule:@selector(step:)];
         
-//        self.scale = .4;
-        
         [self addBackButton];
+        
+//        self.scale = .4;
 	}
 	return self;
-}
-
-#pragma mark Create & Reset Cactuses
-
--(void)createCactuses{
-    NSString *cactusFileName = [NSString stringWithFormat:@"cactusLeftSmall~ipad.png"];
-    CCSprite *cactusSprite = [CCSprite spriteWithSpriteFrameName:cactusFileName];
-    [scrollingBatchNode addChild:cactusSprite];
-    [self resetCactusWithNode:cactusSprite];
-}
-
--(void)resetCactusWithNode:(id)node{
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCNode *cactus = (CCNode *)node;
-    float yOffset = [cactus boundingBox].size.height / 2;
-    
-    int yPosition = screenSize.height + 1 + yOffset;
-    int xPosition = random() % 173;
-    
-    [cactus setPosition:ccp(xPosition, thing_pos.y / 2)];
 }
 
 #pragma Back to Main Menu
@@ -200,6 +151,8 @@
 	float background_min_y = 0;
     
     float background2_min_y = 0;
+    
+    CGSize size = [[CCDirector sharedDirector] winSize];
     
     if(IDIOM == IPAD) {
         //Device is ipad
@@ -255,18 +208,29 @@
         background2_vel.y += background2_acc.y * dt;
         background2_pos.y += background2_vel.y * dt;
 //    }
-	
+    if (thing_pos.y > size.height / 2) {
+        [self reorderBackgrounds];
+        self.background.position = ccp(0, -background_pos.y);
+        self.background2.position = ccp(0, -background2_pos.y);
+    }
+    NSLog(@"Screen size height / 2: %f", size.height/2);
+    NSLog(@"Position Y: %f", thing_pos.y);
+    
+    self.player.position = ccp(thing_pos.x, thing_pos.y);
+//    self.background.position = ccp(0, -background_pos.y);
+//    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+}
+
+#pragma mark Rearrange Background Method
+
+-(void)reorderBackgrounds{
     //down scroll
-//    [self scrollDown];
     if (-background_pos.y < -self.background.boundingBox.size.height) {
         background_pos.y = -self.boundingBox.size.height;
-//        NSLog(@"Bacl: %f", background2_pos.y);
-        NSLog(@"###########");
     }
     
     if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
         background2_pos.y = 0;
-//        NSLog(@"?????????????");
     }
     
     //backwards scrolling
@@ -274,23 +238,11 @@
         background2_pos.y = self.background.boundingBox.size.height * 2.f;
         NSLog(@"????????????????");
     }
-
+    
     if (self.background.position.y > self.background.boundingBox.size.height) {
         background_pos.y = self.background.boundingBox.size.height;
     }
-    
-    self.player.position = ccp(thing_pos.x, thing_pos.y);
-    self.background.position = ccp(0, -background_pos.y);
-    self.background2.position = ccp(0, -background2_pos.y + 768.0);
-
-    
-//    NSLog(@"Position Y: %f", thing_pos.y);
-    if (thing_pos.y > 64.f) {
-        self.cactusSprite.position = ccp(20.f, -(thing_pos.y / 2));
-    }
 }
-
-#pragma mark Scroll Background Method
 
 //very dirty method to scroll the background.
 //TODO: will have to change it

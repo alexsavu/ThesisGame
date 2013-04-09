@@ -10,6 +10,7 @@
 
 #define kMainMenuTagValue 10
 #define kSceneMenuTagValue 20
+#define kAvatarMenuTagValue 30
 
 typedef enum {
     kNoSceneUninitialized=0,

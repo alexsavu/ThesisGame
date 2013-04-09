@@ -28,13 +28,14 @@
 
 @interface HelloWorldLayer (){
     BOOL stop;
+    NSInteger avatarInt;
     CCSpriteBatchNode *scrollingBatchNode;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
 @property (nonatomic, retain) CCSprite *finish;
-
-@property (nonatomic, retain) CCSprite *cactusSprite;
+@property (nonatomic, weak) NSString *avatar;
+@property (nonatomic, weak) NSString *otherAvatar;
 
 - (void)step:(ccTime)dt;
 
@@ -51,8 +52,9 @@
 @synthesize obstacle = _obstacle;
 @synthesize backToMainMenu = _backToMainMenu;
 @synthesize finish = _finish;
+@synthesize avatar = _avatar;
+@synthesize otherAvatar = _otherAvatar;
 
-@synthesize cactusSprite = _cactusSprite;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -100,6 +102,15 @@
         
         stop = NO;
         
+        //chosen avatar is retrieved from userDefaults
+        NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
+        avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];
+        CCLOG(@"chosenAvatar %i", avatarInt);
+        
+        self.avatar = [self chosenAvatar:avatarInt];
+        
+        CCLOG(@"avatar chosen is: %@", self.avatar);
+        
         //Add finish flag and make it invisible until we need to display it
         self.finish = [CCSprite spriteWithFile:@"finish.png"];
         self.finish.position = ccp(size.width/2, size.height/2);
@@ -117,20 +128,32 @@
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2 z:0 tag:2];
         
+//        //Add the player character. It has it's own class derived from GameCharacter
+//        self.player1 = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
+//        [self.player1 setPosition:ccp(size.height/2, size.width/2)];
+//        [self addChild:self.player1 z:0 tag:3];
+//        
+//        self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+//        [self.player2 setPosition:ccp(size.height/2, size.width/2)];
+//        [self addChild:self.player2 z:0 tag:4];
+        
+        
+        //Alternative player sprite allocation with unique avatar
+        
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player1 = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
+        //self.avatar is set by player's choice.
+        self.player1 = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
+        //self.player1 = [Player alloc];
         [self.player1 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player1 z:0 tag:3];
+        //self.player1.id = 1
         
+        //TODO: The avatar information here should come with a message from the other player in a multipl. setting.
+        //TODO: Make sure to update avatars for both players once match is started.
         self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+        //self.player2 = [Player alloc];
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
-        
-        //Create cactus
-//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"cactusAtlas.plist"];
-//        scrollingBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"cactusAtlas.png"];
-//        [self addChild:scrollingBatchNode];
-//        [self createCactuses];
         
         
         //The method that gets called to find a match between 2 players
@@ -155,23 +178,36 @@
 	return self;
 }
 
-#pragma mark Create & Reset Cactuses
+#pragma mark Choose Avatar based on number
 
--(void)createCactuses{
-    NSString *cactusFileName = [NSString stringWithFormat:@"cactusLeftSmall~ipad.png"];
-    CCSprite *cactusSprite = [CCSprite spriteWithSpriteFrameName:cactusFileName];
-    [self resetCactusWithNode:cactusSprite];
-}
-
--(void)resetCactusWithNode:(id)node{
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCNode *cactus = (CCNode *)node;
-    float yOffset = [cactus boundingBox].size.height / 2;
+//Finds the correct .png for the chosen avatar, returns .png location in NSString form.
+- (NSString*) chosenAvatar: (NSInteger) value {
+    NSString *avatarString = [[NSString alloc] init];
+    switch(value)
+    {
+        case 1:
+            //self.avatar = @"Char1~ipad.png";
+            avatarString = @"Char1~ipad.png";
+            break;
+        case 2:
+            //self.avatar = @"Char2~ipad.png";
+            avatarString = @"Char2~ipad.png";
+            break;
+        case 3:
+            //self.avatar = @"Char3~ipad.png";
+            avatarString = @"Char3~ipad.png";
+            break;
+        case 4:
+            //self.avatar = @"Char4~ipad.png";
+            avatarString = @"Char4~ipad.png";
+            break;
+        case 5:
+            //self.avatar = @"Char5~ipad.png";
+            avatarString = @"Char5~ipad.png";
+            break;
+    }
     
-    int yPosition = screenSize.height + 1 + yOffset;
-    int xPosition = random() % 173;
-    
-    [cactus setPosition:ccp(xPosition, thing_pos.y)];
+    return avatarString;
 }
 
 #pragma Back to Main Menu
@@ -240,6 +276,23 @@
     message.randomNumber = ourRandom;
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageRandomNumber)];
     [self sendData:data];
+}
+
+//Send avatar number
+- (void)sendAvatarNumber {
+    MessageAvatarNumber message;
+    message.message.messageType = kMessageTypeAvatarNumber;
+    message.avatarNumber = avatarInt;
+    
+    NSData *avatarData = [NSData dataWithBytes:&message length:sizeof(MessageAvatarNumber)];
+    [self sendData:avatarData];
+    
+    /*
+     if(_player1)
+     message.playerNo = 1;
+     else
+     message.playerNo = 2;
+     */
 }
 
 - (void)sendGameBegin {
@@ -427,10 +480,10 @@
     
     if (isPlayer1) {
         self.player1.position = ccp(thing_pos.x, thing_pos.y);
-        NSLog(@"Position player 1: %f", thing_pos.x);
+//        NSLog(@"Position player 1: %f", thing_pos.x);
     }else{
         self.player2.position = ccp(thing2_pos.x, thing2_pos.y);
-        NSLog(@"Position player 2: %f", thing2_pos.x);
+//        NSLog(@"Position player 2: %f", thing2_pos.x);
     }
     
     if (gameState != kGameStateActive) return;
@@ -675,23 +728,26 @@
     
     gameState = state;
     if (gameState == kGameStateWaitingForMatch) {
-//        [debugLabel setString:@"Waiting for match"];
+        //        [debugLabel setString:@"Waiting for match"];
         CCLOG(@"Waiting for match");
     } else if (gameState == kGameStateWaitingForRandomNumber) {
-//        [debugLabel setString:@"Waiting for rand #"];
+        //        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
+    } else if (gameState == kGameStateWaitingForAvatarNumber) {
+        CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
-//        [debugLabel setString:@"Waiting for start"];
+        //        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
     } else if (gameState == kGameStateActive) {
-//        [debugLabel setString:@"Active"];
+        //        [debugLabel setString:@"Active"];
         CCLOG(@"Active");
     } else if (gameState == kGameStateDone) {
-//        [debugLabel setString:@"Done"];
+        //        [debugLabel setString:@"Done"];
         CCLOG(@"Done");
     }
     
 }
+
 
 #pragma mark GameKit delegate
 
@@ -712,11 +768,17 @@
 - (void)matchStarted {
     CCLOG(@"Match started");
     if (receivedRandom) {
-        [self setGameState:kGameStateWaitingForStart];
+        if(receivedAvatar){
+            [self setGameState:kGameStateWaitingForStart];
+        }
+        else {
+            [self setGameState:kGameStateWaitingForAvatarNumber];
+        }
     } else {
         [self setGameState:kGameStateWaitingForRandomNumber];
     }
     [self sendRandomNumber];
+    [self sendAvatarNumber];
     [self tryStartGame];
 }
 
@@ -762,6 +824,76 @@
             }
             [self tryStartGame];
         }
+     
+//        //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
+//        //the 'other' player is given a random one that is different from the local player's.
+//    } else if (message->messageType == kMessageTypeAvatarNumber){
+//        MessageAvatarNumber * messageInit = (MessageAvatarNumber *) [data bytes];
+//        CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
+//        bool sameAvatar = false;
+//        
+//        if(messageInit->avatarNumber == avatarInt){
+//            CCLOG(@"Same avatar!");
+//            sameAvatar = true;
+//        }
+//        else{
+//            CCLOG(@"Different avatars!");
+//        }
+//        if(isPlayer1){
+//            if(!sameAvatar){
+////                self.player1 = [Player spriteWithFile:self.avatar];
+//                
+//                //[self.player1 setTexture: ]
+//                //self.player1 = [CCSprite spriteWithFile:self.avatar];
+//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player2 = [Player spriteWithFile:self.otherAvatar];
+//                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
+//            }
+//            else{
+//                self.player1 = [Player spriteWithFile:self.avatar];
+//                //self.player1 = [CCSprite spriteWithFile:self.avatar];
+//                NSInteger num;
+//                do {
+//                    num = (arc4random() % 5) + 1;
+//                }
+//                while (num==avatarInt);
+//                self.otherAvatar = [self chosenAvatar:num];
+//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player2 = [Player spriteWithFile:self.otherAvatar];
+//                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
+//            }
+//            
+//        }
+//        else{
+//            if(!sameAvatar){
+////                self.player2 = [Player spriteWithFile:self.avatar];
+//                //self.player2 = [CCSprite spriteWithFile:self.avatar];
+//                
+//                //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
+//                //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
+//                //self.player2 = [initWithFile: self.avatar];
+//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player1 = [Player spriteWithFile:self.otherAvatar];
+//                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
+//                
+//            }
+//            else{
+//                self.player2 = [Player spriteWithFile:self.avatar];
+//                //self.player2 = [CCSprite spriteWithFile:self.avatar];
+//                NSInteger num;
+//                do {
+//                    num = (arc4random() % 5) + 1;
+//                }
+//                while (num==avatarInt);
+//                self.otherAvatar = [self chosenAvatar:num];
+//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player1 = [Player spriteWithFile:self.otherAvatar];
+//                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
+//            }
+//        }
+
         
     } else if (message->messageType == kMessageTypeGameBegin) {
         
