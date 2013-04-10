@@ -465,7 +465,10 @@
 	if(thing2_pos.x<min2_x) thing2_pos.x = min2_x;
     
     thing2_vel.x += thing2_acc.x * dt;
+    thing2_vel.y += thing2_acc.y * dt;
+    
 	thing2_pos.x += thing2_vel.x * dt;
+    thing2_pos.y += thing2_vel.y * dt;
     
     //-------
     
@@ -493,33 +496,10 @@
     self.background2.position = ccp(0, self.background.position.y + 768.0);
     
     //up scroll
-//    [self scrollUpwards];
+    [self scrollUpwards];
     
     //collision method
     [self checkForCollision];
-}
-
-#pragma mark Rearrange Background Method
-
--(void)reorderBackgrounds{
-    //down scroll
-    if (-background_pos.y < -self.background.boundingBox.size.height) {
-        background_pos.y = -self.boundingBox.size.height;
-    }
-    
-    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
-        background2_pos.y = 0;
-    }
-    
-    //backwards scrolling
-    if (self.background2.position.y > self.background.boundingBox.size.height) {
-        background2_pos.y = self.background.boundingBox.size.height * 2.f;
-        NSLog(@"????????????????");
-    }
-    
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        background_pos.y = self.background.boundingBox.size.height;
-    }
 }
 
 #pragma mark Collision Detection
@@ -804,7 +784,6 @@
 //    [self sendAvatarNumber];
 //    [self tryStartGame];
     
-    
     if (receivedRandom) {
         [self setGameState:kGameStateWaitingForStart];
     } else {
@@ -941,7 +920,7 @@
         CGPoint *player1Position;
         CGPoint *player2Position;
         
-        NSLog(@"Player 1 pooooooooo: %@", data);
+//        NSLog(@"Player 1 pooooooooo: %@", data);
         
         NSUInteger length = [data length];
         NSUInteger chunkSize = sizeof(player1Position);
@@ -957,20 +936,19 @@
             if (offset == 8) {
                 player1Position = (CGPoint *)[chunk bytes];
             }
-            if (offset == 12) {
+            if (offset == 16) {
                 player2Position = (CGPoint *)[chunk bytes];
             }
             NSLog(@"Offsettttttttttt: %i", offset);
         } while (offset < length);
         
         if (isPlayer1) {
-            self.player2.position = ccp(player2Position->y, player2Position->x);
-//            NSLog(@"Position received player 2: %f", player2Position.y);
-//            [player2 moveForward];
+            self.player2.position = ccp(player2Position->x, player2Position->y);
+            NSLog(@"Position received player 2: %f", player2Position->y);
         } else {
 //            [player1 moveForward];
             self.player1.position = ccp(player1Position->x, player1Position->y);
-//             NSLog(@"Position received player 1: %f", player1Position->y);
+             NSLog(@"Position received player 1: %f", player1Position->y);
 //            NSLog(@"Position received player 1: %f", thing_pos.x);
         }
     } else if (message->messageType == kMessageTypeGameOver) {
