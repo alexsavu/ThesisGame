@@ -209,16 +209,16 @@
         background2_pos.y += background2_vel.y * dt;
 //    }
     if (thing_pos.y > size.height / 2) {
-        [self reorderBackgrounds];
-        self.background.position = ccp(0, -background_pos.y);
-        self.background2.position = ccp(0, -background2_pos.y);
+        thing_pos.y = size.height / 2;
     }
     NSLog(@"Screen size height / 2: %f", size.height/2);
     NSLog(@"Position Y: %f", thing_pos.y);
     
+    [self reorderBackgrounds];
+    
     self.player.position = ccp(thing_pos.x, thing_pos.y);
-//    self.background.position = ccp(0, -background_pos.y);
-//    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+    self.background.position = ccp(0, -background_pos.y);
+    self.background2.position = ccp(0, -background2_pos.y + 768.0);
 }
 
 #pragma mark Rearrange Background Method

@@ -432,7 +432,7 @@
     thing_vel.y += thing_acc.y * dt;
     
 	thing_pos.x += thing_vel.x * dt;
-//    thing_pos.y += thing_vel.y * dt;
+    thing_pos.y += thing_vel.y * dt;
     
     //Player 2-------
     
@@ -493,10 +493,33 @@
     self.background2.position = ccp(0, self.background.position.y + 768.0);
     
     //up scroll
-    [self scrollUpwards];
+//    [self scrollUpwards];
     
     //collision method
     [self checkForCollision];
+}
+
+#pragma mark Rearrange Background Method
+
+-(void)reorderBackgrounds{
+    //down scroll
+    if (-background_pos.y < -self.background.boundingBox.size.height) {
+        background_pos.y = -self.boundingBox.size.height;
+    }
+    
+    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+        background2_pos.y = 0;
+    }
+    
+    //backwards scrolling
+    if (self.background2.position.y > self.background.boundingBox.size.height) {
+        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+        NSLog(@"????????????????");
+    }
+    
+    if (self.background.position.y > self.background.boundingBox.size.height) {
+        background_pos.y = self.background.boundingBox.size.height;
+    }
 }
 
 #pragma mark Collision Detection
@@ -733,8 +756,8 @@
     } else if (gameState == kGameStateWaitingForRandomNumber) {
         //        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
-    } else if (gameState == kGameStateWaitingForAvatarNumber) {
-        CCLOG(@"Waiting for avatar #");
+//    } else if (gameState == kGameStateWaitingForAvatarNumber) {
+//        CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
         //        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
@@ -767,18 +790,27 @@
 
 - (void)matchStarted {
     CCLOG(@"Match started");
+//    if (receivedRandom) {
+//        if(receivedAvatar){
+//            [self setGameState:kGameStateWaitingForStart];
+//        }
+//        else {
+//            [self setGameState:kGameStateWaitingForAvatarNumber];
+//        }
+//    } else {
+//        [self setGameState:kGameStateWaitingForRandomNumber];
+//    }
+//    [self sendRandomNumber];
+//    [self sendAvatarNumber];
+//    [self tryStartGame];
+    
+    
     if (receivedRandom) {
-        if(receivedAvatar){
-            [self setGameState:kGameStateWaitingForStart];
-        }
-        else {
-            [self setGameState:kGameStateWaitingForAvatarNumber];
-        }
+        [self setGameState:kGameStateWaitingForStart];
     } else {
         [self setGameState:kGameStateWaitingForRandomNumber];
     }
     [self sendRandomNumber];
-    [self sendAvatarNumber];
     [self tryStartGame];
 }
 
