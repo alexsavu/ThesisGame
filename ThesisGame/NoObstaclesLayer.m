@@ -225,22 +225,22 @@
 
 -(void)reorderBackgrounds{
     //down scroll
-    if (-background_pos.y < -self.background.boundingBox.size.height) {
-        background_pos.y = -self.boundingBox.size.height;
+    if (-background_pos.y < -768.0) {
+        background_pos.y = -768.0;
     }
     
-    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+    if (-background2_pos.y + 768.0 < -768.0) {
         background2_pos.y = 0;
     }
     
     //backwards scrolling
-    if (self.background2.position.y > self.background.boundingBox.size.height) {
-        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+    if (self.background2.position.y > 768.0) {
+        background2_pos.y = 768.0 * 2.f;
         NSLog(@"????????????????");
     }
     
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        background_pos.y = self.background.boundingBox.size.height;
+    if (self.background.position.y > 768.0) {
+        background_pos.y = 768.0;
     }
 }
 

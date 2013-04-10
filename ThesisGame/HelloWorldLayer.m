@@ -150,7 +150,7 @@
         
         //TODO: The avatar information here should come with a message from the other player in a multipl. setting.
         //TODO: Make sure to update avatars for both players once match is started.
-        self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
+        self.player2 = [[Player alloc] initWithFile:@"Char1~ipad.png" alphaThreshold:0];
         //self.player2 = [Player alloc];
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
@@ -256,12 +256,27 @@
     }
 }
 
+//Method that actually sends players position data
 - (void)sendData:(NSData *)data withPlayer1Position:(NSData *)player1Position andPlayer2Position:(NSData *)player2Position {
     NSError *error;
     NSMutableData *appendedData = [[NSMutableData alloc] init];
     [appendedData appendData:data];
     [appendedData appendData:player1Position];
     [appendedData appendData:player2Position];
+    BOOL success = [[GCHelper sharedInstance].match sendDataToAllPlayers:appendedData withDataMode:GKMatchSendDataReliable error:&error];
+    if (!success) {
+        CCLOG(@"Error sending init packet");
+        [self matchEnded];
+    }
+}
+
+//Method that actually sends background position and velocity
+-(void)sendData:(NSData *)data withBackgroundPosition:(NSData *)backgroundPosition andBackgroundVelocity:(NSData *)backgroundVelocity{
+    NSError *error;
+    NSMutableData *appendedData = [[NSMutableData alloc] init];
+    [appendedData appendData:data];
+    [appendedData appendData:backgroundPosition];
+    [appendedData appendData:backgroundVelocity];
     BOOL success = [[GCHelper sharedInstance].match sendDataToAllPlayers:appendedData withDataMode:GKMatchSendDataReliable error:&error];
     if (!success) {
         CCLOG(@"Error sending init packet");
@@ -296,7 +311,6 @@
 }
 
 - (void)sendGameBegin {
-    
     MessageGameBegin message;
     message.message.messageType = kMessageTypeGameBegin;
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageGameBegin)];
@@ -304,10 +318,17 @@
     
 }
 
-// Adds methods to send move and game over messages
-- (void)sendMoveWithPositionOfPlayer1:(CGPoint)player1Position andPlayer2:(CGPoint)player2Position
-{
-    
+-(void)sendBackgroundPosition:(CGPoint)backgroundPosition andBackgroundVelocity:(CGPoint)backgroundVelocity{
+    MessageMoveBackground message;
+    message.message.messageType = kMessageTypeBackgroundMove;
+    NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageMoveBackground)];
+    NSData *dataWithBackgroundPosition = [NSData dataWithBytes:&backgroundPosition length:sizeof(backgroundPosition)];
+    NSData *dataWithBackgroundVelocity = [NSData dataWithBytes:&backgroundVelocity length:sizeof(backgroundVelocity)];
+    [self sendData:data withBackgroundPosition:dataWithBackgroundPosition andBackgroundVelocity:dataWithBackgroundVelocity];
+}
+
+//Method to sent player's position over the network
+- (void)sendMoveWithPositionOfPlayer1:(CGPoint)player1Position andPlayer2:(CGPoint)player2Position{
     MessageMove message;
     message.message.messageType = kMessageTypeMove;
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageMove)];
@@ -316,6 +337,7 @@
     [self sendData:data withPlayer1Position:dataWithPlayer1Position andPlayer2Position:dataWithPlayer2Position];
 }
 
+// Adds methods to send move and game over messages
 - (void)sendGameOver:(BOOL)player1Won {
     
     MessageGameOver message;
@@ -391,26 +413,30 @@
         max_x = 858.0 - thing_size.width/2;
         min_x = 173.0 + thing_size.width/2;
         
-        background_max_x = 2048 - background_size.width/2;
-        background_min_x = 0 + background_size.width/2;
+//        background_max_x = 2048 - background_size.width/2;
+//        background_min_x = 0 + background_size.width/2;
         
-        max_y = 768 - thing_size.width/2;
-        min_y = 0 + thing_size.width/2;
+//        max_y = 768.0 - thing_size.height/2;
+//        min_y = 0 + thing_size.height/2;
+        max_y = 700.0;
+        min_y = 0;
         
-        background_max_y = 1536 - background_size.height/2;
-        background_min_y = 0; //+ background_size.height/2;
-        background2_min_y = 0;
+//        background_max_y = 1536 - background_size.height/2;
+//        background_min_y = 0; //+ background_size.height/2;
+//        background2_min_y = 0;
     }else{
         //Device is iphone
         max_x = 480 - thing_size.width/2;
         min_x = 0 + thing_size.width/2;
         
-        max_y = 320 - thing_size.width/2;
-        min_y = 0 + thing_size.width/2;
+        max_y = 320 - thing_size.height/2;
+        min_y = 0 + thing_size.height/2;
     }
 	
-	if(thing_pos.x>max_x) thing_pos.x = max_x;
-	if(thing_pos.x<min_x) thing_pos.x = min_x;
+	if (thing_pos.x > max_x) thing_pos.x = max_x;
+	if (thing_pos.x < min_x) thing_pos.x = min_x;
+    if (thing_pos.y < min_y) thing_pos.y = min_y;
+    if (thing_pos.y > max_y) thing_pos.y = max_y;
     
     
 //    if(thing_pos.y>max_y) thing_pos.y = max_y;
@@ -449,20 +475,25 @@
         max2_x = 858.0 - thing2_size.width/2;
         min2_x = 173.0 + thing2_size.width/2;
         
-        max2_y = 768 - thing2_size.width/2;
-        min2_y = 0 + thing2_size.width/2;
+//        max2_y = 768.0 - thing2_size.height/2;
+//        min2_y = 0 + thing2_size.height/2;
+        max2_y = 700.0;
+        min2_y = 0;
         
     }else{
         //Device is iphone
         max2_x = 480 - thing2_size.width/2;
         min2_x = 0 + thing2_size.width/2;
         
-        max2_y = 320 - thing2_size.width/2;
-        min2_y = 0 + thing2_size.width/2;
+        max2_y = 320 - thing2_size.height/2;
+        min2_y = 0 + thing2_size.height/2;
     }
     
-    if(thing2_pos.x>max2_x) thing2_pos.x = max2_x;
-	if(thing2_pos.x<min2_x) thing2_pos.x = min2_x;
+    if (thing2_pos.x > max2_x) thing2_pos.x = max2_x;
+	if (thing2_pos.x < min2_x) thing2_pos.x = min2_x;
+    if (thing2_pos.y < min2_y) thing2_pos.y = min2_y;
+    if (thing2_pos.y > max2_y) thing2_pos.y = max2_y;
+    
     
     thing2_vel.x += thing2_acc.x * dt;
     thing2_vel.y += thing2_acc.y * dt;
@@ -473,13 +504,13 @@
     //-------
     
     
-    if (background_vel.y > 0 && background2_vel.y > 0) {
+//    if (background_vel.y > 0 && background2_vel.y > 0) {
         background_vel.y += background_acc.y * dt;
         background_pos.y += background_vel.y * dt;
         
         background2_vel.y += background2_acc.y * dt;
         background2_pos.y += background2_vel.y * dt;
-    }
+//    }
     
     if (isPlayer1) {
         self.player1.position = ccp(thing_pos.x, thing_pos.y);
@@ -492,14 +523,39 @@
     if (gameState != kGameStateActive) return;
     [self sendMoveWithPositionOfPlayer1:self.player1.position andPlayer2:self.player2.position];
     
-    self.background.position = ccp(0, -background_pos.y);
-    self.background2.position = ccp(0, self.background.position.y + 768.0);
+    [self reorderBackgrounds];
     
-    //up scroll
-    [self scrollUpwards];
+    self.background.position = ccp(0, -background_pos.y);
+    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+    
+    if (gameState != kGameStateActive) return;
+    [self sendBackgroundPosition:background_pos andBackgroundVelocity:background_vel];
     
     //collision method
     [self checkForCollision];
+}
+
+#pragma mark Rearrange Background Method
+
+-(void)reorderBackgrounds{
+    //down scroll
+    if (-background_pos.y < -self.background.boundingBox.size.height) {
+        background_pos.y = -self.boundingBox.size.height;
+    }
+    
+    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+        background2_pos.y = 0;
+    }
+    
+    //backwards scrolling
+    if (self.background2.position.y > self.background.boundingBox.size.height) {
+        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+        NSLog(@"????????????????");
+    }
+    
+    if (self.background.position.y > self.background.boundingBox.size.height) {
+        background_pos.y = self.background.boundingBox.size.height;
+    }
 }
 
 #pragma mark Collision Detection
@@ -835,6 +891,38 @@
             }
             [self tryStartGame];
         }
+    }else if (message->messageType == kMessageTypeBackgroundMove){
+        
+        CGPoint *backgroundPosition;
+        CGPoint *backgroundVelocity;
+        
+        
+         NSLog(@"Player 1 pooooooooo: %@", data);
+        
+        
+        NSUInteger length = [data length];
+        NSUInteger chunkSize = sizeof(backgroundPosition);
+        NSUInteger offset = 0;
+        
+        do {
+            NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+            NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
+                                                 length:thisChunkSize
+                                           freeWhenDone:NO];
+            offset += thisChunkSize;
+            // do something with chunk
+            if (offset == 8) {
+                backgroundPosition = (CGPoint *)[chunk bytes];
+            }
+            if (offset == 16) {
+                backgroundVelocity = (CGPoint *)[chunk bytes];
+            }
+//            NSLog(@"Offsettttttttttt: %i", offset);
+        } while (offset < length);
+        
+        NSLog(@"Background position: %f", backgroundPosition->y);
+//        NSLog(@"Background velocity: %f", backgroundVelocity->y);
+        
      
 //        //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
 //        //the 'other' player is given a random one that is different from the local player's.
@@ -939,16 +1027,16 @@
             if (offset == 16) {
                 player2Position = (CGPoint *)[chunk bytes];
             }
-            NSLog(@"Offsettttttttttt: %i", offset);
+//            NSLog(@"Offsettttttttttt: %i", offset);
         } while (offset < length);
         
         if (isPlayer1) {
             self.player2.position = ccp(player2Position->x, player2Position->y);
-            NSLog(@"Position received player 2: %f", player2Position->y);
+//            NSLog(@"Position received player 2: %f", player2Position->y);
         } else {
 //            [player1 moveForward];
             self.player1.position = ccp(player1Position->x, player1Position->y);
-             NSLog(@"Position received player 1: %f", player1Position->y);
+//             NSLog(@"Position received player 1: %f", player1Position->y);
 //            NSLog(@"Position received player 1: %f", thing_pos.x);
         }
     } else if (message->messageType == kMessageTypeGameOver) {
