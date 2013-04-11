@@ -108,8 +108,17 @@
         CCLOG(@"chosenAvatar %i", avatarInt);
         
         self.avatar = [self chosenAvatar:avatarInt];
-        
         CCLOG(@"avatar chosen is: %@", self.avatar);
+        
+        //avatar of other player is randomized. It cannot be the same as our avatar.
+        NSInteger num;
+        do{
+            num = (arc4random() % 5) + 1;
+        }
+        while (num==avatarInt);
+        self.otherAvatar = [self chosenAvatar:num];
+        CCLOG(@"self.otherAvatar is now %@", self.otherAvatar);
+        
         
         //Add finish flag and make it invisible until we need to display it
         self.finish = [CCSprite spriteWithFile:@"finish.png"];
@@ -143,19 +152,16 @@
         //Add the player character. It has it's own class derived from GameCharacter
         //self.avatar is set by player's choice.
         self.player1 = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
-        //self.player1 = [Player alloc];
         [self.player1 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player1 z:0 tag:3];
-        //self.player1.id = 1
         
-        //TODO: The avatar information here should come with a message from the other player in a multipl. setting.
-        //TODO: Make sure to update avatars for both players once match is started.
-        self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
-        //self.player2 = [Player alloc];
+        //TODO: Get actual otherAvatar information from multiplayer.
+        self.player2 = [[Player alloc] initWithFile:self.otherAvatar alphaThreshold:0];
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
         
-        
+
+
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
@@ -163,7 +169,7 @@
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
-        
+         
         //This are the functions that will be scheduled to load continuously
         //as long as our game is running
         [self schedule:@selector(step:)];
@@ -816,6 +822,8 @@
         } else {
             CCLOG(@"We are player 2");
             isPlayer1 = NO;
+            self.player1 = [Player spriteWithFile:self.otherAvatar];
+            self.player2 = [Player spriteWithFile:self.avatar];
         }
         if (!tie) {
             receivedRandom = YES;
