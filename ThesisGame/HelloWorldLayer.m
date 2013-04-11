@@ -169,6 +169,7 @@
         [self schedule:@selector(step:)];
 //        [self schedule:@selector(moveOtherPlayer:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
+        [self schedule:@selector(scroll:) interval:0.0000000001];
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
@@ -176,6 +177,17 @@
         [self addBackButton];
 	}
 	return self;
+}
+
+-(void)scroll:(ccTime)dt{
+    self.background.position = ccp(0, self.background.position.y-2);
+    self.background2.position = ccp(0, self.background2.position.y-2);
+    if (self.background.position.y < - 768.0) {
+        self.background.position = ccp(0, self.background2.position.y + 768.0);
+    }
+    if (self.background2.position.y < - 768.0) {
+        self.background2.position = ccp(0, self.background.position.y + 768.0);
+    }
 }
 
 #pragma mark Choose Avatar based on number
@@ -505,13 +517,13 @@
     
     
 //    if (background_vel.y > 0 && background2_vel.y > 0) {
-        background_vel.y += background_acc.y * dt;
-        background_pos.y += background_vel.y * dt;
-        
-        background2_vel.y += background2_acc.y * dt;
-        background2_pos.y += background2_vel.y * dt;
+//        background_vel.y += background_acc.y * dt;
+//        background_pos.y += background_vel.y * dt;
+//        
+//        background2_vel.y += background2_acc.y * dt;
+//        background2_pos.y += background2_vel.y * dt;
 //    }
-    
+
     if (isPlayer1) {
         self.player1.position = ccp(thing_pos.x, thing_pos.y);
 //        NSLog(@"Position player 1: %f", thing_pos.x);
@@ -523,10 +535,10 @@
     if (gameState != kGameStateActive) return;
     [self sendMoveWithPositionOfPlayer1:self.player1.position andPlayer2:self.player2.position];
     
-    [self reorderBackgrounds];
+//    [self reorderBackgrounds];
     
-    self.background.position = ccp(0, -background_pos.y);
-    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+//    self.background.position = ccp(0, -background_pos.y);
+//    self.background2.position = ccp(0, -background2_pos.y + 768.0);
     
     if (gameState != kGameStateActive) return;
     [self sendBackgroundPosition:background_pos andBackgroundVelocity:background_vel];
@@ -535,28 +547,28 @@
     [self checkForCollision];
 }
 
-#pragma mark Rearrange Background Method
-
--(void)reorderBackgrounds{
-    //down scroll
-    if (-background_pos.y < -self.background.boundingBox.size.height) {
-        background_pos.y = -self.boundingBox.size.height;
-    }
-    
-    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
-        background2_pos.y = 0;
-    }
-    
-    //backwards scrolling
-    if (self.background2.position.y > self.background.boundingBox.size.height) {
-        background2_pos.y = self.background.boundingBox.size.height * 2.f;
-        NSLog(@"????????????????");
-    }
-    
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        background_pos.y = self.background.boundingBox.size.height;
-    }
-}
+//#pragma mark Rearrange Background Method
+//
+//-(void)reorderBackgrounds{
+//    //down scroll
+//    if (-background_pos.y < -self.background.boundingBox.size.height) {
+//        background_pos.y = -self.boundingBox.size.height;
+//    }
+//    
+//    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+//        background2_pos.y = 0;
+//    }
+//    
+//    //backwards scrolling
+//    if (self.background2.position.y > self.background.boundingBox.size.height) {
+//        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+//        NSLog(@"????????????????");
+//    }
+//    
+//    if (self.background.position.y > self.background.boundingBox.size.height) {
+//        background_pos.y = self.background.boundingBox.size.height;
+//    }
+//}
 
 #pragma mark Collision Detection
 
