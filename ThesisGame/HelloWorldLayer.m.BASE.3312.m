@@ -28,12 +28,8 @@
 
 @interface HelloWorldLayer (){
     BOOL stop;
-    BOOL useLocalBackroundScrolling;
     NSInteger avatarInt;
     CCSpriteBatchNode *scrollingBatchNode;
-    int counter;
-    int counter2;
-    int minDurationForBackground1;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
@@ -105,10 +101,6 @@
         
         
         stop = NO;
-        useLocalBackroundScrolling = NO;
-        counter = 0;
-        counter2 = 0;
-        minDurationForBackground1 = 0;
         
         //chosen avatar is retrieved from userDefaults
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
@@ -116,17 +108,8 @@
         CCLOG(@"chosenAvatar %i", avatarInt);
         
         self.avatar = [self chosenAvatar:avatarInt];
+        
         CCLOG(@"avatar chosen is: %@", self.avatar);
-        
-        //avatar of other player is randomized. It cannot be the same as our avatar.
-        NSInteger num;
-        do{
-            num = (arc4random() % 5) + 1;
-        }
-        while (num==avatarInt);
-        self.otherAvatar = [self chosenAvatar:num];
-        CCLOG(@"self.otherAvatar is now %@", self.otherAvatar);
-        
         
         //Add finish flag and make it invisible until we need to display it
         self.finish = [CCSprite spriteWithFile:@"finish.png"];
@@ -140,9 +123,9 @@
         self.background.position = ccp(0, 0);
         [self addChild:self.background z:0 tag:1];
         
-        self.background2 = [CCSprite spriteWithFile:@"background~ipad.png"];
+        self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background2.anchorPoint = ccp(0, 0);
-        self.background2.position = ccp(0, 768.0);
+        self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2 z:0 tag:2];
         
 //        //Add the player character. It has it's own class derived from GameCharacter
@@ -160,16 +143,19 @@
         //Add the player character. It has it's own class derived from GameCharacter
         //self.avatar is set by player's choice.
         self.player1 = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
+        //self.player1 = [Player alloc];
         [self.player1 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player1 z:0 tag:3];
+        //self.player1.id = 1
         
-        //TODO: Get actual otherAvatar information from multiplayer.
-        self.player2 = [[Player alloc] initWithFile:self.otherAvatar alphaThreshold:0];
+        //TODO: The avatar information here should come with a message from the other player in a multipl. setting.
+        //TODO: Make sure to update avatars for both players once match is started.
+        self.player2 = [[Player alloc] initWithFile:@"Char1~ipad.png" alphaThreshold:0];
+        //self.player2 = [Player alloc];
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
         
-
-
+        
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
@@ -177,33 +163,19 @@
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
-         
+        
         //This are the functions that will be scheduled to load continuously
         //as long as our game is running
         [self schedule:@selector(step:)];
 //        [self schedule:@selector(moveOtherPlayer:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
-        [self schedule:@selector(scroll:) interval:0.0000000001];
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
         
-//        self.scale = 0.4;
-        
         [self addBackButton];
 	}
 	return self;
-}
-
--(void)scroll:(ccTime)dt{
-    self.background.position = ccp(0, self.background.position.y-2);
-    self.background2.position = ccp(0, self.background2.position.y-2);
-    if (self.background.position.y < - 768.0) {
-        self.background.position = ccp(0, self.background2.position.y + 768.0);
-    }
-    if (self.background2.position.y < - 768.0) {
-        self.background2.position = ccp(0, self.background.position.y + 768.0);
-    }
 }
 
 #pragma mark Choose Avatar based on number
@@ -380,17 +352,8 @@
 
 //step method fro the obstacles
 -(void)obstaclesStep:(ccTime)dt{
-    [self addObstacles];    
+    [self addObstacles];
 }
-
-////step method for the backgrounds
-//-(void)backgroundOneStep:(ccTime)dt{
-//    [self moveBackgroundOneByActions];
-//}
-//
-//-(void)backgroundTwoStep:(ccTime)dt{
-//    [self moveBackgroundTwoByActions];
-//}
 
 -(void)moveOtherPlayer:(ccTime)dt{
     thing2_pos.x += thing_vel.x * dt;
@@ -542,13 +505,13 @@
     
     
 //    if (background_vel.y > 0 && background2_vel.y > 0) {
-//        background_vel.y += background_acc.y * dt;
-//        background_pos.y += background_vel.y * dt;
-//        
-//        background2_vel.y += background2_acc.y * dt;
-//        background2_pos.y += background2_vel.y * dt;
+        background_vel.y += background_acc.y * dt;
+        background_pos.y += background_vel.y * dt;
+        
+        background2_vel.y += background2_acc.y * dt;
+        background2_pos.y += background2_vel.y * dt;
 //    }
-
+    
     if (isPlayer1) {
         self.player1.position = ccp(thing_pos.x, thing_pos.y);
 //        NSLog(@"Position player 1: %f", thing_pos.x);
@@ -560,40 +523,40 @@
     if (gameState != kGameStateActive) return;
     [self sendMoveWithPositionOfPlayer1:self.player1.position andPlayer2:self.player2.position];
     
-//    [self reorderBackgrounds];
+    [self reorderBackgrounds];
     
-//    self.background.position = ccp(0, -background_pos.y);
-//    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+    self.background.position = ccp(0, -background_pos.y);
+    self.background2.position = ccp(0, -background2_pos.y + 768.0);
     
-//    if (gameState != kGameStateActive) return;
-//    [self sendBackgroundPosition:background_pos andBackgroundVelocity:background_vel];
+    if (gameState != kGameStateActive) return;
+    [self sendBackgroundPosition:background_pos andBackgroundVelocity:background_vel];
     
     //collision method
     [self checkForCollision];
 }
 
-//#pragma mark Rearrange Background Method
-//
-//-(void)reorderBackgrounds{
-//    //down scroll
-//    if (-background_pos.y < -self.background.boundingBox.size.height) {
-//        background_pos.y = -self.boundingBox.size.height;
-//    }
-//    
-//    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
-//        background2_pos.y = 0;
-//    }
-//    
-//    //backwards scrolling
-//    if (self.background2.position.y > self.background.boundingBox.size.height) {
-//        background2_pos.y = self.background.boundingBox.size.height * 2.f;
-//        NSLog(@"????????????????");
-//    }
-//    
-//    if (self.background.position.y > self.background.boundingBox.size.height) {
-//        background_pos.y = self.background.boundingBox.size.height;
-//    }
-//}
+#pragma mark Rearrange Background Method
+
+-(void)reorderBackgrounds{
+    //down scroll
+    if (-background_pos.y < -self.background.boundingBox.size.height) {
+        background_pos.y = -self.boundingBox.size.height;
+    }
+    
+    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+        background2_pos.y = 0;
+    }
+    
+    //backwards scrolling
+    if (self.background2.position.y > self.background.boundingBox.size.height) {
+        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+        NSLog(@"????????????????");
+    }
+    
+    if (self.background.position.y > self.background.boundingBox.size.height) {
+        background_pos.y = self.background.boundingBox.size.height;
+    }
+}
 
 #pragma mark Collision Detection
 
@@ -609,7 +572,7 @@
 -(void)addObstacles{
     
     self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
-    // Determine where to spawn the target along the X axis
+    // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
     int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
@@ -635,60 +598,6 @@
     [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
 }
 
-//#pragma mark Backgrounds move by actions
-//
-//-(void)moveBackgroundOneByActions{
-//    NSLog(@"!!!!!!!!!!!!!!!!");
-//    if (counter >= 1) {
-//        // Determine speed of the target
-//         minDurationForBackground1 = 4.0;
-//    }else{
-//        minDurationForBackground1 = 2.0;
-//        counter += 1;
-//    }
-//    
-//
-////    int maxDuration = 4.0;
-////    int rangeDuration = maxDuration - minDuration;
-////    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-//    
-//    // Create the actions
-//    id actionMove = [CCMoveTo actionWithDuration:minDurationForBackground1
-//                                        position:ccp(0 ,-768.0)];
-//    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-//                                             selector:@selector(backgroundMoveFinished:)];
-//    [self.background runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-//    [self decideSchedulerForBackgrounds];
-//}
-//
-//-(void)moveBackgroundTwoByActions{
-//    NSLog(@"???????????????????");
-//    // Determine speed of the target
-//    int minDuration = 4.0;
-////    int maxDuration = 4.0;
-////    int rangeDuration = maxDuration - minDuration;
-////    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-//    
-//    // Create the actions
-//    id actionMove = [CCMoveTo actionWithDuration:minDuration
-//                                        position:ccp(0 ,-768.0)];
-//    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-//                                             selector:@selector(secondBackgroundFinished:)];
-//    [self.background2 runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-//}
-//
-//-(void)backgroundMoveFinished:(id)sender{
-////    CCSprite *background = (CCSprite *)sender;
-////    [self removeChild:background cleanup:YES];
-//    self.background.position = ccp(0, 768.0);
-//}
-//
-//-(void)secondBackgroundFinished:(id)sender{
-////    CCSprite *background = (CCSprite *)sender;
-////    [self removeChild:background cleanup:YES];
-//    self.background2.position = ccp(0, 768.0);
-//}
-
 //Remove onstacle after going out of screen
 -(void)spriteMoveFinished:(id)sender {
     Obstacle *obstacle = (Obstacle *)sender;
@@ -708,75 +617,78 @@
 
 #pragma mark Scroll Background Method
 
-//-(void)scrollUpwards{
-//    
-//    //the other way
-//    if (self.background.position.y < -self.background.boundingBox.size.height) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-//        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-//    }
-//    
-//    if (self.background2.position.y < 0) {
-//        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-//        stop = YES;
-//    }
-//    
-//    if(stop && self.background2.position.y < -768.0){
-//        self.background.position = ccp(0, 0);
-//        [self finishFlagSprite];
-//    }
-//}
+//very dirty method to scroll the background.
+//TODO: will have to change it
+
+-(void)scrollUpwards{
+    
+    //the other way
+    if (self.background.position.y < -self.background.boundingBox.size.height) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
+        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
+    }
+    
+    if (self.background2.position.y < 0) {
+        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
+        stop = YES;
+    }
+    
+    if(stop && self.background2.position.y < -768.0){
+        self.background.position = ccp(0, 0);
+        [self finishFlagSprite];
+    }
+}
 
 //Add finish sprite
 -(void)finishFlagSprite{
@@ -971,8 +883,6 @@
         } else {
             CCLOG(@"We are player 2");
             isPlayer1 = NO;
-            self.player1 = [Player spriteWithFile:self.otherAvatar];
-            self.player2 = [Player spriteWithFile:self.avatar];
         }
         if (!tie) {
             receivedRandom = YES;
@@ -981,6 +891,38 @@
             }
             [self tryStartGame];
         }
+    }else if (message->messageType == kMessageTypeBackgroundMove){
+        
+        CGPoint *backgroundPosition;
+        CGPoint *backgroundVelocity;
+        
+        
+         NSLog(@"Player 1 pooooooooo: %@", data);
+        
+        
+        NSUInteger length = [data length];
+        NSUInteger chunkSize = sizeof(backgroundPosition);
+        NSUInteger offset = 0;
+        
+        do {
+            NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+            NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
+                                                 length:thisChunkSize
+                                           freeWhenDone:NO];
+            offset += thisChunkSize;
+            // do something with chunk
+            if (offset == 8) {
+                backgroundPosition = (CGPoint *)[chunk bytes];
+            }
+            if (offset == 16) {
+                backgroundVelocity = (CGPoint *)[chunk bytes];
+            }
+//            NSLog(@"Offsettttttttttt: %i", offset);
+        } while (offset < length);
+        
+        NSLog(@"Background position: %f", backgroundPosition->y);
+//        NSLog(@"Background velocity: %f", backgroundVelocity->y);
+        
      
 //        //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
 //        //the 'other' player is given a random one that is different from the local player's.

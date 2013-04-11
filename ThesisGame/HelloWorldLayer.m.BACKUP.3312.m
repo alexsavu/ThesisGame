@@ -183,6 +183,10 @@
         [self schedule:@selector(step:)];
 //        [self schedule:@selector(moveOtherPlayer:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
+<<<<<<< HEAD
+=======
+//        [self decideSchedulerForBackgrounds];
+>>>>>>> 7ad79de9793df2273c872edaa0ce49379615c50f
         [self schedule:@selector(scroll:) interval:0.0000000001];
         
         ourRandom = arc4random();
@@ -206,6 +210,23 @@
     }
 }
 
+<<<<<<< HEAD
+=======
+-(void)decideSchedulerForBackgrounds{
+    if (counter2 == 1) {
+        NSLog(@"#################");
+        [self unschedule:@selector(backgroundOneStep:)];
+        [self schedule:@selector(backgroundOneStep:) interval:4.0];
+        counter2 = 2;
+    }else if (counter2 == 0){
+        NSLog(@"@@@@@@@@@@@@@@@@@@");
+     [self schedule:@selector(backgroundOneStep:) interval:2.0];
+     [self schedule:@selector(backgroundTwoStep:) interval:4.0];
+        counter2 = 1;
+    }
+}
+
+>>>>>>> 7ad79de9793df2273c872edaa0ce49379615c50f
 #pragma mark Choose Avatar based on number
 
 //Finds the correct .png for the chosen avatar, returns .png location in NSString form.
@@ -541,6 +562,7 @@
     //-------
     
     
+<<<<<<< HEAD
 //    if (background_vel.y > 0 && background2_vel.y > 0) {
 //        background_vel.y += background_acc.y * dt;
 //        background_pos.y += background_vel.y * dt;
@@ -549,6 +571,16 @@
 //        background2_pos.y += background2_vel.y * dt;
 //    }
 
+=======
+    if (background_vel.y > 0 && background2_vel.y > 0) {
+        background_vel.y += background_acc.y * dt;
+        background_pos.y += background_vel.y * dt;
+        
+        background2_vel.y += background2_acc.y * dt;
+        background2_pos.y += background2_vel.y * dt;
+    }
+    
+>>>>>>> 7ad79de9793df2273c872edaa0ce49379615c50f
     if (isPlayer1) {
         self.player1.position = ccp(thing_pos.x, thing_pos.y);
 //        NSLog(@"Position player 1: %f", thing_pos.x);
