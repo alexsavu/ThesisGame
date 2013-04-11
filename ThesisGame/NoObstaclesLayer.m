@@ -209,38 +209,38 @@
         background2_pos.y += background2_vel.y * dt;
 //    }
     if (thing_pos.y > size.height / 2) {
-        [self reorderBackgrounds];
-        self.background.position = ccp(0, -background_pos.y);
-        self.background2.position = ccp(0, -background2_pos.y);
+        thing_pos.y = size.height / 2;
     }
     NSLog(@"Screen size height / 2: %f", size.height/2);
     NSLog(@"Position Y: %f", thing_pos.y);
     
+    [self reorderBackgrounds];
+    
     self.player.position = ccp(thing_pos.x, thing_pos.y);
-//    self.background.position = ccp(0, -background_pos.y);
-//    self.background2.position = ccp(0, -background2_pos.y + 768.0);
+    self.background.position = ccp(0, -background_pos.y);
+    self.background2.position = ccp(0, -background2_pos.y + 768.0);
 }
 
 #pragma mark Rearrange Background Method
 
 -(void)reorderBackgrounds{
     //down scroll
-    if (-background_pos.y < -self.background.boundingBox.size.height) {
-        background_pos.y = -self.boundingBox.size.height;
+    if (-background_pos.y < -768.0) {
+        background_pos.y = -768.0;
     }
     
-    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
+    if (-background2_pos.y + 768.0 < -768.0) {
         background2_pos.y = 0;
     }
     
     //backwards scrolling
-    if (self.background2.position.y > self.background.boundingBox.size.height) {
-        background2_pos.y = self.background.boundingBox.size.height * 2.f;
+    if (self.background2.position.y > 768.0) {
+        background2_pos.y = 768.0 * 2.f;
         NSLog(@"????????????????");
     }
     
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        background_pos.y = self.background.boundingBox.size.height;
+    if (self.background.position.y > 768.0) {
+        background_pos.y = 768.0;
     }
 }
 

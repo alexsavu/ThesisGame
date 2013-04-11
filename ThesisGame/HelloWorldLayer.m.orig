@@ -155,8 +155,15 @@
         [self.player1 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player1 z:0 tag:3];
         
+<<<<<<< HEAD
         //TODO: Get actual otherAvatar information from multiplayer.
         self.player2 = [[Player alloc] initWithFile:self.otherAvatar alphaThreshold:0];
+=======
+        //TODO: The avatar information here should come with a message from the other player in a multipl. setting.
+        //TODO: Make sure to update avatars for both players once match is started.
+        self.player2 = [[Player alloc] initWithFile:@"Char1~ipad.png" alphaThreshold:0];
+        //self.player2 = [Player alloc];
+>>>>>>> d56e1714cf1764dc629e1248a0ba820b862ad34f
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player2 z:0 tag:4];
         

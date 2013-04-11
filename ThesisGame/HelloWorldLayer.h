@@ -36,7 +36,8 @@ typedef enum {
     kMessageTypeGameBegin,
     kMessageTypeMove,
     kMessageTypeGameOver,
-    kMessageTypeAvatarNumber
+    kMessageTypeAvatarNumber,
+    kMessageTypeBackgroundMove
 } MessageType;
 
 typedef struct {
@@ -51,6 +52,10 @@ typedef struct {
 typedef struct {
     Message message;
 } MessageGameBegin;
+
+typedef struct {
+    Message message;
+} MessageMoveBackground;
 
 typedef struct {
     Message message;
