@@ -284,20 +284,6 @@
     }
 }
 
-//Method that actually sends background position and velocity
--(void)sendData:(NSData *)data withBackgroundPosition:(NSData *)backgroundPosition andBackgroundVelocity:(NSData *)backgroundVelocity{
-    NSError *error;
-    NSMutableData *appendedData = [[NSMutableData alloc] init];
-    [appendedData appendData:data];
-    [appendedData appendData:backgroundPosition];
-    [appendedData appendData:backgroundVelocity];
-    BOOL success = [[GCHelper sharedInstance].match sendDataToAllPlayers:appendedData withDataMode:GKMatchSendDataReliable error:&error];
-    if (!success) {
-        CCLOG(@"Error sending init packet");
-        [self matchEnded];
-    }
-}
-
 - (void)sendRandomNumber {
     
     MessageRandomNumber message;
@@ -330,15 +316,6 @@
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageGameBegin)];
     [self sendData:data];
     
-}
-
--(void)sendBackgroundPosition:(CGPoint)backgroundPosition andBackgroundVelocity:(CGPoint)backgroundVelocity{
-    MessageMoveBackground message;
-    message.message.messageType = kMessageTypeBackgroundMove;
-    NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageMoveBackground)];
-    NSData *dataWithBackgroundPosition = [NSData dataWithBytes:&backgroundPosition length:sizeof(backgroundPosition)];
-    NSData *dataWithBackgroundVelocity = [NSData dataWithBytes:&backgroundVelocity length:sizeof(backgroundVelocity)];
-    [self sendData:data withBackgroundPosition:dataWithBackgroundPosition andBackgroundVelocity:dataWithBackgroundVelocity];
 }
 
 //Method to sent player's position over the network
@@ -537,39 +514,8 @@
     if (gameState != kGameStateActive) return;
     [self sendMoveWithPositionOfPlayer1:self.player1.position andPlayer2:self.player2.position];
     
-//    [self reorderBackgrounds];
-//    
-//    self.background.position = ccp(0, -background_pos.y);
-//    self.background2.position = ccp(0, -background2_pos.y + 768.0);
-    
-    if (gameState != kGameStateActive) return;
-    [self sendBackgroundPosition:background_pos andBackgroundVelocity:background_vel];
-    
     //collision method
     [self checkForCollision];
-}
-
-#pragma mark Rearrange Background Method
-
--(void)reorderBackgrounds{
-    //down scroll
-    if (-background_pos.y < -self.background.boundingBox.size.height) {
-        background_pos.y = -self.boundingBox.size.height;
-    }
-    
-    if (-background2_pos.y + 768.0 < -self.background2.boundingBox.size.height) {
-        background2_pos.y = 0;
-    }
-    
-    //backwards scrolling
-    if (self.background2.position.y > self.background.boundingBox.size.height) {
-        background2_pos.y = self.background.boundingBox.size.height * 2.f;
-        NSLog(@"????????????????");
-    }
-    
-    if (self.background.position.y > self.background.boundingBox.size.height) {
-        background_pos.y = self.background.boundingBox.size.height;
-    }
 }
 
 #pragma mark Collision Detection
@@ -627,81 +573,6 @@
 //	} else if (sprite.tag == 2) { // projectile
 //		[_projectiles removeObject:sprite];
 //	}
-}
-
-#pragma mark Scroll Background Method
-
-//very dirty method to scroll the background.
-//TODO: will have to change it
-
--(void)scrollUpwards{
-    
-    //the other way
-    if (self.background.position.y < -self.background.boundingBox.size.height) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y + self.background2.boundingBox.size.height < 0) {
-        self.background2.position = ccp(0, self.background.position.y + self.background.boundingBox.size.height);
-    }
-    
-    if (self.background2.position.y < 0) {
-        self.background.position = ccp(0, self.background2.position.y + self.background2.boundingBox.size.height);
-        stop = YES;
-    }
-    
-    if(stop && self.background2.position.y < -768.0){
-        self.background.position = ccp(0, 0);
-        [self finishFlagSprite];
-    }
 }
 
 //Add finish sprite
@@ -806,8 +677,8 @@
     } else if (gameState == kGameStateWaitingForRandomNumber) {
         //        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
-//    } else if (gameState == kGameStateWaitingForAvatarNumber) {
-//        CCLOG(@"Waiting for avatar #");
+    } else if (gameState == kGameStateWaitingForAvatarNumber) {
+        CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
         //        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
@@ -903,43 +774,11 @@
             if (gameState == kGameStateWaitingForRandomNumber) {
                 [self setGameState:kGameStateWaitingForStart];
             }
-            [self tryStartGame];
+//            [self tryStartGame];
         }
-    }else if (message->messageType == kMessageTypeBackgroundMove){
-        
-        CGPoint *backgroundPosition;
-        CGPoint *backgroundVelocity;
-        
-        
-         NSLog(@"Player 1 pooooooooo: %@", data);
-        
-        
-        NSUInteger length = [data length];
-        NSUInteger chunkSize = sizeof(backgroundPosition);
-        NSUInteger offset = 0;
-        
-        do {
-            NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
-            NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
-                                                 length:thisChunkSize
-                                           freeWhenDone:NO];
-            offset += thisChunkSize;
-            // do something with chunk
-            if (offset == 8) {
-                backgroundPosition = (CGPoint *)[chunk bytes];
-            }
-            if (offset == 16) {
-                backgroundVelocity = (CGPoint *)[chunk bytes];
-            }
-//            NSLog(@"Offsettttttttttt: %i", offset);
-        } while (offset < length);
-        
-        NSLog(@"Background position: %f", backgroundPosition->y);
-//        NSLog(@"Background velocity: %f", backgroundVelocity->y);
-        
      
-//        //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
-//        //the 'other' player is given a random one that is different from the local player's.
+        //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
+        //the 'other' player is given a random one that is different from the local player's.
 //    } else if (message->messageType == kMessageTypeAvatarNumber){
 //        MessageAvatarNumber * messageInit = (MessageAvatarNumber *) [data bytes];
 //        CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
@@ -953,58 +792,64 @@
 //            CCLOG(@"Different avatars!");
 //        }
 //        if(isPlayer1){
+//            if (sameAvatar) {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Same Avatar" message:@"You have chosen the same avatar as the other player./n Please go back and choose another avatar" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//                [alert show];
+//            }
 //            if(!sameAvatar){
-////                self.player1 = [Player spriteWithFile:self.avatar];
-//                
-//                //[self.player1 setTexture: ]
-//                //self.player1 = [CCSprite spriteWithFile:self.avatar];
 //                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
 //                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
 //                self.player2 = [Player spriteWithFile:self.otherAvatar];
-//                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
-//            }
-//            else{
-//                self.player1 = [Player spriteWithFile:self.avatar];
-//                //self.player1 = [CCSprite spriteWithFile:self.avatar];
-//                NSInteger num;
-//                do {
-//                    num = (arc4random() % 5) + 1;
+//                
+//                receivedAvatar = YES;
+//                if (gameState == kGameStateWaitingForAvatarNumber) {
+//                    [self setGameState:kGameStateWaitingForStart];
 //                }
-//                while (num==avatarInt);
-//                self.otherAvatar = [self chosenAvatar:num];
-//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player2 = [Player spriteWithFile:self.otherAvatar];
-//                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
+//                [self tryStartGame];
 //            }
+////            else{
+////                self.player1 = [Player spriteWithFile:self.avatar];
+////                //self.player1 = [CCSprite spriteWithFile:self.avatar];
+////                NSInteger num;
+////                do {
+////                    num = (arc4random() % 5) + 1;
+////                }
+////                while (num==avatarInt);
+////                self.otherAvatar = [self chosenAvatar:num];
+////                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+////                self.player2 = [Player spriteWithFile:self.otherAvatar];
+////                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
+////            }
 //            
 //        }
 //        else{
 //            if(!sameAvatar){
-////                self.player2 = [Player spriteWithFile:self.avatar];
-//                //self.player2 = [CCSprite spriteWithFile:self.avatar];
-//                
 //                //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
 //                //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
-//                //self.player2 = [initWithFile: self.avatar];
 //                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
 //                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
 //                self.player1 = [Player spriteWithFile:self.otherAvatar];
-//                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
+//                
+//                receivedAvatar = YES;
+//                if (gameState == kGameStateWaitingForAvatarNumber) {
+//                    [self setGameState:kGameStateWaitingForStart];
+//                }
+//                [self tryStartGame];
 //                
 //            }
-//            else{
-//                self.player2 = [Player spriteWithFile:self.avatar];
-//                //self.player2 = [CCSprite spriteWithFile:self.avatar];
-//                NSInteger num;
-//                do {
-//                    num = (arc4random() % 5) + 1;
-//                }
-//                while (num==avatarInt);
-//                self.otherAvatar = [self chosenAvatar:num];
-//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player1 = [Player spriteWithFile:self.otherAvatar];
-//                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
-//            }
+////            else{
+////                self.player2 = [Player spriteWithFile:self.avatar];
+////                //self.player2 = [CCSprite spriteWithFile:self.avatar];
+////                NSInteger num;
+////                do {
+////                    num = (arc4random() % 5) + 1;
+////                }
+////                while (num==avatarInt);
+////                self.otherAvatar = [self chosenAvatar:num];
+////                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+////                self.player1 = [Player spriteWithFile:self.otherAvatar];
+////                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
+////            }
 //        }
 
         
@@ -1013,11 +858,6 @@
         [self setGameState:kGameStateActive];
         
     } else if (message->messageType == kMessageTypeMove) {
-        
-//        CCLOG(@"Received move");
-//        CGPoint *position = (CGPoint *)[data bytes];
-//        CGPoint player2Position = *position;
-//        CGPoint *player1Position = (CGPoint *)[data bytes];
         
         CGPoint *player1Position;
         CGPoint *player2Position;
@@ -1046,11 +886,10 @@
         
         if (isPlayer1) {
             self.player2.position = ccp(player2Position->x, player2Position->y);
-//            NSLog(@"Position received player 2: %f", player2Position->y);
+            NSLog(@"Position received player 2: %f", player2Position->y);
         } else {
-//            [player1 moveForward];
             self.player1.position = ccp(player1Position->x, player1Position->y);
-//             NSLog(@"Position received player 1: %f", player1Position->y);
+             NSLog(@"Position received player 1: %f", player1Position->y);
 //            NSLog(@"Position received player 1: %f", thing_pos.x);
         }
     } else if (message->messageType == kMessageTypeGameOver) {
