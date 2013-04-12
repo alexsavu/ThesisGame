@@ -9,7 +9,7 @@
 #import "GameManager.h"
 #import "HelloWorldLayer.h"
 #import "MainMenuLayer.h"
-#import "NoObstaclesLayer.h"
+#import "CollectSinglelayerLayer.h"
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -18,28 +18,28 @@
 
 static GameManager* _sharedGameManager = nil;   
 +(GameManager*)sharedGameManager {
-    @synchronized([GameManager class])                             // 2
+    @synchronized([GameManager class])                            
     {
-        if(!_sharedGameManager)                                    // 3
+        if(!_sharedGameManager)
            _sharedGameManager = [[GameManager alloc] init];
-        return _sharedGameManager;                                 // 4
+        return _sharedGameManager;
     }
     return nil;
 }
 
 +(id)alloc
 {
-    @synchronized ([GameManager class])                            // 5
+    @synchronized ([GameManager class])
     {
         NSAssert(_sharedGameManager == nil,
-                 @"Attempted to allocated a second instance of the Game Manager singleton");                                          // 6
+                 @"Attempted to allocated a second instance of the Game Manager singleton");
         _sharedGameManager = [super alloc];
-        return _sharedGameManager;                                 // 7
+        return _sharedGameManager;
     }
     return nil;
 }
 
--(id)init {                                                        // 8
+-(id)init {
     self = [super init];
     if (self != nil) {
         // Game Manager initialized
@@ -73,7 +73,7 @@ static GameManager* _sharedGameManager = nil;
 //            sceneToRun = [LevelCompleteScene node];
 //            break;
         case kGameLevel1:
-            sceneToRun = [NoObstaclesLayer node];
+            sceneToRun = [CollectSinglelayerLayer node];
             break;
             
         case kGameLevel2:
@@ -155,39 +155,6 @@ static GameManager* _sharedGameManager = nil;
     }
     return levelSize;
 }
-
-//-(void)openSiteWithLinkType:(LinkTypes)linkTypeToOpen {
-//    NSURL *urlToOpen = nil;
-//    if (linkTypeToOpen == kLinkTypeBookSite) {
-//        CCLOG(@"Opening Book Site");
-//        urlToOpen =
-//        [NSURL URLWithString:
-//         @"http://www.informit.com/title/9780321735621"];
-//    } else if (linkTypeToOpen == kLinkTypeDeveloperSiteRod) {
-//        CCLOG(@"Opening Developer Site for Rod");
-//        urlToOpen = [NSURL URLWithString:@"http://www.prop.gr"];
-//    } else if (linkTypeToOpen == kLinkTypeDeveloperSiteRay) {
-//        CCLOG(@"Opening Developer Site for Ray");
-//        urlToOpen =
-//        [NSURL URLWithString:@"http://www.raywenderlich.com/"];
-//    } else if (linkTypeToOpen == kLinkTypeArtistSite) {
-//        CCLOG(@"Opening Artist Site");
-//        urlToOpen = [NSURL URLWithString:@"http://EricStevensArt.com"];
-//    } else if (linkTypeToOpen == kLinkTypeMusicianSite) {
-//        CCLOG(@"Opening Musician Site");
-//        urlToOpen =
-//        [NSURL URLWithString:@"http://www.mikeweisermusic.com/"];
-//    } else {
-//        CCLOG(@"Defaulting to Cocos2DBook.com Blog Site");
-//        urlToOpen =
-//        [NSURL URLWithString:@"http://www.cocos2dbook.com"];
-//    }
-//    
-//    if (![[UIApplication sharedApplication] openURL:urlToOpen]) {
-//        CCLOG(@"%@%@",@"Failed to open url:",[urlToOpen description]);
-//        [self runSceneWithID:kMainMenuScene];
-//    }
-//}
 
 @end
 

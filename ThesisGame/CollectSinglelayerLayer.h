@@ -1,5 +1,5 @@
 //
-//  NoObstaclesLayer.h
+//  CollectSinglelayerLayer.h
 //  ThesisGame
 //
 //  Created by Alex Savu on 3/2/13.
@@ -12,8 +12,9 @@
 
 @class BackgroundLayer;
 @class Player;
+@class Obstacle;
 
-@interface NoObstaclesLayer : CCLayer{
+@interface CollectSinglelayerLayer : CCLayer{
     CGPoint thing_pos;
 	CGPoint thing_vel;
 	CGPoint thing_acc;

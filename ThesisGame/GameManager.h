@@ -22,6 +22,5 @@
 +(GameManager*)sharedGameManager;
 -(void)runSceneWithID:(SceneTypes)sceneID;
 -(CGSize)getDimensionsOfCurrentScene;
-//-(void)openSiteWithLinkType:(LinkTypes)linkTypeToOpen ;
 
 @end

@@ -9,11 +9,8 @@
 
 // Import the interfaces
 #import "HelloWorldLayer.h"
-
-// Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 #import "RootViewController.h"
-#import "BackgroundLayer.h"
 #import "Player.h"
 #import "Obstacle.h"
 #import "CCShake.h"
@@ -29,7 +26,9 @@
 @interface HelloWorldLayer (){
     BOOL stop;
     NSInteger avatarInt;
-    CCSpriteBatchNode *scrollingBatchNode;
+    int playerOneScore;
+    int playerTwoScore;
+    int score;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
@@ -79,28 +78,13 @@
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
 		
-//		// create and initialize a Label
-//		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-//
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-//
-//		// position the label on the center of the screen
-//		label.position =  ccp( size.width /2 , size.height/2 );
-//		
-//		// add the label as a child to this Layer
-//		[self addChild: label];
-
-        
-//        self.backgroundLayer = [BackgroundLayer node];
-//        [self addChild:self.backgroundLayer z:0];
-  
-//        self.background = [CCSprite spriteWithFile:@"background.png"];
-//        self.background.position = ccp(size.width/2, size.height/2);
-//        [self addChild:self.background];
-        
         
         stop = NO;
+        playerOneScore = 0;
+        playerTwoScore = 0;
+        score = 0;
         
         //chosen avatar is retrieved from userDefaults
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
@@ -127,16 +111,6 @@
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2 z:0 tag:2];
-        
-//        //Add the player character. It has it's own class derived from GameCharacter
-//        self.player1 = [[Player alloc] initWithFile:@"PrototypeCharacter_nonClip.png" alphaThreshold:0];
-//        [self.player1 setPosition:ccp(size.height/2, size.width/2)];
-//        [self addChild:self.player1 z:0 tag:3];
-//        
-//        self.player2 = [[Player alloc] initWithFile:@"dpadDown.png" alphaThreshold:0];
-//        [self.player2 setPosition:ccp(size.height/2, size.width/2)];
-//        [self addChild:self.player2 z:0 tag:4];
-        
         
         //Alternative player sprite allocation with unique avatar
         
@@ -167,14 +141,13 @@
         //This are the functions that will be scheduled to load continuously
         //as long as our game is running
         [self schedule:@selector(step:)];
-//        [self schedule:@selector(moveOtherPlayer:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(scroll:) interval:0.0000000001];
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
         
-        //        self.scale = 0.4;
+//        self.scale = 0.4;
         
         [self addBackButton];
 	}
@@ -301,13 +274,6 @@
     
     NSData *avatarData = [NSData dataWithBytes:&message length:sizeof(MessageAvatarNumber)];
     [self sendData:avatarData];
-    
-    /*
-     if(_player1)
-     message.playerNo = 1;
-     else
-     message.playerNo = 2;
-     */
 }
 
 - (void)sendGameBegin {
@@ -346,75 +312,25 @@
     [self addObstacles];
 }
 
--(void)moveOtherPlayer:(ccTime)dt{
-    thing2_pos.x += thing_vel.x * dt;
-	
-	CGSize thing2_size = self.player2.contentSize;
-    float max2_x = 0;
-	float min2_x = 0;
-    float max2_y = 0;
-	float min2_y = 0;
-    
-    if(IDIOM == IPAD) {
-        //Device is ipad
-        max2_x = 858.0 - thing2_size.width/2;
-        min2_x = 173.0 + thing2_size.width/2;
-        
-        max2_y = 768 - thing2_size.width/2;
-        min2_y = 0 + thing2_size.width/2;
-        
-    }else{
-        //Device is iphone
-        max2_x = 480 - thing2_size.width/2;
-        min2_x = 0 + thing2_size.width/2;
-        
-        max2_y = 320 - thing2_size.width/2;
-        min2_y = 0 + thing2_size.width/2;
-    }
-    
-    if(thing2_pos.x>max2_x) thing2_pos.x = max2_x;
-	if(thing2_pos.x<min2_x) thing2_pos.x = min2_x;
-    
-    thing2_vel.x += thing2_acc.x * dt;
-	thing2_pos.x += thing2_vel.x * dt;
-}
-
 //the function schedule and call everything as needed
 - (void)step:(ccTime)dt {
 	thing_pos.x += thing_vel.x * dt;
 	
 	CGSize thing_size = self.player1.contentSize;
-    CGSize background_size = self.background.contentSize;
     //set the maximun and minimum positions where our character could be on screen
     float max_x = 0;
 	float min_x = 0;
     float max_y = 0;
 	float min_y = 0;
     
-    float background_max_x = 0;
-	float background_min_x = 0;
-    
-    float background_max_y = 0;
-	float background_min_y = 0;
-    
-    float background2_min_y = 0;
-    
     if(IDIOM == IPAD) {
         //Device is ipad
         max_x = 858.0 - thing_size.width/2;
         min_x = 173.0 + thing_size.width/2;
         
-//        background_max_x = 2048 - background_size.width/2;
-//        background_min_x = 0 + background_size.width/2;
-        
-//        max_y = 768.0 - thing_size.height/2;
-//        min_y = 0 + thing_size.height/2;
         max_y = 700.0;
         min_y = 0;
         
-//        background_max_y = 1536 - background_size.height/2;
-//        background_min_y = 0; //+ background_size.height/2;
-//        background2_min_y = 0;
     }else{
         //Device is iphone
         max_x = 480 - thing_size.width/2;
@@ -428,22 +344,6 @@
 	if (thing_pos.x < min_x) thing_pos.x = min_x;
     if (thing_pos.y < min_y) thing_pos.y = min_y;
     if (thing_pos.y > max_y) thing_pos.y = max_y;
-    
-    
-//    if(thing_pos.y>max_y) thing_pos.y = max_y;
-//	if(thing_pos.y<min_y) thing_pos.y = min_y;
-    
-//    if(background_pos.y>background_max_y) background_pos.y = background_max_y;
-//	if(background_pos.y<background_min_y) background_pos.y = background_min_y;
-    
-//	if(background2_pos.y<background2_min_y) background2_pos.y = background2_min_y;
-    
-    
-//    if(background2_pos.x>background_max_x) background2_pos.x = background_max_x;
-//	if(background_pos.x<background_min_x) background_pos.x = background_min_x;
-//    
-//    if(background2_pos.y>background_max_y) background2_pos.y = background_max_y;
-//	if(background2_pos.y<background_min_y) background2_pos.y = background_min_y;
     
     thing_vel.x += thing_acc.x * dt;
     thing_vel.y += thing_acc.y * dt;
@@ -463,11 +363,9 @@
     
     if(IDIOM == IPAD) {
         //Device is ipad
-        max2_x = 858.0 - thing2_size.width/2;
-        min2_x = 173.0 + thing2_size.width/2;
+        max2_x = MAX_COURSE_X - thing2_size.width/2;
+        min2_x = MIN_COURSE_X + thing2_size.width/2;
         
-//        max2_y = 768.0 - thing2_size.height/2;
-//        min2_y = 0 + thing2_size.height/2;
         max2_y = 700.0;
         min2_y = 0;
         
@@ -494,15 +392,6 @@
     
     //-------
     
-    
-//    if (background_vel.y > 0 && background2_vel.y > 0) {
-//        background_vel.y += background_acc.y * dt;
-//        background_pos.y += background_vel.y * dt;
-//        
-//        background2_vel.y += background2_acc.y * dt;
-//        background2_pos.y += background2_vel.y * dt;
-//    }
-
     if (isPlayer1) {
         self.player1.position = ccp(thing_pos.x, thing_pos.y);
 //        NSLog(@"Position player 1: %f", thing_pos.x);
@@ -522,9 +411,25 @@
 
 -(void)checkForCollision{
     if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
-//        NSLog(@"@@@@@@@@@@@@");
+        NSLog(@"@@@@@@@@@@@@");
         [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
+        playerOneScore = [self scoreCounter];
+        [self removeChild:[self getChildByTag:5] cleanup:YES];
+        NSLog(@"Player 1 score: %i", playerOneScore);
     }
+    
+    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:4]]) {
+        NSLog(@"!!!!!!!!!!!!!");
+        playerTwoScore = [self scoreCounter];
+        [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
+        [self removeChild:[self getChildByTag:5] cleanup:YES];
+        NSLog(@"Player 2 score: %i", playerTwoScore);
+    }
+}
+
+-(int)scoreCounter{
+    score += 1;
+    return score;
 }
 
 #pragma mark Obstacles
@@ -677,8 +582,8 @@
     } else if (gameState == kGameStateWaitingForRandomNumber) {
         //        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
-    } else if (gameState == kGameStateWaitingForAvatarNumber) {
-        CCLOG(@"Waiting for avatar #");
+//    } else if (gameState == kGameStateWaitingForAvatarNumber) {
+//        CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
         //        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
