@@ -9,7 +9,7 @@
 
 // Import the interfaces
 #import "IntroLayer.h"
-#import "HelloWorldLayer.h"
+#import "CollectMultiplayerLayer.h"
 #import "GameManager.h"
 
 

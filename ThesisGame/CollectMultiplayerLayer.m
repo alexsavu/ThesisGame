@@ -1,5 +1,5 @@
 //
-//  HelloWorldLayer.m
+//  CollectMultiplayerLayer.m
 //  ThesisGame
 //
 //  Created by Alexandru Savu on 1/24/13.
@@ -8,12 +8,13 @@
 
 
 // Import the interfaces
-#import "HelloWorldLayer.h"
+#import "CollectMultiplayerLayer.h"
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import "Player.h"
 #import "Obstacle.h"
 #import "CCShake.h"
+#import "ScoreCounter.h"
 
 #define IDIOM    UI_USER_INTERFACE_IDIOM()
 #define IPAD     UIUserInterfaceIdiomPad
@@ -23,18 +24,23 @@
 #define MIN_COURSE_X 173.0
 #define MAX_COURSE_X 858.0
 
-@interface HelloWorldLayer (){
+@interface CollectMultiplayerLayer (){
     BOOL stop;
     NSInteger avatarInt;
-    int playerOneScore;
-    int playerTwoScore;
-    int score;
+    int scoreCounterPlayerOne;
+    int scoreCounterPlayerTwo;
+    
+    CCLabelBMFont *labelScorePlayerOne;
+    CCLabelBMFont *labelScorePlayerTwo;
+    ScoreCounter *scoreCounter;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenu;
 @property (nonatomic, retain) CCLayer *currentLayer;
 @property (nonatomic, retain) CCSprite *finish;
 @property (nonatomic, weak) NSString *avatar;
 @property (nonatomic, weak) NSString *otherAvatar;
+@property (nonatomic, weak) CCSprite *scorePlayerOne;
+@property (nonatomic, weak) CCSprite *scorePlayerTwo;
 
 - (void)step:(ccTime)dt;
 
@@ -43,7 +49,7 @@
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
-@implementation HelloWorldLayer
+@implementation CollectMultiplayerLayer
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player1 = _player1;
@@ -53,6 +59,8 @@
 @synthesize finish = _finish;
 @synthesize avatar = _avatar;
 @synthesize otherAvatar = _otherAvatar;
+@synthesize scorePlayerOne = _scorePlayerOne;
+@synthesize scorePlayerTwo = _scorePlayerTwo;
 
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
@@ -62,7 +70,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	HelloWorldLayer *layer = [HelloWorldLayer node];
+	CollectMultiplayerLayer *layer = [CollectMultiplayerLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -82,9 +90,7 @@
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
         stop = NO;
-        playerOneScore = 0;
-        playerTwoScore = 0;
-        score = 0;
+        scoreCounter = [[ScoreCounter alloc] init];
         
         //chosen avatar is retrieved from userDefaults
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
@@ -112,11 +118,36 @@
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2 z:0 tag:2];
         
+        //Initialize score images
+        self.scorePlayerOne = [CCSprite spriteWithFile:@"collectBlue.png"];
+        self.scorePlayerOne.visible = NO;
+        self.scorePlayerOne.position = ccp(74.f, size.height/2);
+        [self addChild:self.scorePlayerOne];
+        
+        self.scorePlayerTwo = [CCSprite spriteWithFile:@"collectGreen.png"];
+        self.scorePlayerTwo.visible = NO;
+        self.scorePlayerTwo.position = ccp(size.width - 74.f, size.height/2);
+        [self addChild:self.scorePlayerTwo];
+        
+        //Initialize labels for scores
+        labelScorePlayerOne = [CCLabelBMFont labelWithString:@"0" fntFile:@"magneto.fnt"];
+        labelScorePlayerOne.position = ccp(80.f, size.height/2 - 10.f);
+        labelScorePlayerOne.visible = NO;
+        [labelScorePlayerOne setScale:2.5];
+        [self addChild:labelScorePlayerOne];
+        
+        labelScorePlayerTwo = [CCLabelBMFont labelWithString:@"0" fntFile:@"magneto.fnt"];
+        labelScorePlayerTwo.position = ccp(size.width - 70.f, size.height/2 - 10.f);
+        labelScorePlayerTwo.visible = NO;
+        [labelScorePlayerTwo setScale:2.5];
+        [self addChild:labelScorePlayerTwo];
+
+        
         //Alternative player sprite allocation with unique avatar
         
         //Add the player character. It has it's own class derived from GameCharacter
         //self.avatar is set by player's choice.
-        self.player1 = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
+        self.player1 = [[Player alloc] initWithFile:@"Char2~ipad.png" alphaThreshold:0];
         //self.player1 = [Player alloc];
         [self.player1 setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player1 z:0 tag:3];
@@ -226,7 +257,7 @@
 //when the authentication has changed restart this scene
 - (void)restartTapped:(id)sender {
     // Reload the current scene
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionZoomFlipX transitionWithDuration:0.5 scene:[HelloWorldLayer scene]]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionZoomFlipX transitionWithDuration:0.5 scene:[CollectMultiplayerLayer scene]]];
 }
 
 //Invitation received (call from the CGHelper)
@@ -413,23 +444,34 @@
     if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
         NSLog(@"@@@@@@@@@@@@");
         [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
-        playerOneScore = [self scoreCounter];
+        [scoreCounter countScoreForPlayerOne];
         [self removeChild:[self getChildByTag:5] cleanup:YES];
-        NSLog(@"Player 1 score: %i", playerOneScore);
+        [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne]];
+        labelScorePlayerOne.visible = YES;
+        self.scorePlayerOne.visible = YES;
+        NSLog(@"Player 1 score: %i",  scoreCounter.scoreForPlayerOne);
     }
     
     if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:4]]) {
         NSLog(@"!!!!!!!!!!!!!");
-        playerTwoScore = [self scoreCounter];
         [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
+        [scoreCounter countScoreForPlayerTwo];
         [self removeChild:[self getChildByTag:5] cleanup:YES];
-        NSLog(@"Player 2 score: %i", playerTwoScore);
+        [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo]];
+        labelScorePlayerTwo.visible = YES;
+        self.scorePlayerTwo.visible = YES;
+        NSLog(@"Player 2 score: %i", scoreCounter.scoreForPlayerTwo);
     }
 }
 
--(int)scoreCounter{
-    score += 1;
-    return score;
+-(int)scoreCounterPlayerOne{
+    scoreCounterPlayerOne += 1;
+    return scoreCounterPlayerOne;
+}
+
+-(int)scoreCounterPlayerTwo{
+    scoreCounterPlayerTwo += 1;
+    return scoreCounterPlayerTwo;
 }
 
 #pragma mark Obstacles
@@ -582,8 +624,8 @@
     } else if (gameState == kGameStateWaitingForRandomNumber) {
         //        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
-//    } else if (gameState == kGameStateWaitingForAvatarNumber) {
-//        CCLOG(@"Waiting for avatar #");
+    } else if (gameState == kGameStateWaitingForAvatarNumber) {
+        CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
         //        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
@@ -616,27 +658,27 @@
 
 - (void)matchStarted {
     CCLOG(@"Match started");
-//    if (receivedRandom) {
-//        if(receivedAvatar){
-//            [self setGameState:kGameStateWaitingForStart];
-//        }
-//        else {
-//            [self setGameState:kGameStateWaitingForAvatarNumber];
-//        }
-//    } else {
-//        [self setGameState:kGameStateWaitingForRandomNumber];
-//    }
-//    [self sendRandomNumber];
-//    [self sendAvatarNumber];
-//    [self tryStartGame];
-    
     if (receivedRandom) {
-        [self setGameState:kGameStateWaitingForStart];
+        if(receivedAvatar){
+            [self setGameState:kGameStateWaitingForStart];
+        }
+        else {
+            [self setGameState:kGameStateWaitingForAvatarNumber];
+        }
     } else {
         [self setGameState:kGameStateWaitingForRandomNumber];
     }
     [self sendRandomNumber];
+    [self sendAvatarNumber];
     [self tryStartGame];
+    
+//    if (receivedRandom) {
+//        [self setGameState:kGameStateWaitingForStart];
+//    } else {
+//        [self setGameState:kGameStateWaitingForRandomNumber];
+//    }
+//    [self sendRandomNumber];
+//    [self tryStartGame];
 }
 
 - (void)matchEnded {
@@ -684,78 +726,82 @@
      
         //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
         //the 'other' player is given a random one that is different from the local player's.
-//    } else if (message->messageType == kMessageTypeAvatarNumber){
-//        MessageAvatarNumber * messageInit = (MessageAvatarNumber *) [data bytes];
-//        CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
-//        bool sameAvatar = false;
-//        
-//        if(messageInit->avatarNumber == avatarInt){
-//            CCLOG(@"Same avatar!");
-//            sameAvatar = true;
-//        }
-//        else{
-//            CCLOG(@"Different avatars!");
-//        }
-//        if(isPlayer1){
-//            if (sameAvatar) {
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Same Avatar" message:@"You have chosen the same avatar as the other player./n Please go back and choose another avatar" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-//                [alert show];
-//            }
-//            if(!sameAvatar){
-//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+    } else if (message->messageType == kMessageTypeAvatarNumber){
+        MessageAvatarNumber * messageInit = (MessageAvatarNumber *) [data bytes];
+        CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
+        bool sameAvatar = false;
+        
+        if(messageInit->avatarNumber == avatarInt){
+            CCLOG(@"Same avatar!");
+            sameAvatar = true;
+        }
+        else{
+            CCLOG(@"Different avatars!");
+        }
+        if(isPlayer1){
+            if (sameAvatar) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Same Avatar" message:@"You have chosen the same avatar as the other player./n Please go back and choose another avatar" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+            if(!sameAvatar){
+                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player2 = [Player spriteWithFile:self.otherAvatar];
+                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
+                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
+                
+                receivedAvatar = YES;
+                if (gameState == kGameStateWaitingForAvatarNumber) {
+                    [self setGameState:kGameStateWaitingForStart];
+                }
+                [self tryStartGame];
+            }
+//            else{
+//                self.player1 = [Player spriteWithFile:self.avatar];
+//                //self.player1 = [CCSprite spriteWithFile:self.avatar];
+//                NSInteger num;
+//                do {
+//                    num = (arc4random() % 5) + 1;
+//                }
+//                while (num==avatarInt);
+//                self.otherAvatar = [self chosenAvatar:num];
 //                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
 //                self.player2 = [Player spriteWithFile:self.otherAvatar];
-//                
-//                receivedAvatar = YES;
-//                if (gameState == kGameStateWaitingForAvatarNumber) {
-//                    [self setGameState:kGameStateWaitingForStart];
-//                }
-//                [self tryStartGame];
+//                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
 //            }
-////            else{
-////                self.player1 = [Player spriteWithFile:self.avatar];
-////                //self.player1 = [CCSprite spriteWithFile:self.avatar];
-////                NSInteger num;
-////                do {
-////                    num = (arc4random() % 5) + 1;
-////                }
-////                while (num==avatarInt);
-////                self.otherAvatar = [self chosenAvatar:num];
-////                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-////                self.player2 = [Player spriteWithFile:self.otherAvatar];
-////                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
-////            }
-//            
-//        }
-//        else{
-//            if(!sameAvatar){
-//                //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
-//                //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
-//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+            
+        }
+        else{
+            if(!sameAvatar){
+                //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
+                //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
+                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player1 = [Player spriteWithFile:self.otherAvatar];
+                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
+                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
+                
+                receivedAvatar = YES;
+                if (gameState == kGameStateWaitingForAvatarNumber) {
+                    [self setGameState:kGameStateWaitingForStart];
+                }
+                [self tryStartGame];
+                
+            }
+//            else{
+//                self.player2 = [Player spriteWithFile:self.avatar];
+//                //self.player2 = [CCSprite spriteWithFile:self.avatar];
+//                NSInteger num;
+//                do {
+//                    num = (arc4random() % 5) + 1;
+//                }
+//                while (num==avatarInt);
+//                self.otherAvatar = [self chosenAvatar:num];
 //                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
 //                self.player1 = [Player spriteWithFile:self.otherAvatar];
-//                
-//                receivedAvatar = YES;
-//                if (gameState == kGameStateWaitingForAvatarNumber) {
-//                    [self setGameState:kGameStateWaitingForStart];
-//                }
-//                [self tryStartGame];
-//                
+//                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
 //            }
-////            else{
-////                self.player2 = [Player spriteWithFile:self.avatar];
-////                //self.player2 = [CCSprite spriteWithFile:self.avatar];
-////                NSInteger num;
-////                do {
-////                    num = (arc4random() % 5) + 1;
-////                }
-////                while (num==avatarInt);
-////                self.otherAvatar = [self chosenAvatar:num];
-////                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-////                self.player1 = [Player spriteWithFile:self.otherAvatar];
-////                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
-////            }
-//        }
+        }
 
         
     } else if (message->messageType == kMessageTypeGameBegin) {

@@ -7,7 +7,7 @@
 //
 
 #import "GameManager.h"
-#import "HelloWorldLayer.h"
+#import "CollectMultiplayerLayer.h"
 #import "MainMenuLayer.h"
 #import "CollectSinglelayerLayer.h"
 
@@ -77,7 +77,7 @@ static GameManager* _sharedGameManager = nil;
             break;
             
         case kGameLevel2:
-            sceneToRun = [HelloWorldLayer node];
+            sceneToRun = [CollectMultiplayerLayer node];
             break;
         case kGameLevel3:
             // Placeholder for Level 3

@@ -72,7 +72,7 @@ typedef struct {
 }MessageAvatarNumber;
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate>
+@interface CollectMultiplayerLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate>
 {
     //player 1
     CGPoint thing_pos;
