@@ -347,6 +347,9 @@
 - (void)step:(ccTime)dt {
 	thing_pos.x += thing_vel.x * dt;
 	
+    // ask director for the window size
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
 	CGSize thing_size = self.player1.contentSize;
     //set the maximun and minimum positions where our character could be on screen
     float max_x = 0;
@@ -359,8 +362,8 @@
         max_x = 858.0 - thing_size.width/2;
         min_x = 173.0 + thing_size.width/2;
         
-        max_y = 700.0;
-        min_y = 0;
+        max_y = size.height - thing_size.height;
+        min_y = 0 + thing_size.height/2;
         
     }else{
         //Device is iphone
@@ -397,8 +400,8 @@
         max2_x = MAX_COURSE_X - thing2_size.width/2;
         min2_x = MIN_COURSE_X + thing2_size.width/2;
         
-        max2_y = 700.0;
-        min2_y = 0;
+        max2_y = size.height - thing_size.height;
+        min2_y = 0 + thing_size.height/2;
         
     }else{
         //Device is iphone
@@ -449,6 +452,7 @@
         [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne]];
         labelScorePlayerOne.visible = YES;
         self.scorePlayerOne.visible = YES;
+        [self updateWinning];
         NSLog(@"Player 1 score: %i",  scoreCounter.scoreForPlayerOne);
     }
     
@@ -460,7 +464,26 @@
         [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo]];
         labelScorePlayerTwo.visible = YES;
         self.scorePlayerTwo.visible = YES;
+        [self updateWinning];
         NSLog(@"Player 2 score: %i", scoreCounter.scoreForPlayerTwo);
+    }
+}
+
+#pragma mark Score handling
+
+-(void)updateWinning{
+    if (scoreCounter.scoreForPlayerOne == 10) {
+        if (isPlayer1) {
+            [self endScene:kEndReasonWin];
+        } else {
+            [self endScene:kEndReasonLose];
+        }
+    }else if (scoreCounter.scoreForPlayerTwo == 10){
+        if (isPlayer1) {
+            [self endScene:kEndReasonLose];
+        } else {
+            [self endScene:kEndReasonWin];
+        }
     }
 }
 

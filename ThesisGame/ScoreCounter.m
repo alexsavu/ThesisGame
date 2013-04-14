@@ -11,11 +11,13 @@
 @implementation ScoreCounter
 @synthesize scoreForPlayerOne = _scoreForPlayerOne;
 @synthesize scoreForPlayerTwo = _scoreForPlayerTwo;
+@synthesize numberOfStars = _numberOfStars;
 
 -(id)init{
     if (self == [super init]) {
         _scoreForPlayerOne = 0;
         _scoreForPlayerTwo = 0;
+        _numberOfStars = 0;
     }
     return self;
 }
@@ -26,6 +28,10 @@
 
 -(void)countScoreForPlayerTwo{
     self.scoreForPlayerTwo += 1;
+}
+
+-(void)colectStars{
+    self.numberOfStars += 1;
 }
 
 @end

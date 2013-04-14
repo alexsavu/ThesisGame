@@ -28,7 +28,6 @@
 }
 
 @property (nonatomic, strong) Player *player;
-@property (nonatomic, strong) BackgroundLayer *backgroundLayer;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;
 

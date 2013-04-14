@@ -11,6 +11,7 @@
 #import "Player.h"
 #import "CCShake.h"
 #import "Obstacle.h"
+#import "ScoreCounter.h"
 
 #define IDIOM    UI_USER_INTERFACE_IDIOM()
 #define IPAD     UIUserInterfaceIdiomPad
@@ -22,23 +23,24 @@
 
 @interface CollectSinglelayerLayer (){
     BOOL stop;
+    ScoreCounter *scoreCounter;
+    CCSpriteBatchNode *starSheet;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
 @property (nonatomic, retain) CCSprite *finish;
-@property (nonatomic, strong) Obstacle *obstacle;
+@property (nonatomic, strong) Obstacle *collectable;
 
 - (void)step:(ccTime)dt;
 @end
 
 @implementation CollectSinglelayerLayer
-@synthesize backgroundLayer = _backgroundLayer;
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player = _player;
 @synthesize backToMainMenuFromScene2 = _backToMainMenuFromScene2;
 @synthesize finish = _finish;
 
-@synthesize obstacle = _obstacle;
+@synthesize collectable = _collectable;
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -67,6 +69,12 @@
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
         stop = NO;
+        scoreCounter = [[ScoreCounter alloc] init];
+        
+        starSheet = [CCSpriteBatchNode batchNodeWithFile:@"starAnimation2_default.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"starAnimation2_default.plist"];
+        [self addChild:starSheet];
+        
         
         //Add finish flag and make it invisible until we need to display it
         self.finish = [CCSprite spriteWithFile:@"finish.png"];
@@ -97,7 +105,8 @@
         //This are the functions that will be scheduled to load continuously
         //as long as our game is running
         [self schedule:@selector(step:)];
-        [self schedule:@selector(collectableStarsStep:) interval:2.0];        
+//        [self schedule:@selector(collectableStarsStep:) interval:2.0];
+        [self performSelector:@selector(collectableStars) withObject:self afterDelay:2.f];
         [self schedule:@selector(scroll:) interval:0.0000000001];
         
 //        self.scale = 0.4;
@@ -147,56 +156,48 @@
 
 -(void)collectableStars{
     
-    self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
+    self.collectable = [[Obstacle alloc] initWithFile:@"starObject_1.png" alphaThreshold:0];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
-    int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
+    int minX = MIN_COURSE_X + self.collectable.contentSize.width/2;
+    int maxX = MAX_COURSE_X - self.collectable.contentSize.width/2;
     int rangeX = maxX - minX;
     int actualX = (arc4random() % rangeX) + minX;
     
+    //Position on Y for upper part of the screen
+    int minYUpper = winSize.height - winSize.height/4;
+    int maxYUpper = winSize.height - self.collectable.contentSize.height/2;
+    int actualYUpper = minYUpper + arc4random() % (maxYUpper - minYUpper);
+    
+    //Position on Y for lower part of the screen
+    int minYLower = 0 + self.collectable.contentSize.height/2;
+    int maxYLower = 0 + winSize.height/4;
+    int actualYLower = minYLower + arc4random() % (maxYLower - minYLower);
+    
+    //Animation
+//    NSMutableArray *starAnimFrames = [NSMutableArray array];
+//    for(int i = 1; i <= 7; i++){
+//        [starAnimFrames addObject: [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"starObject_%d.png", i]]];
+//    }
+//    CCAnimation *starAnim = [CCAnimation animationWithSpriteFrames:starAnimFrames delay:
+//                             0.1f];
+//    CCAction *action = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:starAnim]];
+//    
+//    [starSheet addChild:self.collectable];
+//    [self.collectable runAction:action];
+    
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
-    self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle z:0 tag:5];
-    
-    // Determine speed of the target
-    int minDuration = 2.0;
-    int maxDuration = 4.0;
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-    
-    // Create the actions
-    id actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                        position:ccp(actualX ,-self.obstacle.contentSize.height)];
-    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-                                             selector:@selector(spriteMoveFinished:)];
-    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-}
-
-//Remove onstacle after going out of screen
--(void)spriteMoveFinished:(id)sender {
-    Obstacle *obstacle = (Obstacle *)sender;
-    [self removeChild:obstacle cleanup:YES];
-    
-//	if (sprite.tag == 1) { // target
-//		[_targets removeObject:sprite];
-//
-//		GameOverScene *gameOverScene = [GameOverScene node];
-//		[gameOverScene.layer.label setString:@"You Lose :["];
-//		[[CCDirector sharedDirector] replaceScene:gameOverScene];
-//
-//	} else if (sprite.tag == 2) { // projectile
-//		[_projectiles removeObject:sprite];
-//	}
+    NSLog(@"STARS: %i", scoreCounter.numberOfStars);
+    if (scoreCounter.numberOfStars % 2 == 0) {
+        self.collectable.position = ccp(actualX ,actualYUpper);
+    }else{
+        self.collectable.position = ccp(actualX ,actualYLower);
+    }
+    [self addChild:self.collectable z:0 tag:5];
 }
 
 #pragma mark Step methods
-
-//step method fro the obstacles
--(void)collectableStarsStep:(ccTime)dt{
-    [self collectableStars];
-}
 
 //the function schedule and call everything as needed
 - (void)step:(ccTime)dt {
@@ -217,7 +218,7 @@
         min_x = 173.0 + thing_size.width/2;
         
         max_y = 700.0;
-        min_y = 0;
+        min_y = 0 + thing_size.height/2;
         
     }else{
         //Device is iphone
@@ -250,7 +251,8 @@
 -(void)checkForCollision{
     if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
         NSLog(@"@@@@@@@@@@@@");
-        [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
+        [scoreCounter colectStars];
+        [self performSelector:@selector(collectableStars) withObject:self afterDelay:2.f];
         [self removeChild:[self getChildByTag:5] cleanup:YES];
     }
 }

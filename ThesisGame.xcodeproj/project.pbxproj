@@ -32,6 +32,7 @@
 		3E12B0BF16CE73B600B5485D /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0BE16CE73B600B5485D /* GameCharacter.m */; };
 		3E12B0C216CE7F5D00B5485D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C116CE7F5D00B5485D /* Player.m */; };
 		3E12B0C616CE95A800B5485D /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C516CE95A800B5485D /* GameManager.m */; };
+		3E28F554171ABDAB00F60925 /* starObject_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E28F553171ABDAB00F60925 /* starObject_1.png */; };
 		3E46FA7816E246F200912942 /* MainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E46FA7716E246F200912942 /* MainMenuLayer.m */; };
 		3E4D658D17186BC500068368 /* Char1_selected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E4D658317186BC500068368 /* Char1_selected~ipad.png */; };
 		3E4D658E17186BC500068368 /* Char1~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E4D658417186BC500068368 /* Char1~ipad.png */; };
@@ -52,6 +53,8 @@
 		3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */; };
 		3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621616E266910068DFD4 /* VikingSpeechFont64.png */; };
 		3E91621D16E27AAF0068DFD4 /* CollectSinglelayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E91621C16E27AAF0068DFD4 /* CollectSinglelayerLayer.m */; };
+		3E968147171ADE1B0009E22D /* starAnimation2_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E968145171ADE1B0009E22D /* starAnimation2_default.plist */; };
+		3E968148171ADE1B0009E22D /* starAnimation2_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E968146171ADE1B0009E22D /* starAnimation2_default.png */; };
 		3E9C66401710811000E6A4F1 /* cactusTextureAtlas_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C663E1710811000E6A4F1 /* cactusTextureAtlas_default.plist */; };
 		3E9C66411710811000E6A4F1 /* cactusTextureAtlas_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C663F1710811000E6A4F1 /* cactusTextureAtlas_default.png */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
@@ -234,6 +237,7 @@
 		3E12B0C116CE7F5D00B5485D /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		3E12B0C416CE95A800B5485D /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		3E12B0C516CE95A800B5485D /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
+		3E28F553171ABDAB00F60925 /* starObject_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starObject_1.png; sourceTree = "<group>"; };
 		3E46FA7616E246F200912942 /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLayer.h; sourceTree = "<group>"; };
 		3E46FA7716E246F200912942 /* MainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLayer.m; sourceTree = "<group>"; };
 		3E4D658317186BC500068368 /* Char1_selected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Char1_selected~ipad.png"; sourceTree = "<group>"; };
@@ -257,6 +261,8 @@
 		3E91621616E266910068DFD4 /* VikingSpeechFont64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VikingSpeechFont64.png; sourceTree = "<group>"; };
 		3E91621B16E27AAF0068DFD4 /* CollectSinglelayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectSinglelayerLayer.h; sourceTree = "<group>"; };
 		3E91621C16E27AAF0068DFD4 /* CollectSinglelayerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectSinglelayerLayer.m; sourceTree = "<group>"; };
+		3E968145171ADE1B0009E22D /* starAnimation2_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = starAnimation2_default.plist; sourceTree = "<group>"; };
+		3E968146171ADE1B0009E22D /* starAnimation2_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starAnimation2_default.png; sourceTree = "<group>"; };
 		3E9C663E1710811000E6A4F1 /* cactusTextureAtlas_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cactusTextureAtlas_default.plist; sourceTree = "<group>"; };
 		3E9C663F1710811000E6A4F1 /* cactusTextureAtlas_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cactusTextureAtlas_default.png; sourceTree = "<group>"; };
 		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
@@ -562,7 +568,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3E0DB8B1171994D000EEAAC6 /* Points */ = {
+		3E0DB8B1171994D000EEAAC6 /* Points for players */ = {
 			isa = PBXGroup;
 			children = (
 				3E0DB8B2171994F800EEAAC6 /* avoidBlue.png */,
@@ -570,7 +576,7 @@
 				3E0DB8B4171994F800EEAAC6 /* collectBlue.png */,
 				3E0DB8B5171994F800EEAAC6 /* collectGreen.png */,
 			);
-			name = Points;
+			name = "Points for players";
 			sourceTree = "<group>";
 		};
 		3E0E886916DFA50100A1AB72 /* Collision Detection */ = {
@@ -642,6 +648,15 @@
 			name = Singletons;
 			sourceTree = "<group>";
 		};
+		3E28F552171ABD9E00F60925 /* Collectables */ = {
+			isa = PBXGroup;
+			children = (
+				3E968144171ADE090009E22D /* Texture Atlas */,
+				3E28F553171ABDAB00F60925 /* starObject_1.png */,
+			);
+			name = Collectables;
+			sourceTree = "<group>";
+		};
 		3E46FA7116E240C600912942 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,6 +724,15 @@
 				3E0DB8AC17196B4A00EEAAC6 /* AvoidSingleplayerLayer.m */,
 			);
 			name = Scene2;
+			sourceTree = "<group>";
+		};
+		3E968144171ADE090009E22D /* Texture Atlas */ = {
+			isa = PBXGroup;
+			children = (
+				3E968145171ADE1B0009E22D /* starAnimation2_default.plist */,
+				3E968146171ADE1B0009E22D /* starAnimation2_default.png */,
+			);
+			name = "Texture Atlas";
 			sourceTree = "<group>";
 		};
 		3E9C6634171078D800E6A4F1 /* Cactuses */ = {
@@ -783,7 +807,8 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3E0DB8B1171994D000EEAAC6 /* Points */,
+				3E28F552171ABD9E00F60925 /* Collectables */,
+				3E0DB8B1171994D000EEAAC6 /* Points for players */,
 				3E9C6634171078D800E6A4F1 /* Cactuses */,
 				3EF4B72216E7C23A00E64996 /* Characters */,
 				3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */,
@@ -1328,6 +1353,9 @@
 				3E0DB8B7171994F800EEAAC6 /* avoidGreen.png in Resources */,
 				3E0DB8B8171994F800EEAAC6 /* collectBlue.png in Resources */,
 				3E0DB8B9171994F800EEAAC6 /* collectGreen.png in Resources */,
+				3E28F554171ABDAB00F60925 /* starObject_1.png in Resources */,
+				3E968147171ADE1B0009E22D /* starAnimation2_default.plist in Resources */,
+				3E968148171ADE1B0009E22D /* starAnimation2_default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
