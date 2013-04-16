@@ -18,13 +18,6 @@
     CGPoint thing_pos;
 	CGPoint thing_vel;
 	CGPoint thing_acc;
-    CGPoint background_pos;
-    CGPoint background_vel;
-    CGPoint background_acc;
-    
-    CGPoint background2_pos;
-    CGPoint background2_vel;
-    CGPoint background2_acc;
 }
 
 @property (nonatomic, strong) Player *player;

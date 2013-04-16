@@ -12,6 +12,7 @@
 #import "CCShake.h"
 #import "Obstacle.h"
 #import "ScoreCounter.h"
+#import "SimpleAudioEngine.h"
 
 #define IDIOM    UI_USER_INTERFACE_IDIOM()
 #define IPAD     UIUserInterfaceIdiomPad
@@ -22,23 +23,25 @@
 #define MAX_COURSE_X 858.0
 
 @interface CollectSinglelayerLayer (){
-    BOOL stop;
+    NSInteger avatarInt;
     ScoreCounter *scoreCounter;
     CCSpriteBatchNode *starSheet;
 }
 @property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
-@property (nonatomic, retain) CCSprite *finish;
 @property (nonatomic, strong) Obstacle *collectable;
+@property (nonatomic, weak) NSString *avatar;
 
-- (void)step:(ccTime)dt;
+-(void)step:(ccTime)dt;
+-(void)sparkleAt:(CGPoint)p;
+-(NSString*)chosenAvatar:(NSInteger)value;
 @end
 
 @implementation CollectSinglelayerLayer
 @synthesize background = _background;
 @synthesize background2 = _background2;
 @synthesize player = _player;
+@synthesize avatar = _avatar;
 @synthesize backToMainMenuFromScene2 = _backToMainMenuFromScene2;
-@synthesize finish = _finish;
 
 @synthesize collectable = _collectable;
 
@@ -67,20 +70,16 @@
 
         // ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-        
-        stop = NO;
+
         scoreCounter = [[ScoreCounter alloc] init];
         
-        starSheet = [CCSpriteBatchNode batchNodeWithFile:@"starAnimation2_default.png"];
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"starAnimation2_default.plist"];
-        [self addChild:starSheet];
+        //chosen avatar is retrieved from userDefaults
+        NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
+        avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];
+        self.avatar = [self chosenAvatar:avatarInt];
         
-        
-        //Add finish flag and make it invisible until we need to display it
-        self.finish = [CCSprite spriteWithFile:@"finish.png"];
-        self.finish.position = ccp(size.width/2, size.height/2);
-        self.finish.visible = NO;
-        [self addChild:self.finish z:100];
+        //Preload sounds
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"collectStar.mp3"];
         
         //Adding the backgrounds as a sprite
         self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
@@ -94,7 +93,7 @@
         [self addChild:self.background2 ];
         
         //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:@"prototypeCharacter.png" alphaThreshold:0];
+        self.player = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, size.width/2)];
         [self addChild:self.player z:0 tag:1];
         
@@ -174,7 +173,11 @@
     int maxYLower = 0 + winSize.height/4;
     int actualYLower = minYLower + arc4random() % (maxYLower - minYLower);
     
-    //Animation
+//    //Animation
+//    starSheet = [CCSpriteBatchNode batchNodeWithFile:@"starAnimation2_default.png"];
+//    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"starAnimation2_default.plist"];
+//    [self addChild:starSheet];
+//    
 //    NSMutableArray *starAnimFrames = [NSMutableArray array];
 //    for(int i = 1; i <= 7; i++){
 //        [starAnimFrames addObject: [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"starObject_%d.png", i]]];
@@ -196,6 +199,39 @@
     }
     [self addChild:self.collectable z:0 tag:5];
 }
+
+#pragma mark Choose Avatar based on number
+
+//Finds the correct .png for the chosen avatar, returns .png location in NSString form.
+- (NSString*) chosenAvatar: (NSInteger) value {
+    NSString *avatarString = [[NSString alloc] init];
+    switch(value)
+    {
+        case 1:
+            //self.avatar = @"Char1~ipad.png";
+            avatarString = @"Char1~ipad.png";
+            break;
+        case 2:
+            //self.avatar = @"Char2~ipad.png";
+            avatarString = @"Char2~ipad.png";
+            break;
+        case 3:
+            //self.avatar = @"Char3~ipad.png";
+            avatarString = @"Char3~ipad.png";
+            break;
+        case 4:
+            //self.avatar = @"Char4~ipad.png";
+            avatarString = @"Char4~ipad.png";
+            break;
+        case 5:
+            //self.avatar = @"Char5~ipad.png";
+            avatarString = @"Char5~ipad.png";
+            break;
+    }
+    
+    return avatarString;
+}
+
 
 #pragma mark Step methods
 
@@ -250,17 +286,30 @@
 
 -(void)checkForCollision{
     if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
-        NSLog(@"@@@@@@@@@@@@");
+        NSLog(@"@@@@@@@@@@@@: %f", [self getChildByTag:5].position.y);
+        [self sparkleAt:[self getChildByTag:5].position];
         [scoreCounter colectStars];
         [self performSelector:@selector(collectableStars) withObject:self afterDelay:2.f];
         [self removeChild:[self getChildByTag:5] cleanup:YES];
     }
 }
 
-//Add finish sprite
--(void)finishFlagSprite{
-    self.finish.visible = YES;
+#pragma mark Stars effect
+
+- (void)sparkleAt:(CGPoint)p {
+    //	NSLog(@"sparkle");
+	CCParticleSystem *ps = [CCParticleExplosion node];
+	[self addChild:ps z:12];
+	ps.texture = [[CCTextureCache sharedTextureCache] addImage:@"stars.png"];
+    //	ps.blendAdditive = YES;
+	ps.position = p;
+	ps.life = 1.0f;
+	ps.lifeVar = 1.0f;
+	ps.totalParticles = 60.0f;
+	ps.autoRemoveOnFinish = YES;
+    [[SimpleAudioEngine sharedEngine] playEffect:@"collectStar.mp3"];
 }
+
 #pragma mark Accelerometer
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
@@ -268,9 +317,6 @@
 	//handle our character on-screen via accelerometer
 	thing_vel.x = thing_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     thing_vel.y = thing_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
-    
-    background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
-    background2_vel.y = background2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
     
     double rollingZ  = acceleration.z;
     double rollingX = acceleration.x;

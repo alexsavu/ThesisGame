@@ -10,6 +10,7 @@
 #import <GameKit/GameKit.h>
 
 @protocol GCHelperDelegate
+@optional
 - (void)matchStarted;
 - (void)matchEnded;
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data

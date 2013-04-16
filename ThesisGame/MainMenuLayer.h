@@ -14,7 +14,9 @@
 @interface MainMenuLayer : CCLayer
 
 @property (nonatomic, strong) CCMenu *mainMenu;
-@property (nonatomic, strong) CCMenu *sceneSelectMenu;
 @property (nonatomic, strong) CCMenu *avatarMenu;
+@property (nonatomic, strong) CCMenu *singleMultiplayerMenu;
+@property (nonatomic, strong) CCMenu *sceneSelectionSingleplayer;
+@property (nonatomic, strong) CCMenu *sceneSelectionMultiplayer;
 
 @end

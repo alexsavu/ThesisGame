@@ -10,7 +10,6 @@
 // Import the interfaces
 #import "CollectMultiplayerLayer.h"
 #import "AppDelegate.h"
-#import "RootViewController.h"
 #import "Player.h"
 #import "Obstacle.h"
 #import "CCShake.h"
@@ -25,10 +24,9 @@
 #define MAX_COURSE_X 858.0
 
 @interface CollectMultiplayerLayer (){
-    BOOL stop;
     NSInteger avatarInt;
-    int scoreCounterPlayerOne;
-    int scoreCounterPlayerTwo;
+    NSInteger scoreCounterPlayerOne;
+    NSUInteger scoreCounterPlayerTwo;
     
     CCLabelBMFont *labelScorePlayerOne;
     CCLabelBMFont *labelScorePlayerTwo;
@@ -42,7 +40,8 @@
 @property (nonatomic, weak) CCSprite *scorePlayerOne;
 @property (nonatomic, weak) CCSprite *scorePlayerTwo;
 
-- (void)step:(ccTime)dt;
+-(void)step:(ccTime)dt;
+-(NSString*)chosenAvatar:(NSInteger)value;
 
 @end
 
@@ -89,7 +88,6 @@
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
-        stop = NO;
         scoreCounter = [[ScoreCounter alloc] init];
         
         //chosen avatar is retrieved from userDefaults
@@ -169,11 +167,11 @@
         self.isAccelerometerEnabled = YES;
         [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60];
         
-        //This are the functions that will be scheduled to load continuously
-        //as long as our game is running
-        [self schedule:@selector(step:)];
-        [self schedule:@selector(obstaclesStep:) interval:2.0];
-        [self schedule:@selector(scroll:) interval:0.0000000001];
+//        //This are the functions that will be scheduled to load continuously
+//        //as long as our game is running
+//        [self schedule:@selector(step:)];
+//        [self schedule:@selector(obstaclesStep:) interval:2.0];
+//        [self schedule:@selector(scroll:) interval:0.0000000001];
         
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch];
@@ -554,6 +552,13 @@
     
     if (isPlayer1 && gameState == kGameStateWaitingForStart) {
         [self setGameState:kGameStateActive];
+        
+        //This are the functions that will be scheduled to load continuously
+        //as long as our game is running
+        [self schedule:@selector(step:)];
+        [self schedule:@selector(obstaclesStep:) interval:2.0];
+        [self schedule:@selector(scroll:) interval:0.0000000001];
+        
         [self sendGameBegin];
     }
     
@@ -570,9 +575,6 @@
     //player 2
     thing2_vel.x = thing2_vel.x * accel_filter - acceleration.y * (1.0f - accel_filter) * 500.0f;
     thing2_vel.y = thing2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
-    
-    background_vel.y = background_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
-    background2_vel.y = background2_vel.y * accel_filter + acceleration.x * (1.0f - accel_filter) * 1500.0f;
     
     double rollingZ  = acceleration.z;
     double rollingX = acceleration.x;
@@ -713,8 +715,6 @@
 }
 
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerID {
-//    CCLOG(@"Received data");
-    
     // Store away other player ID for later
     if (otherPlayerID == nil) {
         otherPlayerID = playerID;
@@ -769,7 +769,6 @@
             if(!sameAvatar){
                 self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
                 CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player2 = [Player spriteWithFile:self.otherAvatar];
                 self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
                 self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
                 
@@ -779,19 +778,6 @@
                 }
                 [self tryStartGame];
             }
-//            else{
-//                self.player1 = [Player spriteWithFile:self.avatar];
-//                //self.player1 = [CCSprite spriteWithFile:self.avatar];
-//                NSInteger num;
-//                do {
-//                    num = (arc4random() % 5) + 1;
-//                }
-//                while (num==avatarInt);
-//                self.otherAvatar = [self chosenAvatar:num];
-//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player2 = [Player spriteWithFile:self.otherAvatar];
-//                //self.player2 = [CCSprite spriteWithFile:self.otherAvatar];
-//            }
             
         }
         else{
@@ -800,7 +786,6 @@
                 //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
                 self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
                 CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player1 = [Player spriteWithFile:self.otherAvatar];
                 self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
                 self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
                 
@@ -811,25 +796,18 @@
                 [self tryStartGame];
                 
             }
-//            else{
-//                self.player2 = [Player spriteWithFile:self.avatar];
-//                //self.player2 = [CCSprite spriteWithFile:self.avatar];
-//                NSInteger num;
-//                do {
-//                    num = (arc4random() % 5) + 1;
-//                }
-//                while (num==avatarInt);
-//                self.otherAvatar = [self chosenAvatar:num];
-//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player1 = [Player spriteWithFile:self.otherAvatar];
-//                //self.player1 = [CCSprite spriteWithFile:self.otherAvatar];
-//            }
         }
 
         
     } else if (message->messageType == kMessageTypeGameBegin) {
         
         [self setGameState:kGameStateActive];
+        
+        //This are the functions that will be scheduled to load continuously
+        //as long as our game is running
+        [self schedule:@selector(step:)];
+        [self schedule:@selector(obstaclesStep:) interval:2.0];
+        [self schedule:@selector(scroll:) interval:0.0000000001];
         
     } else if (message->messageType == kMessageTypeMove) {
         

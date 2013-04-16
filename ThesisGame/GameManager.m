@@ -10,6 +10,8 @@
 #import "CollectMultiplayerLayer.h"
 #import "MainMenuLayer.h"
 #import "CollectSinglelayerLayer.h"
+#import "AvoidSingleplayerLayer.h"
+#import "AvoidMultiplayerLayer.h"
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -77,13 +79,13 @@ static GameManager* _sharedGameManager = nil;
             break;
             
         case kGameLevel2:
-            sceneToRun = [CollectMultiplayerLayer node];
+            sceneToRun = [AvoidSingleplayerLayer node];
             break;
         case kGameLevel3:
-            // Placeholder for Level 3
+            sceneToRun = [CollectMultiplayerLayer node];
             break;
         case kGameLevel4:
-            // Placeholder for Level 4
+            sceneToRun = [AvoidMultiplayerLayer node];
             break;
         case kGameLevel5:
             // Placeholder for Level 5
