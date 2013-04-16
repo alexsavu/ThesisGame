@@ -364,17 +364,17 @@
 
 -(void)checkForCollision{
     if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
-        [scoreCounter substractLives];
-        NSLog(@"@@@@@@@@@@@@: %i", scoreCounter.livesLeft);
+        [scoreCounter substractLivesPlayer1];
+        NSLog(@"@@@@@@@@@@@@: %i", scoreCounter.livesLeftPlayer1);
         [[self getChildByTag:2] setTag:110];
         [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
-        [self removeChildByTag:scoreCounter.livesLeft + 3 cleanup:YES];
+        [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
         [self updateWinningCondition];
     }
 }
 
 - (void)updateWinningCondition{
-    if (scoreCounter.livesLeft == 0) {
+    if (scoreCounter.livesLeftPlayer1 == 0) {
         [self endScene];
     }
 }

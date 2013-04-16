@@ -13,13 +13,15 @@
 @property (nonatomic) NSInteger scoreForPlayerOne;
 @property (nonatomic) NSInteger scoreForPlayerTwo;
 @property (nonatomic) NSInteger numberOfStars;
-@property (nonatomic) NSInteger livesLeft;
+@property (nonatomic) NSInteger livesLeftPlayer1;
+@property (nonatomic) NSInteger livesLeftPlayer2;
 @property (nonatomic) NSInteger timeCounter;
 
 -(void)countScoreForPlayerOne;
 -(void)countScoreForPlayerTwo;
 -(void)colectStars;
--(void)substractLives;
+-(void)substractLivesPlayer1;
+-(void)substractLivesPlayer2;
 -(void)countDownTimer;
 
 @end

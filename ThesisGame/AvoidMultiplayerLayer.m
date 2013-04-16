@@ -28,6 +28,8 @@
     int scoreCounterPlayerOne;
     int scoreCounterPlayerTwo;
     
+    NSInteger counterForObstacles;
+    
     CCLabelBMFont *labelScorePlayerOne;
     CCLabelBMFont *labelScorePlayerTwo;
     ScoreCounter *scoreCounter;
@@ -90,6 +92,8 @@
         stop = NO;
         scoreCounter = [[ScoreCounter alloc] init];
         
+        counterForObstacles = 1;
+        
         //Preload sound effects
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"dropRock.mp3"];
         
@@ -111,12 +115,12 @@
         self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background.anchorPoint = ccp(0, 0);
         self.background.position = ccp(0, 0);
-        [self addChild:self.background z:0 tag:1];
+        [self addChild:self.background];
         
         self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
-        [self addChild:self.background2 z:0 tag:2];
+        [self addChild:self.background2];
         
         //Initialize score images
         self.scorePlayerOne = [CCSprite spriteWithFile:@"collectBlue.png"];
@@ -150,7 +154,7 @@
         self.player1 = [[Player alloc] initWithFile:@"Char2~ipad.png" alphaThreshold:0];
         //self.player1 = [Player alloc];
         [self.player1 setPosition:ccp(size.height/2, size.width/2)];
-        [self addChild:self.player1 z:0 tag:3];
+        [self addChild:self.player1 z:0 tag:0];
         //self.player1.id = 1
         
         //TODO: The avatar information here should come with a message from the other player in a multipl. setting.
@@ -158,7 +162,7 @@
         self.player2 = [[Player alloc] initWithFile:@"Char1~ipad.png" alphaThreshold:0];
         //self.player2 = [Player alloc];
         [self.player2 setPosition:ccp(size.height/2, size.width/2)];
-        [self addChild:self.player2 z:0 tag:4];
+        [self addChild:self.player2 z:0 tag:1];
         
         
         //The method that gets called to find a match between 2 players
@@ -178,11 +182,45 @@
         ourRandom = arc4random();
         [self setGameState:kGameStateWaitingForMatch2];
         
-        //        self.scale = 0.4;
+//        self.scale = 0.4;
         
         [self addBackButton];
+        [self addLivesPlayer1];
+        [self addLivesPlayer2];
 	}
 	return self;
+}
+
+-(void)addLivesPlayer1{
+    static int padding = 1;
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    for(int i = 0; i < 5; i++) {
+        // Create star and add it to the layer
+        CCSprite *star = [CCSprite spriteWithFile:@"avoidHeart.png"];
+        int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
+        int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
+        star.position = ccp(50 + xOffset, yOffset);
+        NSLog(@"X Offset: %i", xOffset);
+        NSLog(@"Y Offset: %i", yOffset);
+        star.tag = i + 3; // use i here if you like
+        [self addChild:star];
+    }
+}
+
+-(void)addLivesPlayer2{
+    static int padding = 1;
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    for(int i = 0; i < 5; i++) {
+        // Create star and add it to the layer
+        CCSprite *star = [CCSprite spriteWithFile:@"avoidHeart.png"];
+        int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
+        int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
+        star.position = ccp(900 + xOffset, yOffset);
+        NSLog(@"X Offset: %i", xOffset);
+        NSLog(@"Y Offset: %i", yOffset);
+        star.tag = i + 8; // use i here if you like
+        [self addChild:star];
+    }
 }
 
 -(void)scroll:(ccTime)dt{
@@ -244,7 +282,7 @@
                            menuWithItems:backArrow,nil];
     [self.backToMainMenu setPosition:ccp(55.f,screenSize.height - 55.f)];
     //TODO: change tag value because is the same as the main menu
-    [self addChild:self.backToMainMenu z:0 tag:kMainMenuTagValue];
+    [self addChild:self.backToMainMenu z:0];
 }
 
 //Selector method for going back to main menu
@@ -444,88 +482,104 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
-        NSLog(@"@@@@@@@@@@@@");
-//        [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
-        [scoreCounter countScoreForPlayerOne];
-        [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne]];
-        labelScorePlayerOne.visible = YES;
-        self.scorePlayerOne.visible = YES;
+    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:0]]) {
+        [scoreCounter substractLivesPlayer1];
+        NSLog(@"@@@@@@@@@@@@: %i", scoreCounter.livesLeftPlayer1);
+        [[self getChildByTag:2] setTag:110];
+        [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+        [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
         [self updateWinning];
-        NSLog(@"Player 1 score: %i",  scoreCounter.scoreForPlayerOne);
     }
     
-    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:4]]) {
-        NSLog(@"!!!!!!!!!!!!!");
-//        [[self getChildByTag:5] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(0, 5) ]];
-        [scoreCounter countScoreForPlayerTwo];
-        [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo]];
-        labelScorePlayerTwo.visible = YES;
-        self.scorePlayerTwo.visible = YES;
+    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
+        [scoreCounter substractLivesPlayer2];
+        NSLog(@"!!!!!!!!!!!!!!!: %i", scoreCounter.livesLeftPlayer2);
+        [[self getChildByTag:2] setTag:111];
+        [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+        [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
         [self updateWinning];
-        NSLog(@"Player 2 score: %i", scoreCounter.scoreForPlayerTwo);
     }
 }
 
 #pragma mark Score handling
 
 -(void)updateWinning{
-    if (scoreCounter.scoreForPlayerOne == 10) {
+    if (scoreCounter.livesLeftPlayer1 == 0) {
         if (isPlayer1) {
-            [self endScene:kEndReasonWin2];
-        } else {
             [self endScene:kEndReasonLose2];
+        } else {
+            [self endScene:kEndReasonWin2];
         }
-    }else if (scoreCounter.scoreForPlayerTwo == 10){
+    }else if (scoreCounter.livesLeftPlayer2 == 0){
         if (isPlayer1) {
-            [self endScene:kEndReasonLose2];
-        } else {
             [self endScene:kEndReasonWin2];
+        } else {
+            [self endScene:kEndReasonLose2];
         }
     }
-}
-
--(int)scoreCounterPlayerOne{
-    scoreCounterPlayerOne += 1;
-    return scoreCounterPlayerOne;
-}
-
--(int)scoreCounterPlayerTwo{
-    scoreCounterPlayerTwo += 1;
-    return scoreCounterPlayerTwo;
 }
 
 #pragma mark Obstacles
 
 -(void)addObstacles{
-    
     self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
-    int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
-    int rangeX = maxX - minX;
-    int actualX = (arc4random() % rangeX) + minX;
+    //    int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
+    //    int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
+    //    int rangeX = maxX - minX;
+    //    int actualX = (arc4random() % rangeX) + minX;
+    
+    int stupidX = 0;
+    int stupidDuration = 0;
+    if (counterForObstacles == 1) {
+        stupidX = 300.0;
+        stupidDuration = 2;
+    }else if (counterForObstacles == 2){
+        stupidX = 400.0;
+        stupidDuration = 4;
+    }else if (counterForObstacles == 3){
+        stupidX = 500.0;
+        stupidDuration = 2;
+    }else if (counterForObstacles == 4){
+        stupidX = 600.0;
+        stupidDuration = 3;
+    }else if (counterForObstacles == 5){
+        stupidX = 700.0;
+        stupidDuration = 4;
+    }
+    if (counterForObstacles < 5) {
+        counterForObstacles += 1;
+    }else{
+        counterForObstacles = 1;
+    }
     
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
-    self.obstacle.position = ccp(actualX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle z:0 tag:5];
+    self.obstacle.position = ccp(stupidX ,winSize.height + (self.obstacle.contentSize.height/2));
+    [self addChild:self.obstacle z:0 tag:2];
     
-    // Determine speed of the target
-    int minDuration = 2.0;
-    int maxDuration = 4.0;
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+//    // Determine speed of the target
+//    int minDuration = 2.0;
+//    int maxDuration = 4.0;
+//    int rangeDuration = maxDuration - minDuration;
+//    int actualDuration = (arc4random() % rangeDuration) + minDuration;
+
+//    // Create the actions
+//    id actionMove = [CCMoveTo actionWithDuration:actualDuration
+//                                        position:ccp(actualX ,-self.obstacle.contentSize.height)];
+//    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+//                                             selector:@selector(spriteMoveFinished:)];
+    
     
     // Create the actions
-    id actionMove = [CCMoveTo actionWithDuration:actualDuration
-                                        position:ccp(actualX ,-self.obstacle.contentSize.height)];
+    id actionMove = [CCMoveTo actionWithDuration:stupidDuration
+                                        position:ccp(stupidX ,-self.obstacle.contentSize.height)];
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(spriteMoveFinished:)];
-    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
     
-    [[SimpleAudioEngine sharedEngine] playEffect:@"dropRock.mp3"];
+    
+    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
 }
 
 //Remove onstacle after going out of screen
@@ -840,10 +894,10 @@
         
         if (isPlayer1) {
             self.player2.position = ccp(player2Position->x, player2Position->y);
-            NSLog(@"Position received player 2: %f", player2Position->y);
+//            NSLog(@"Position received player 2: %f", player2Position->y);
         } else {
             self.player1.position = ccp(player1Position->x, player1Position->y);
-            NSLog(@"Position received player 1: %f", player1Position->y);
+//            NSLog(@"Position received player 1: %f", player1Position->y);
             //            NSLog(@"Position received player 1: %f", thing_pos.x);
         }
     } else if (message->messageType == kMessageTypeGameOver2) {

@@ -12,7 +12,8 @@
 @synthesize scoreForPlayerOne = _scoreForPlayerOne;
 @synthesize scoreForPlayerTwo = _scoreForPlayerTwo;
 @synthesize numberOfStars = _numberOfStars;
-@synthesize livesLeft = _livesLeft;
+@synthesize livesLeftPlayer1 = _livesLeftPlayer1;
+@synthesize livesLeftPlayer2 = _livesLeftPlayer2;
 @synthesize timeCounter = _timeCounter;
 
 -(id)init{
@@ -20,7 +21,8 @@
         _scoreForPlayerOne = 0;
         _scoreForPlayerTwo = 0;
         _numberOfStars = 0;
-        _livesLeft = 5;
+        _livesLeftPlayer1 = 5;
+        _livesLeftPlayer2 = 5;
         _timeCounter = 30;
     }
     return self;
@@ -38,8 +40,12 @@
     self.numberOfStars += 1;
 }
 
--(void)substractLives{
-    self.livesLeft -= 1;
+-(void)substractLivesPlayer1{
+    self.livesLeftPlayer1 -= 1;
+}
+
+-(void)substractLivesPlayer2{
+    self.livesLeftPlayer2 -= 1;
 }
 
 -(void)countDownTimer{
