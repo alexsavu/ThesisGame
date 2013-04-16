@@ -272,7 +272,7 @@
         countdown = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", displayNumber] fntFile:@"magneto.fnt"];
         countdown.scale = 3.0;
         countdown.position = ccp(55.f, winSize.height - 150.f);
-        [self addChild:countdown];
+        [self addChild:countdown z:0 tag:1000];
     }
 }
 
@@ -376,6 +376,7 @@
 - (void)updateWinningCondition{
     if (scoreCounter.livesLeftPlayer1 == 0) {
         [self endScene];
+//        [self removeChildByTag:<#(NSInteger)#> cleanup:<#(BOOL)#>]
     }
 }
 
