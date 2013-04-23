@@ -8,6 +8,7 @@
 
 #import "MainMenuLayer.h"
 #import "AppDelegate.h"
+#import <GameKit/GameKit.h>
 
 @interface MainMenuLayer()
 
@@ -74,7 +75,6 @@
 //        [viking runAction:
 //         [CCRepeatForever actionWithAction:rotateAction]];
         
-        
     }
     return self;
 }
@@ -132,8 +132,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:avatar forKey:@"chosenAvatar"];
     
-    [self displaySingleMultiplayerMenu];
-    
+//    [self displaySingleMultiplayerMenu];
+    [[GameManager sharedGameManager] runSceneWithID:kSingleMultiplayerScene];
 }
 
 -(void)displayMainMenu {

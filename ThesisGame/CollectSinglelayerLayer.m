@@ -148,7 +148,7 @@
 //Selector method for going back to main menu
 -(void)goBackToMenu:(CCMenuItemFont*)itemPassedIn {
     CCLOG(@"Tag 1 found, Scene 2");
-    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
+    [[GameManager sharedGameManager] runSceneWithID:kSingleplayerSceneSelection];
 }
 
 #pragma mark Star collectables

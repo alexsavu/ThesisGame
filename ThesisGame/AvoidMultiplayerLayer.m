@@ -288,7 +288,7 @@
 //Selector method for going back to main menu
 -(void)goBackToMenu:(CCMenuItemFont*)itemPassedIn {
     CCLOG(@"Tag 1 found, Scene 1");
-    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
+    [[GameManager sharedGameManager] runSceneWithID:kMultiplayerSceneSelection];
 }
 
 

@@ -47,6 +47,9 @@
 		3E4D659617186BC500068368 /* Char5~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E4D658C17186BC500068368 /* Char5~ipad.png */; };
 		3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B116D62D9F007C0FF2 /* GameObject.m */; };
 		3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5A73B616D7778F007C0FF2 /* redBackground.png */; };
+		3E7F8DE6172682120039A80E /* SingleMultiplayerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */; };
+		3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */; };
+		3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */; };
 		3E91620D16E265FF0068DFD4 /* PlayGameButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */; };
 		3E91620E16E265FF0068DFD4 /* PlayGameButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */; };
 		3E91621116E266250068DFD4 /* OptionsButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */; };
@@ -256,6 +259,12 @@
 		3E5A73B016D62D9F007C0FF2 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		3E5A73B116D62D9F007C0FF2 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
 		3E5A73B616D7778F007C0FF2 /* redBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redBackground.png; sourceTree = "<group>"; };
+		3E7F8DE4172682120039A80E /* SingleMultiplayerMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleMultiplayerMenu.h; sourceTree = "<group>"; };
+		3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleMultiplayerMenu.m; sourceTree = "<group>"; };
+		3E7F8DF017269D6D0039A80E /* MultiplayerSceneSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplayerSceneSelection.h; sourceTree = "<group>"; };
+		3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiplayerSceneSelection.m; sourceTree = "<group>"; };
+		3E7F8DF317269D810039A80E /* SingleplayerSceneSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleplayerSceneSelection.h; sourceTree = "<group>"; };
+		3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleplayerSceneSelection.m; sourceTree = "<group>"; };
 		3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayGameButtonNormal.png; sourceTree = "<group>"; };
 		3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayGameButtonSelected.png; sourceTree = "<group>"; };
 		3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OptionsButtonNormal.png; sourceTree = "<group>"; };
@@ -672,6 +681,12 @@
 			children = (
 				3E46FA7616E246F200912942 /* MainMenuLayer.h */,
 				3E46FA7716E246F200912942 /* MainMenuLayer.m */,
+				3E7F8DE4172682120039A80E /* SingleMultiplayerMenu.h */,
+				3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */,
+				3E7F8DF317269D810039A80E /* SingleplayerSceneSelection.h */,
+				3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */,
+				3E7F8DF017269D6D0039A80E /* MultiplayerSceneSelection.h */,
+				3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */,
 			);
 			name = MainMenu;
 			sourceTree = "<group>";
@@ -1493,6 +1508,9 @@
 				3E0DB8AD17196B4A00EEAAC6 /* AvoidSingleplayerLayer.m in Sources */,
 				3E0DB8B017196BA900EEAAC6 /* AvoidMultiplayerLayer.m in Sources */,
 				3E0DB8BC1719B6DB00EEAAC6 /* ScoreCounter.m in Sources */,
+				3E7F8DE6172682120039A80E /* SingleMultiplayerMenu.m in Sources */,
+				3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */,
+				3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

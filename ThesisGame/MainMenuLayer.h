@@ -11,6 +11,7 @@
 #import "cocos2d.h"
 #import "GameManager.h"
 
+
 @interface MainMenuLayer : CCLayer
 
 @property (nonatomic, strong) CCMenu *mainMenu;

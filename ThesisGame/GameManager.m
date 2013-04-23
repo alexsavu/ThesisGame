@@ -12,6 +12,9 @@
 #import "CollectSinglelayerLayer.h"
 #import "AvoidSingleplayerLayer.h"
 #import "AvoidMultiplayerLayer.h"
+#import "SingleMultiplayerMenu.h"
+#import "SingleplayerSceneSelection.h"
+#import "MultiplayerSceneSelection.h"
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -74,6 +77,15 @@ static GameManager* _sharedGameManager = nil;
 //        case kLevelCompleteScene:
 //            sceneToRun = [LevelCompleteScene node];
 //            break;
+        case kSingleMultiplayerScene:
+            sceneToRun = [SingleMultiplayerMenu node];
+            break;
+        case kSingleplayerSceneSelection:
+            sceneToRun = [SingleplayerSceneSelection node];
+            break;
+        case kMultiplayerSceneSelection:
+            sceneToRun = [MultiplayerSceneSelection node];
+            break;
         case kGameLevel1:
             sceneToRun = [CollectSinglelayerLayer node];
             break;

@@ -99,6 +99,8 @@
         avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];
         CCLOG(@"chosenAvatar %i", avatarInt);
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tryStartingTheMatch) name:@"MatchStartedNotification" object:nil];
+        
         self.avatar = [self chosenAvatar:avatarInt];
         
         CCLOG(@"avatar chosen is: %@", self.avatar);
@@ -143,7 +145,6 @@
         labelScorePlayerTwo.visible = NO;
         [labelScorePlayerTwo setScale:2.5];
         [self addChild:labelScorePlayerTwo];
-
         
         //Alternative player sprite allocation with unique avatar
         
@@ -252,7 +253,7 @@
 //Selector method for going back to main menu
 -(void)goBackToMenu:(CCMenuItemFont*)itemPassedIn {
     CCLOG(@"Tag 1 found, Scene 1");
-    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
+    [[GameManager sharedGameManager] runSceneWithID:kMultiplayerSceneSelection];
 }
 
 
@@ -712,6 +713,23 @@
 {
 	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
 	[[app navController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)tryStartingTheMatch{
+    NSLog(@"@@@@@@@@@@@");
+    if (receivedRandom) {
+        if(receivedAvatar){
+            [self setGameState:kGameStateWaitingForStart];
+        }
+        else {
+            [self setGameState:kGameStateWaitingForAvatarNumber];
+        }
+    } else {
+        [self setGameState:kGameStateWaitingForRandomNumber];
+    }
+    [self sendRandomNumber];
+    [self sendAvatarNumber];
+    [self tryStartGame];
 }
 
 #pragma mark GCHelperDelegate
