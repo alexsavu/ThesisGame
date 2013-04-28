@@ -37,7 +37,7 @@ typedef enum {
     kMessageTypeMove,
     kMessageTypeGameOver,
     kMessageTypeAvatarNumber,
-    kMessageTypeBackgroundMove
+    kMessageTypeObstaclePosition
 } MessageType;
 
 typedef struct {
@@ -72,7 +72,7 @@ typedef struct {
 }MessageAvatarNumber;
 
 // HelloWorldLayer
-@interface CollectMultiplayerLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate>
+@interface CollectMultiplayerLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate, UIAlertViewDelegate>
 {
     //player 1
     CGPoint thing_pos;

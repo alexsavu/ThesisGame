@@ -27,6 +27,8 @@
     NSInteger avatarInt;
     int scoreCounterPlayerOne;
     int scoreCounterPlayerTwo;
+    int obstaclePositionOnXReceived;
+    int obstacleDurationReceived;
     
     NSInteger counterForObstacles;
     
@@ -312,6 +314,20 @@
     }
 }
 
+//Method that actually sends obstacle's position data
+- (void)sendData:(NSData *)data withObstaclePosition:(NSData *)obstaclePositionToSend andDuration:(NSData *)duration{
+    NSError *error;
+    NSMutableData *appendedData = [[NSMutableData alloc] init];
+    [appendedData appendData:data];
+    [appendedData appendData:obstaclePositionToSend];
+    [appendedData appendData:duration];
+    BOOL success = [[GCHelper sharedInstance].match sendDataToAllPlayers:appendedData withDataMode:GKMatchSendDataReliable error:&error];
+    if (!success) {
+        CCLOG(@"Error sending init packet");
+        [self matchEnded];
+    }
+}
+
 //Method that actually sends players position data
 - (void)sendData:(NSData *)data withPlayer1Position:(NSData *)player1Position andPlayer2Position:(NSData *)player2Position {
     NSError *error;
@@ -351,6 +367,17 @@
     NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageGameBegin2)];
     [self sendData:data];
     
+}
+
+//Method to sent obstacle's position over the network
+- (void)sendMoveWithObstaclePosition:(int)obstaclePositionOnXToSend andDuration:(int)duration{
+    MessageMove2 message;
+#warning Change message
+    message.message.messageType = kMessageTypeObstaclePosition2;
+    NSData *data = [NSData dataWithBytes:&message length:sizeof(MessageMove2)];
+    NSData *dataWithObstaclePosition = [NSData dataWithBytes:&obstaclePositionOnXToSend length:sizeof(obstaclePositionOnXToSend)];
+    NSData *dataWithObstacleDuration = [NSData dataWithBytes:&duration length:sizeof(duration)];
+    [self sendData:data withObstaclePosition:dataWithObstaclePosition andDuration:dataWithObstacleDuration];
 }
 
 //Method to sent player's position over the network
@@ -522,14 +549,17 @@
 #pragma mark Obstacles
 
 -(void)addObstacles{
-    self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
-    // Determine where to spawn the target along the Y axis
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    //    int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
-    //    int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
-    //    int rangeX = maxX - minX;
-    //    int actualX = (arc4random() % rangeX) + minX;
+//    if (isPlayer1) {
+        self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
+        // Determine where to spawn the target along the Y axis
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
+//        int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
+//        int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
+//        int rangeX = maxX - minX;
+//        int actualX = (arc4random() % rangeX) + minX;
     
+//---------------------------
+
     int stupidX = 0;
     int stupidDuration = 0;
     if (counterForObstacles == 1) {
@@ -553,33 +583,105 @@
     }else{
         counterForObstacles = 1;
     }
-    
-    // Create the target slightly off-screen along the right edge,
-    // and along a random position along the Y axis as calculated above
-    self.obstacle.position = ccp(stupidX ,winSize.height + (self.obstacle.contentSize.height/2));
-    [self addChild:self.obstacle z:0 tag:2];
-    
-//    // Determine speed of the target
-//    int minDuration = 2.0;
-//    int maxDuration = 4.0;
-//    int rangeDuration = maxDuration - minDuration;
-//    int actualDuration = (arc4random() % rangeDuration) + minDuration;
 
-//    // Create the actions
-//    id actionMove = [CCMoveTo actionWithDuration:actualDuration
-//                                        position:ccp(actualX ,-self.obstacle.contentSize.height)];
-//    id actionMoveDone = [CCCallFuncN actionWithTarget:self
-//                                             selector:@selector(spriteMoveFinished:)];
+        // Create the target slightly off-screen along the right edge,
+        // and along a random position along the Y axis as calculated above
+        self.obstacle.position = ccp(stupidX ,winSize.height + (self.obstacle.contentSize.height/2));
+        [self addChild:self.obstacle z:0 tag:5];
+        
+//-----------------------------------------
+        
+//        // Determine speed of the target
+//        int minDuration = 2.0;
+//        int maxDuration = 4.0;
+//        int rangeDuration = maxDuration - minDuration;
+//        int actualDuration = (arc4random() % rangeDuration) + minDuration;
+//        
+//        // Create the actions
+//        id actionMove = [CCMoveTo actionWithDuration:actualDuration
+//                                            position:ccp(actualX ,-self.obstacle.contentSize.height)];
+//        id actionMoveDone = [CCCallFuncN actionWithTarget:self
+//                                                 selector:@selector(spriteMoveFinished:)];
     
-    
+//----------------------------------------------------------------------------------------
+
     // Create the actions
     id actionMove = [CCMoveTo actionWithDuration:stupidDuration
                                         position:ccp(stupidX ,-self.obstacle.contentSize.height)];
     id actionMoveDone = [CCCallFuncN actionWithTarget:self
                                              selector:@selector(spriteMoveFinished:)];
+
+//----------------------------------------------------------------------------------------
+        
+        [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+//        [self sendMoveWithObstaclePosition:actualX andDuration:actualDuration];
+//    }else{
+//        self.obstacle = [[Obstacle alloc] initWithFile:@"prototypeObstacle.png" alphaThreshold:0];
+//        // Determine where to spawn the target along the Y axis
+//        CGSize winSize = [[CCDirector sharedDirector] winSize];
+//        int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
+//        int maxX = MAX_COURSE_X - self.obstacle.contentSize.width/2;
+//        int rangeX = maxX - minX;
+//        int actualX = (arc4random() % rangeX) + minX;
+//        
+////---------------------------
+//
+////    int stupidX = 0;
+////    int stupidDuration = 0;
+////    if (counterForObstacles == 1) {
+////        stupidX = 300.0;
+////        stupidDuration = 2;
+////    }else if (counterForObstacles == 2){
+////        stupidX = 400.0;
+////        stupidDuration = 4;
+////    }else if (counterForObstacles == 3){
+////        stupidX = 500.0;
+////        stupidDuration = 2;
+////    }else if (counterForObstacles == 4){
+////        stupidX = 600.0;
+////        stupidDuration = 3;
+////    }else if (counterForObstacles == 5){
+////        stupidX = 700.0;
+////        stupidDuration = 4;
+////    }
+////    if (counterForObstacles < 5) {
+////        counterForObstacles += 1;
+////    }else{
+////        counterForObstacles = 1;
+////    }
+//        
+//        // Create the target slightly off-screen along the right edge,
+//        // and along a random position along the Y axis as calculated above
+//        self.obstacle.position = ccp(obstaclePositionOnXReceived ,winSize.height + (self.obstacle.contentSize.height/2));
+//        [self addChild:self.obstacle z:0 tag:5];
+//        
+//        //-----------------------------------------
+//        
+//        // Determine speed of the target
+//        int minDuration = 2.0;
+//        int maxDuration = 4.0;
+//        int rangeDuration = maxDuration - minDuration;
+//        int actualDuration = (arc4random() % rangeDuration) + minDuration;
+//        
+//        // Create the actions
+//        id actionMove = [CCMoveTo actionWithDuration:obstacleDurationReceived
+//                                            position:ccp(obstaclePositionOnXReceived ,-self.obstacle.contentSize.height)];
+//        id actionMoveDone = [CCCallFuncN actionWithTarget:self
+//                                                 selector:@selector(spriteMoveFinished:)];
+//        
+////----------------------------------------------------------------------------------------
+//
+////    // Create the actions
+////    id actionMove = [CCMoveTo actionWithDuration:stupidDuration
+////                                        position:ccp(stupidX ,-self.obstacle.contentSize.height)];
+////    id actionMoveDone = [CCCallFuncN actionWithTarget:self
+////                                             selector:@selector(spriteMoveFinished:)];
+//
+////----------------------------------------------------------------------------------------
+//        
+//        [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+//    }
     
-    
-    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
 }
 
 //Remove onstacle after going out of screen
@@ -800,7 +902,7 @@
             if (gameState == kGameStateWaitingForRandomNumber2) {
                 [self setGameState:kGameStateWaitingForStart2];
             }
-            //            [self tryStartGame];
+//            [self tryStartGame];
         }
         
         //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
@@ -837,6 +939,13 @@
             
         }
         else{
+            if (sameAvatar) {
+                CGSize winSize = [CCDirector sharedDirector].winSize;
+                NSString *message = @"The other player has selected the same avatar as yours \n Please wait while he chooses a different one";
+                CCLabelBMFont *label = [CCLabelBMFont labelWithString:message fntFile:@"magneto.fnt"];
+                label.position = ccp(winSize.width/2, 180);
+                [self addChild:label];
+            }
             if(!sameAvatar){
                 //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
                 //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
@@ -870,7 +979,7 @@
         CGPoint *player1Position;
         CGPoint *player2Position;
         
-        //        NSLog(@"Player 1 pooooooooo: %@", data);
+//        NSLog(@"Player 1 pooooooooo: %@", data);
         
         NSUInteger length = [data length];
         NSUInteger chunkSize = sizeof(player1Position);
@@ -889,7 +998,7 @@
             if (offset == 16) {
                 player2Position = (CGPoint *)[chunk bytes];
             }
-            //            NSLog(@"Offsettttttttttt: %i", offset);
+//            NSLog(@"Offsettttttttttt: %i", offset);
         } while (offset < length);
         
         if (isPlayer1) {
@@ -911,6 +1020,36 @@
             [self endScene:kEndReasonWin2];
         }
         
+    }else if (message->messageType == kMessageTypeObstaclePosition2){
+        NSLog(@"Obstavle position :)))) : %@", data);
+        
+        NSUInteger length = [data length];
+        NSUInteger chunkSize = sizeof(obstaclePositionOnXReceived);
+        NSUInteger offset = 0;
+        do {
+            NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+            NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
+                                                 length:thisChunkSize
+                                           freeWhenDone:NO];
+            offset += thisChunkSize;
+            // do something with chunk
+            if (offset == 8) {
+                obstaclePositionOnXReceived = (int)[chunk bytes];
+            }
+            if (offset == 12) {
+                obstacleDurationReceived = (int) [chunk bytes];
+            }
+
+            NSLog(@"Offsettttttttttt: %i", offset);
+        } while (offset < length);
+    }
+}
+
+#pragma mark UIAlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
     }
 }
 @end
