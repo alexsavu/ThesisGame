@@ -674,6 +674,11 @@
         message = @"You win!";
     } else if (endReason == kEndReasonLose) {
         message = @"You lose!";
+//        if (isPlayer1) {
+//            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne + 1]];
+//        }else{
+//            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo + 1]];
+//        }
     }
     
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:message fntFile:@"magneto.fnt"];
@@ -704,24 +709,23 @@
 }
 
 - (void)setGameState:(GameState)state {
-    
     gameState = state;
     if (gameState == kGameStateWaitingForMatch) {
-        //        [debugLabel setString:@"Waiting for match"];
+//        [debugLabel setString:@"Waiting for match"];
         CCLOG(@"Waiting for match");
     } else if (gameState == kGameStateWaitingForRandomNumber) {
-        //        [debugLabel setString:@"Waiting for rand #"];
+//        [debugLabel setString:@"Waiting for rand #"];
         CCLOG(@"Waiting for rand #");
     } else if (gameState == kGameStateWaitingForAvatarNumber) {
         CCLOG(@"Waiting for avatar #");
     } else if (gameState == kGameStateWaitingForStart) {
-        //        [debugLabel setString:@"Waiting for start"];
+//        [debugLabel setString:@"Waiting for start"];
         CCLOG(@"Waiting for start");
     } else if (gameState == kGameStateActive) {
-        //        [debugLabel setString:@"Active"];
+//        [debugLabel setString:@"Active"];
         CCLOG(@"Active");
     } else if (gameState == kGameStateDone) {
-        //        [debugLabel setString:@"Done"];
+//        [debugLabel setString:@"Done"];
         CCLOG(@"Done");
     }
     
@@ -776,14 +780,6 @@
     [self sendRandomNumber];
     [self sendAvatarNumber];
     [self tryStartGame];
-    
-//    if (receivedRandom) {
-//        [self setGameState:kGameStateWaitingForStart];
-//    } else {
-//        [self setGameState:kGameStateWaitingForRandomNumber];
-//    }
-//    [self sendRandomNumber];
-//    [self tryStartGame];
 }
 
 - (void)matchEnded {
@@ -938,8 +934,10 @@
         
         if (messageGameOver->player1Won) {
             [self endScene:kEndReasonLose];
+            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne + 1]];
         } else {
-            [self endScene:kEndReasonWin];    
+            [self endScene:kEndReasonWin];
+            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo + 1]];
         }
         
     }
