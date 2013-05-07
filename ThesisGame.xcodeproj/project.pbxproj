@@ -50,6 +50,7 @@
 		3E7F8DE6172682120039A80E /* SingleMultiplayerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */; };
 		3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */; };
 		3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */; };
+		3E8278EC1736D583004B36F4 /* spaceBackground~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E8278EB1736D583004B36F4 /* spaceBackground~ipad.png */; };
 		3E91620D16E265FF0068DFD4 /* PlayGameButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */; };
 		3E91620E16E265FF0068DFD4 /* PlayGameButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */; };
 		3E91621116E266250068DFD4 /* OptionsButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */; };
@@ -63,6 +64,9 @@
 		3E92DAFC171C374A0050C793 /* dropRock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3E92DAFB171C374A0050C793 /* dropRock.mp3 */; };
 		3E968147171ADE1B0009E22D /* starAnimation2_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E968145171ADE1B0009E22D /* starAnimation2_default.plist */; };
 		3E968148171ADE1B0009E22D /* starAnimation2_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E968146171ADE1B0009E22D /* starAnimation2_default.png */; };
+		3E9F427F1738F81C00326B92 /* animationAtlas_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F427D1738F81C00326B92 /* animationAtlas_default.plist */; };
+		3E9F42801738F81C00326B92 /* animationAtlas_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9F427E1738F81C00326B92 /* animationAtlas_default.png */; };
+		3E9F42871739644400326B92 /* CollectAndAvoidMultiplayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F42861739644400326B92 /* CollectAndAvoidMultiplayerLayer.m */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
@@ -190,11 +194,9 @@
 		3ECACC5F16B18279006F740A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC5E16B18279006F740A /* AppDelegate.m */; };
 		3ECACC6216B18279006F740A /* CollectMultiplayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC6116B18279006F740A /* CollectMultiplayerLayer.m */; };
 		3ECACC6516B18279006F740A /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECACC6416B18279006F740A /* IntroLayer.m */; };
-		3EF4B71B16E7BB1F00E64996 /* big_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B71A16E7BB1F00E64996 /* big_arrow.png */; };
 		3EF4B71D16E7BFAF00E64996 /* backButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */; };
 		3EF4B72116E7C03500E64996 /* prototypeObstacle~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B71F16E7C03500E64996 /* prototypeObstacle~ipad.png */; };
 		3EF4B72416E7C50F00E64996 /* prototypeCharacter~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72316E7C50F00E64996 /* prototypeCharacter~ipad.png */; };
-		3EF4B72616E7C67B00E64996 /* finish~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72516E7C67B00E64996 /* finish~ipad.png */; };
 		3EF4B72816E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72716E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png */; };
 		3EF4B72C16E7D35C00E64996 /* CCShake.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4B72B16E7D35C00E64996 /* CCShake.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3EF4B72F16E7E4D300E64996 /* magneto.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 3EF4B72D16E7E4D300E64996 /* magneto.fnt */; };
@@ -265,6 +267,7 @@
 		3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiplayerSceneSelection.m; sourceTree = "<group>"; };
 		3E7F8DF317269D810039A80E /* SingleplayerSceneSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleplayerSceneSelection.h; sourceTree = "<group>"; };
 		3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleplayerSceneSelection.m; sourceTree = "<group>"; };
+		3E8278EB1736D583004B36F4 /* spaceBackground~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceBackground~ipad.png"; sourceTree = "<group>"; };
 		3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayGameButtonNormal.png; sourceTree = "<group>"; };
 		3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayGameButtonSelected.png; sourceTree = "<group>"; };
 		3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OptionsButtonNormal.png; sourceTree = "<group>"; };
@@ -279,6 +282,10 @@
 		3E92DAFB171C374A0050C793 /* dropRock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dropRock.mp3; sourceTree = "<group>"; };
 		3E968145171ADE1B0009E22D /* starAnimation2_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = starAnimation2_default.plist; sourceTree = "<group>"; };
 		3E968146171ADE1B0009E22D /* starAnimation2_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starAnimation2_default.png; sourceTree = "<group>"; };
+		3E9F427D1738F81C00326B92 /* animationAtlas_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = animationAtlas_default.plist; sourceTree = "<group>"; };
+		3E9F427E1738F81C00326B92 /* animationAtlas_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animationAtlas_default.png; sourceTree = "<group>"; };
+		3E9F42851739644400326B92 /* CollectAndAvoidMultiplayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectAndAvoidMultiplayerLayer.h; sourceTree = "<group>"; };
+		3E9F42861739644400326B92 /* CollectAndAvoidMultiplayerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectAndAvoidMultiplayerLayer.m; sourceTree = "<group>"; };
 		3EA4CC3916BC44E9002F9B10 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		3EA4CC3F16BD2516002F9B10 /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
 		3EA4CC4016BD2D43002F9B10 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCHelper.h; sourceTree = "<group>"; };
@@ -547,11 +554,9 @@
 		3ECACC6416B18279006F740A /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 		3EEA983816CE682B00A953EB /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		3EEA983916CE682C00A953EB /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		3EF4B71A16E7BB1F00E64996 /* big_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = big_arrow.png; sourceTree = "<group>"; };
 		3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backButton~ipad.png"; sourceTree = "<group>"; };
 		3EF4B71F16E7C03500E64996 /* prototypeObstacle~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prototypeObstacle~ipad.png"; sourceTree = "<group>"; };
 		3EF4B72316E7C50F00E64996 /* prototypeCharacter~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prototypeCharacter~ipad.png"; sourceTree = "<group>"; };
-		3EF4B72516E7C67B00E64996 /* finish~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finish~ipad.png"; sourceTree = "<group>"; };
 		3EF4B72716E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PrototypeCharacter_nonClip~ipad.png"; sourceTree = "<group>"; };
 		3EF4B72A16E7D35C00E64996 /* CCShake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCShake.h; sourceTree = "<group>"; };
 		3EF4B72B16E7D35C00E64996 /* CCShake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCShake.m; sourceTree = "<group>"; };
@@ -587,7 +592,7 @@
 			name = Lives;
 			sourceTree = "<group>";
 		};
-		3E0DB8B1171994D000EEAAC6 /* Points for players */ = {
+		3E0DB8B1171994D000EEAAC6 /* Point squares */ = {
 			isa = PBXGroup;
 			children = (
 				3E0DB8B2171994F800EEAAC6 /* avoidBlue.png */,
@@ -595,7 +600,7 @@
 				3E0DB8B4171994F800EEAAC6 /* collectBlue.png */,
 				3E0DB8B5171994F800EEAAC6 /* collectGreen.png */,
 			);
-			name = "Points for players";
+			name = "Point squares";
 			sourceTree = "<group>";
 		};
 		3E0E886916DFA50100A1AB72 /* Collision Detection */ = {
@@ -720,6 +725,15 @@
 			name = Scene4;
 			sourceTree = "<group>";
 		};
+		3E8278EA1736D542004B36F4 /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				3E8278EB1736D583004B36F4 /* spaceBackground~ipad.png */,
+				3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */,
+			);
+			name = Backgrounds;
+			sourceTree = "<group>";
+		};
 		3E91620A16E265CF0068DFD4 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -767,6 +781,24 @@
 				3E968146171ADE1B0009E22D /* starAnimation2_default.png */,
 			);
 			name = "Texture Atlas";
+			sourceTree = "<group>";
+		};
+		3E9F427C1738F81000326B92 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				3E9F427D1738F81C00326B92 /* animationAtlas_default.plist */,
+				3E9F427E1738F81C00326B92 /* animationAtlas_default.png */,
+			);
+			name = Animations;
+			sourceTree = "<group>";
+		};
+		3E9F42811739639600326B92 /* Scene5 */ = {
+			isa = PBXGroup;
+			children = (
+				3E9F42851739644400326B92 /* CollectAndAvoidMultiplayerLayer.h */,
+				3E9F42861739644400326B92 /* CollectAndAvoidMultiplayerLayer.m */,
+			);
+			name = Scene5;
 			sourceTree = "<group>";
 		};
 		3ECACAC416B18277006F740A = {
@@ -823,17 +855,16 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E9F427C1738F81000326B92 /* Animations */,
+				3E8278EA1736D542004B36F4 /* Backgrounds */,
 				3E05B841171D596800882703 /* Lives */,
 				3E92DAF8171C1F520050C793 /* Audio */,
 				3E28F552171ABD9E00F60925 /* Collectables */,
-				3E0DB8B1171994D000EEAAC6 /* Points for players */,
+				3E0DB8B1171994D000EEAAC6 /* Point squares */,
 				3EF4B72216E7C23A00E64996 /* Characters */,
 				3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */,
-				3EF4B72516E7C67B00E64996 /* finish~ipad.png */,
-				3EF4B71A16E7BB1F00E64996 /* big_arrow.png */,
 				3E91621316E266370068DFD4 /* Fonts */,
 				3E91620A16E265CF0068DFD4 /* MainMenu */,
-				3E0E889A16E0E60000A1AB72 /* Prototype1Background~ipad.png */,
 				3E0E885116DF663600A1AB72 /* handUp~ipad.png */,
 				3E5A73B616D7778F007C0FF2 /* redBackground.png */,
 				3E0ED56516C65863003AF327 /* dpadDown~ipad.png */,
@@ -1205,6 +1236,7 @@
 				3E91621A16E27A8A0068DFD4 /* Scene2 */,
 				3E4D6578171844F600068368 /* Scene3 */,
 				3E4D65791718450700068368 /* Scene4 */,
+				3E9F42811739639600326B92 /* Scene5 */,
 				3E46FA7116E240C600912942 /* MainMenu */,
 				3E12B0C316CE955500B5485D /* Singletons */,
 				3EEA983B16CE687D00A953EB /* Game Objects */,
@@ -1345,11 +1377,9 @@
 				3E91621216E266250068DFD4 /* OptionsButtonSelected.png in Resources */,
 				3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */,
 				3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */,
-				3EF4B71B16E7BB1F00E64996 /* big_arrow.png in Resources */,
 				3EF4B71D16E7BFAF00E64996 /* backButton~ipad.png in Resources */,
 				3EF4B72116E7C03500E64996 /* prototypeObstacle~ipad.png in Resources */,
 				3EF4B72416E7C50F00E64996 /* prototypeCharacter~ipad.png in Resources */,
-				3EF4B72616E7C67B00E64996 /* finish~ipad.png in Resources */,
 				3EF4B72816E7D2B700E64996 /* PrototypeCharacter_nonClip~ipad.png in Resources */,
 				3EF4B72F16E7E4D300E64996 /* magneto.fnt in Resources */,
 				3EF4B73016E7E4D300E64996 /* magneto.png in Resources */,
@@ -1375,6 +1405,9 @@
 				3E92DAFA171C1F5F0050C793 /* collectStar.mp3 in Resources */,
 				3E92DAFC171C374A0050C793 /* dropRock.mp3 in Resources */,
 				3E05B843171D597400882703 /* avoidHeart.png in Resources */,
+				3E8278EC1736D583004B36F4 /* spaceBackground~ipad.png in Resources */,
+				3E9F427F1738F81C00326B92 /* animationAtlas_default.plist in Resources */,
+				3E9F42801738F81C00326B92 /* animationAtlas_default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1511,6 +1544,7 @@
 				3E7F8DE6172682120039A80E /* SingleMultiplayerMenu.m in Sources */,
 				3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */,
 				3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */,
+				3E9F42871739644400326B92 /* CollectAndAvoidMultiplayerLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

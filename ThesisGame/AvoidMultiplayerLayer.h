@@ -36,7 +36,6 @@ typedef enum {
     kMessageTypeMove2,
     kMessageTypeGameOver2,
     kMessageTypeAvatarNumber2,
-    kMessageTypeObstaclePosition2
 } MessageType2;
 
 typedef struct {
@@ -92,6 +91,7 @@ typedef struct {
 
 @property (nonatomic, strong) Player *player1;
 @property (nonatomic, strong) Player *player2;
+@property (nonatomic, strong) CCAction *walkAction;
 @property (nonatomic, strong) Obstacle *obstacle;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;

@@ -15,6 +15,7 @@
 #import "SingleMultiplayerMenu.h"
 #import "SingleplayerSceneSelection.h"
 #import "MultiplayerSceneSelection.h"
+#import "CollectAndAvoidMultiplayerLayer.h"
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -100,7 +101,7 @@ static GameManager* _sharedGameManager = nil;
             sceneToRun = [AvoidMultiplayerLayer node];
             break;
         case kGameLevel5:
-            // Placeholder for Level 5
+            sceneToRun = [CollectAndAvoidMultiplayerLayer node];
             break;
         case kCutSceneForLevel2:
             // Placeholder for Platform Level

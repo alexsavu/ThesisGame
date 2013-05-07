@@ -53,6 +53,15 @@
                           selector:@selector(playSceneForMultiplayer:)];
     [playScene2 setTag:4];
     
+    CCLabelBMFont *playScene3Label =
+    [CCLabelBMFont labelWithString:@"Collect & Dodge the obstacles"
+                           fntFile:@"magneto.fnt"];
+    CCMenuItemLabel *playScene3 =
+    [CCMenuItemLabel itemWithLabel:playScene3Label target:self
+                          selector:@selector(playSceneForMultiplayer:)];
+    [playScene3 setTag:5];
+
+    
     CCLabelBMFont *backButtonLabel =
     [CCLabelBMFont labelWithString:@"Back"
                            fntFile:@"magneto.fnt"];
@@ -61,7 +70,7 @@
                           selector:@selector(backToSingleMultiplayerSceneFromMultiplayer)];
     
     self.sceneSelectionMultiplayer = [CCMenu menuWithItems:playScene1,
-                                      playScene2,backButton,nil];
+                                      playScene2, playScene3,backButton,nil];
     [self.sceneSelectionMultiplayer alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
     [self.sceneSelectionMultiplayer setPosition:ccp(screenSize.width * 2,
                                                     screenSize.height / 2)];
@@ -89,6 +98,8 @@
         [[GameManager sharedGameManager] runSceneWithID:kGameLevel3];
     }else if ([itemPassedIn tag] == 4){
         [[GameManager sharedGameManager] runSceneWithID:kGameLevel4];
+    }else if ([itemPassedIn tag] == 5){
+        [[GameManager sharedGameManager] runSceneWithID:kGameLevel5];
     }else {
         CCLOG(@"Tag was: %d", [itemPassedIn tag]);
         CCLOG(@"Placeholder for next chapters");

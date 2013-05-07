@@ -216,14 +216,6 @@
                                       selector:@selector(chooseAvatar:)];
     [avatar4Button setTag:4];
     
-    CCMenuItemImage *avatar5Button = [CCMenuItemImage
-                                      itemWithNormalImage:@"Char5~ipad.png"
-                                      selectedImage:@"Char5_selected~ipad.png"
-                                      disabledImage:nil
-                                      target:self
-                                      selector:@selector(chooseAvatar:)];
-    [avatar5Button setTag:5];
-    
     CCLabelBMFont *backButtonLabel =
     [CCLabelBMFont labelWithString:@"Back"
                            fntFile:@"magneto.fnt"];
@@ -231,7 +223,7 @@
     [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
                           selector:@selector(displayMainMenu)];
     
-    self.avatarMenu = [CCMenu menuWithItems:avatar1Button, avatar2Button, avatar3Button, avatar4Button, avatar5Button, backButton, nil];
+    self.avatarMenu = [CCMenu menuWithItems:avatar1Button, avatar2Button, avatar3Button, avatar4Button, backButton, nil];
     [self.avatarMenu alignItemsHorizontallyWithPadding:screenSize.width * 0.05f];
     [self.avatarMenu setPosition:
      ccp(screenSize.width * 0.059f,
@@ -243,158 +235,6 @@
     id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
     [self.avatarMenu runAction:moveEffect];
     [self addChild:self.avatarMenu z:0 tag:kAvatarMenuTagValue];
-}
-
-//Displays menu where the player can choose between singleplayer and multiplayer
--(void)displaySingleMultiplayerMenu{
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    if (self.mainMenu != nil) {
-        [self.mainMenu removeFromParentAndCleanup:YES];
-    }
-    if(self.avatarMenu != nil) {
-        [self.avatarMenu removeFromParentAndCleanup:YES];
-    }
-    if (self.sceneSelectionMultiplayer != nil) {
-        [self.sceneSelectionMultiplayer removeFromParentAndCleanup:YES];
-    }
-    if (self.sceneSelectionSingleplayer != nil) {
-        [self.sceneSelectionSingleplayer removeFromParentAndCleanup:YES];
-    }
-    
-    CCLabelBMFont *playScene1Label =
-    [CCLabelBMFont labelWithString:@"Single player"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene1 =
-    [CCMenuItemLabel itemWithLabel:playScene1Label target:self
-                          selector:@selector(displaySceneSelectionSingleplayer)];
-    [playScene1 setTag:1];
-    
-    CCLabelBMFont *playScene2Label =
-    [CCLabelBMFont labelWithString:@"Multiplayer"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene2 =
-    [CCMenuItemLabel itemWithLabel:playScene2Label target:self
-                          selector:@selector(displaySceneSelectionMultiplayer)];
-    [playScene2 setTag:2];
-    
-    CCLabelBMFont *backButtonLabel =
-    [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *backButton =
-    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
-                          selector:@selector(displayAvatarMenu)];
-    
-    self.singleMultiplayerMenu = [CCMenu menuWithItems:playScene1,
-                            playScene2,backButton,nil];
-    [self.singleMultiplayerMenu alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
-    [self.singleMultiplayerMenu setPosition:ccp(screenSize.width * 2,
-                                          screenSize.height / 2)];
-    
-    id moveAction = [CCMoveTo actionWithDuration:0.5f
-                                        position:ccp(screenSize.width * 0.75f,
-                                                     screenSize.height/2)];
-    id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
-    [self.singleMultiplayerMenu runAction:moveEffect];
-    [self addChild:self.singleMultiplayerMenu z:1 tag:kSceneMenuTagValue];
-}
-
--(void)displaySceneSelectionMultiplayer{
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    if (self.mainMenu != nil) {
-        [self.mainMenu removeFromParentAndCleanup:YES];
-    }
-    if(self.avatarMenu != nil) {
-        [self.avatarMenu removeFromParentAndCleanup:YES];
-    }
-    if (self.singleMultiplayerMenu != nil) {
-        [self.singleMultiplayerMenu removeAllChildrenWithCleanup:YES];
-    }
-    
-    CCLabelBMFont *playScene1Label =
-    [CCLabelBMFont labelWithString:@"Collect the stars"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene1 =
-    [CCMenuItemLabel itemWithLabel:playScene1Label target:self
-                          selector:@selector(playScene:)];
-    [playScene1 setTag:3];
-    
-    CCLabelBMFont *playScene2Label =
-    [CCLabelBMFont labelWithString:@"Dodge the obstacles"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene2 =
-    [CCMenuItemLabel itemWithLabel:playScene2Label target:self
-                          selector:@selector(playScene:)];
-    [playScene2 setTag:4];
-    
-    CCLabelBMFont *backButtonLabel =
-    [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *backButton =
-    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
-                          selector:@selector(displaySingleMultiplayerMenu)];
-    
-    self.sceneSelectionMultiplayer = [CCMenu menuWithItems:playScene1,
-                                       playScene2,backButton,nil];
-    [self.sceneSelectionMultiplayer alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
-    [self.sceneSelectionMultiplayer setPosition:ccp(screenSize.width * 2,
-                                                     screenSize.height / 2)];
-    
-    id moveAction = [CCMoveTo actionWithDuration:0.5f
-                                        position:ccp(screenSize.width * 0.75f,
-                                                     screenSize.height/2)];
-    id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
-    [self.sceneSelectionMultiplayer runAction:moveEffect];
-    [self addChild:self.sceneSelectionMultiplayer z:1 tag:kSceneMenuTagValue];
-}
-
-//Displays the different levels
--(void)displaySceneSelectionSingleplayer {
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    if (self.mainMenu != nil) {
-        [self.mainMenu removeFromParentAndCleanup:YES];
-    }
-    if(self.avatarMenu != nil) {
-        [self.avatarMenu removeFromParentAndCleanup:YES];
-    }
-    if (self.singleMultiplayerMenu != nil) {
-        [self.singleMultiplayerMenu removeAllChildrenWithCleanup:YES];
-    }
-    
-    CCLabelBMFont *playScene1Label =
-    [CCLabelBMFont labelWithString:@"Collect the stars"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene1 =
-    [CCMenuItemLabel itemWithLabel:playScene1Label target:self
-                          selector:@selector(playScene:)];
-    [playScene1 setTag:1];
-    
-    CCLabelBMFont *playScene2Label =
-    [CCLabelBMFont labelWithString:@"Dodge the obstacles"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene2 =
-    [CCMenuItemLabel itemWithLabel:playScene2Label target:self
-                          selector:@selector(playScene:)];
-    [playScene2 setTag:2];
-    
-    CCLabelBMFont *backButtonLabel =
-    [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *backButton =
-    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
-                          selector:@selector(displaySingleMultiplayerMenu)];
-    
-    self.sceneSelectionSingleplayer = [CCMenu menuWithItems:playScene1,
-                       playScene2,backButton,nil];
-    [self.sceneSelectionSingleplayer alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
-    [self.sceneSelectionSingleplayer setPosition:ccp(screenSize.width * 2,
-                                     screenSize.height / 2)];
-    
-    id moveAction = [CCMoveTo actionWithDuration:0.5f
-                                        position:ccp(screenSize.width * 0.75f,
-                                                     screenSize.height/2)];
-    id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
-    [self.sceneSelectionSingleplayer runAction:moveEffect];
-    [self addChild:self.sceneSelectionSingleplayer z:1 tag:kSceneMenuTagValue];
 }
 
 @end

@@ -1,11 +1,10 @@
 //
-//  HelloWorldLayer.h
+//  CollectAndAvoidMultiplayerLayer.h
 //  ThesisGame
 //
-//  Created by Alexandru Savu on 1/24/13.
-//  Copyright __MyCompanyName__ 2013. All rights reserved.
+//  Created by Alex Savu on 5/7/13.
 //
-
+//
 
 #import <GameKit/GameKit.h>
 #import "GCHelper.h"
@@ -17,61 +16,61 @@
 @class Obstacle;
 
 typedef enum {
-    kGameStateWaitingForMatch = 0,
-    kGameStateWaitingForRandomNumber,
-    kGameStateWaitingForStart,
-    kGameStateActive,
-    kGameStateDone,
-    kGameStateWaitingForAvatarNumber
-} GameState;
+    kGameStateWaitingForMatch3 = 0,
+    kGameStateWaitingForRandomNumber3,
+    kGameStateWaitingForStart3,
+    kGameStateActive3,
+    kGameStateDone3,
+    kGameStateWaitingForAvatarNumber3
+} GameState3;
 
 typedef enum {
-    kEndReasonWin,
-    kEndReasonLose,
-    kEndReasonDisconnect
-} EndReason;
+    kEndReasonWin3,
+    kEndReasonLose3,
+    kEndReasonDisconnect3
+} EndReason3;
 
 typedef enum {
-    kMessageTypeRandomNumber = 0,
-    kMessageTypeGameBegin,
-    kMessageTypeMove,
-    kMessageTypeGameOver,
-    kMessageTypeAvatarNumber,
-} MessageType;
+    kMessageTypeRandomNumber3 = 0,
+    kMessageTypeGameBegin3,
+    kMessageTypeMove3,
+    kMessageTypeGameOver3,
+    kMessageTypeAvatarNumber3,
+} MessageType3;
 
 typedef struct {
-    MessageType messageType;
-} Message;
+    MessageType3 messageType;
+} Message3;
 
 typedef struct {
-    Message message;
+    Message3 message;
     uint32_t randomNumber;
-} MessageRandomNumber;
+} MessageRandomNumber3;
 
 typedef struct {
-    Message message;
-} MessageGameBegin;
+    Message3 message;
+} MessageGameBegin3;
 
 typedef struct {
-    Message message;
-} MessageMoveBackground;
+    Message3 message;
+} MessageMoveBackground3;
 
 typedef struct {
-    Message message;
-} MessageMove;
+    Message3 message;
+} MessageMove3;
 
 typedef struct {
-    Message message;
+    Message3 message;
     BOOL player1Won;
-} MessageGameOver;
+} MessageGameOver3;
 
 typedef struct {
-    Message message;
+    Message3 message;
     uint32_t avatarNumber;
-}MessageAvatarNumber;
+}MessageAvatarNumber3;
 
 // HelloWorldLayer
-@interface CollectMultiplayerLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, GCHelperDelegate, UIAlertViewDelegate>
+@interface CollectAndAvoidMultiplayerLayer : CCLayer <GCHelperDelegate,UIAlertViewDelegate>
 {
     //player 1
     CGPoint thing_pos;
@@ -87,13 +86,14 @@ typedef struct {
     BOOL receivedAvatar;
     NSString *otherPlayerID;
     BOOL isPlayer1;
-    GameState gameState;
+    GameState3 gameState;
 }
 
 @property (nonatomic, strong) Player *player1;
 @property (nonatomic, strong) Player *player2;
 @property (nonatomic, strong) CCAction *walkAction;
 @property (nonatomic, strong) Obstacle *obstacle;
+@property (nonatomic, strong) Obstacle *starObstacle;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;
 
@@ -101,3 +101,4 @@ typedef struct {
 +(CCScene *) scene;
 
 @end
+

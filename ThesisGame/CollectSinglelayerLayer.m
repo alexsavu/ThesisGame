@@ -82,12 +82,12 @@
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"collectStar.mp3"];
         
         //Adding the backgrounds as a sprite
-        self.background = [CCSprite spriteWithFile:@"Prototype1Background.png"];
+        self.background = [CCSprite spriteWithFile:@"spaceBackground~ipad.png"];
         self.background.anchorPoint = ccp(0, 0);
         self.background.position = ccp(0, 0);
         [self addChild:self.background];
         
-        self.background2 = [CCSprite spriteWithFile:@"Prototype1Background.png"];
+        self.background2 = [CCSprite spriteWithFile:@"spaceBackground~ipad.png"];
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2 ];
