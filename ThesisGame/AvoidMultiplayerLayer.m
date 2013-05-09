@@ -102,6 +102,11 @@
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
         avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];
         
+        
+        
+//        CCLOG(@"chosenAvatar %i", avatarInt);
+//        self.avatar = [self chosenAvatar:avatarInt];
+        
         //Adding the backgrounds as a sprite
         self.background = [CCSprite spriteWithFile:@"spaceBackground~ipad.png"];
         self.background.anchorPoint = ccp(0, 0);
@@ -138,8 +143,8 @@
 //        [self addChild:self.player2 z:0 tag:1];
         
         //Animations
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"animationAtlas_default.plist"];
-        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"animationAtlas_default.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
+        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
         [self addChild:self.spriteSheet];
         
         
@@ -199,6 +204,39 @@
         self.background2.position = ccp(0, self.background.position.y + 768.0);
     }
 }
+
+#pragma TEST TEST
+
+//Finds the correct .png for the chosen avatar, returns .png location in NSString form.
+- (NSString*) chosenAvatar: (NSInteger) value {
+    NSString *avatarString = [[NSString alloc] init];
+    switch(value)
+    {
+        case 1:
+            //self.avatar = @"Char1~ipad.png";
+            avatarString = @"Char1~ipad.png";
+            break;
+        case 2:
+            //self.avatar = @"Char2~ipad.png";
+            avatarString = @"Char2~ipad.png";
+            break;
+        case 3:
+            //self.avatar = @"Char3~ipad.png";
+            avatarString = @"Char3~ipad.png";
+            break;
+        case 4:
+            //self.avatar = @"Char4~ipad.png";
+            avatarString = @"Char4~ipad.png";
+            break;
+        case 5:
+            //self.avatar = @"Char5~ipad.png";
+            avatarString = @"Char5~ipad.png";
+            break;
+    }
+    
+    return avatarString;
+}
+
 
 #pragma mark Choose Avatar based on number
 
@@ -531,19 +569,25 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-   if (CGRectIntersectsRect([self getChildByTag:31].boundingBox, self.player1.boundingBox)) {
+//   if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
+    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player1]) {
+       NSLog(@"Player 1 COLISION");
         [scoreCounter substractLivesPlayer1];
-        [[self getChildByTag:31] setTag:110];
+       [[self getChildByTag:2] setTag:110];
         [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
         [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
+       NSLog(@"Lives for player 1: %d", scoreCounter.livesLeftPlayer1);
         [self updateWinning];
     }
     
-    if (CGRectIntersectsRect([self getChildByTag:31].boundingBox, self.player2.boundingBox)) {
+//    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
+    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player2]) {
+        NSLog(@"Player 2 COLISION");
         [scoreCounter substractLivesPlayer2];
-        [[self getChildByTag:31] setTag:111];
+        [[self getChildByTag:2] setTag:111];
         [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
         [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
+        NSLog(@"Lives for player 2: %d", scoreCounter.livesLeftPlayer2);
         [self updateWinning];
     }
 }
@@ -552,36 +596,38 @@
 
 -(void)updateWinning{
     if (scoreCounter.livesLeftPlayer1 == 0) {
+        NSLog(@"Player 1 NO LIVES LEFT");
         if (isPlayer1) {
             [self endScene:kEndReasonLose2];
         } else {
             [self endScene:kEndReasonWin2];
         }
     }else if (scoreCounter.livesLeftPlayer2 == 0){
+        NSLog(@"Player 2 NO LIVES LEFT");
         if (isPlayer1) {
             [self endScene:kEndReasonWin2];
         } else {
             [self endScene:kEndReasonLose2];
         }
     }
-    else if(scoreCounter.timeCounter <= 0){
-        //Player 2 wins
-        if(scoreCounter.livesLeftPlayer1 < scoreCounter.livesLeftPlayer2){
-            if (isPlayer1) {
-                [self endScene:kEndReasonLose2];
-            } else {
-                [self endScene:kEndReasonWin2];
-            }
-        }
-        //Player 1 wins
-        else if(scoreCounter.livesLeftPlayer1 > scoreCounter.livesLeftPlayer2){
-            if (isPlayer1) {
-                [self endScene:kEndReasonWin2];
-            } else {
-                [self endScene:kEndReasonLose2];
-            }
-        }
-    }
+//    else if(scoreCounter.timeCounter <= 0){
+//        //Player 2 wins
+//        if(scoreCounter.livesLeftPlayer1 < scoreCounter.livesLeftPlayer2){
+//            if (isPlayer1) {
+//                [self endScene:kEndReasonLose2];
+//            } else {
+//                [self endScene:kEndReasonWin2];
+//            }
+//        }
+//        //Player 1 wins
+//        else if(scoreCounter.livesLeftPlayer1 > scoreCounter.livesLeftPlayer2){
+//            if (isPlayer1) {
+//                [self endScene:kEndReasonWin2];
+//            } else {
+//                [self endScene:kEndReasonLose2];
+//            }
+//        }
+//    }
 }
 
 #pragma mark Obstacles
@@ -624,7 +670,7 @@
         // Create the target slightly off-screen along the right edge,
         // and along a random position along the Y axis as calculated above
         self.obstacle.position = ccp(stupidX ,winSize.height + (self.obstacle.contentSize.height/2));
-        [self addChild:self.obstacle z:0 tag:31];
+        [self addChild:self.obstacle z:0 tag:2];
         
 //-----------------------------------------
         
@@ -847,6 +893,7 @@
         //checks the avatars chosen and assigns the right png. If both players have chosen the same avatar
         //the 'other' player is given a random one that is different from the local player's.
     } else if (message->messageType == kMessageTypeAvatarNumber2){
+        CGSize size = [[CCDirector sharedDirector] winSize];
         MessageAvatarNumber2 * messageInit = (MessageAvatarNumber2 *) [data bytes];
         CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
         bool sameAvatar = false;
@@ -869,10 +916,11 @@
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
                 
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
+                [self.player1 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer1]];
                 [self.player1 runAction:self.walkAction];
-                [self.spriteSheet addChild:self.player1 z:0 tag:3];
+                [self.spriteSheet addChild:self.player1];
                 
                 //Animations player2
                 CCAnimation *walkAnimPlayer2 = [CCAnimation
@@ -882,7 +930,7 @@
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer2]];
                 [self.player2 runAction:self.walkAction];
-                [self.spriteSheet addChild:self.player2 z:0 tag:4];
+                [self.spriteSheet addChild:self.player2];
                 
                 receivedAvatar = YES;
                 if (gameState == kGameStateWaitingForAvatarNumber2) {
@@ -906,6 +954,7 @@
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
                 
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:messageInit->avatarNumber selected:NO]];
+                [self.player1 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer1]];
                 [self.player1 runAction:self.walkAction];
@@ -928,6 +977,55 @@
                 [self tryStartGame];
             }
         }
+        
+//        MessageAvatarNumber2 * messageInit = (MessageAvatarNumber2 *) [data bytes];
+//        CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
+//        bool sameAvatar = false;
+//        
+//        if(messageInit->avatarNumber == avatarInt){
+//            CCLOG(@"Same avatar!");
+//            sameAvatar = true;
+//        }
+//        else{
+//            CCLOG(@"Different avatars!");
+//        }
+//        if(isPlayer1){
+//            if (sameAvatar) {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Same Avatar" message:@"You have chosen the same avatar as the other player./n Please go back and choose another avatar" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//                [alert show];
+//            }
+//            if(!sameAvatar){
+//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
+//                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
+//                
+//                receivedAvatar = YES;
+//                if (gameState == kGameStateWaitingForAvatarNumber2) {
+//                    [self setGameState:kGameStateWaitingForStart2];
+//                }
+//                [self tryStartGame];
+//            }
+//            
+//        }
+//        else{
+//            if(!sameAvatar){
+//                //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
+//                //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
+//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
+//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
+//                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
+//                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
+//                
+//                receivedAvatar = YES;
+//                if (gameState == kGameStateWaitingForAvatarNumber2) {
+//                    [self setGameState:kGameStateWaitingForStart2];
+//                }
+//                [self tryStartGame];
+//                
+//            }
+//        }
+
         
     } else if (message->messageType == kMessageTypeGameBegin2) {
         [self setGameState:kGameStateActive2];

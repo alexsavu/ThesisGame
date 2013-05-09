@@ -18,12 +18,12 @@
 
 -(id)init{
     if (self == [super init]) {
-        _scoreForPlayerOne = 0;
-        _scoreForPlayerTwo = 0;
-        _numberOfStars = 0;
-        _livesLeftPlayer1 = 5;
-        _livesLeftPlayer2 = 5;
-        _timeCounter = 30;
+        self.scoreForPlayerOne = 0;
+        self.scoreForPlayerTwo = 0;
+        self.numberOfStars = 0;
+        self.livesLeftPlayer1 = 5;
+        self.livesLeftPlayer2 = 5;
+        self.timeCounter = 30;
     }
     return self;
 }

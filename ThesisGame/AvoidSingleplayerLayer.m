@@ -31,6 +31,7 @@
 @property (nonatomic, strong) CCMenu *backToMainMenuFromScene2;
 @property (nonatomic, strong) Obstacle *collectable;
 @property (nonatomic, weak) NSString *avatar;
+@property (nonatomic, strong) CCSpriteBatchNode *spriteSheet;
 
 -(void)addObstaclesAvoidSingleplayer;
 -(NSString*)chosenAvatar:(NSInteger)value;
@@ -107,6 +108,22 @@
         self.player = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
         [self.player setPosition:ccp(size.height/2, self.player.contentSize.height/2)];
         [self addChild:self.player z:0 tag:1];
+        
+        //Animations
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"avatarAnimations-ipadhd.plist"];
+        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"avatarAnimations-ipadhd.png"];
+        [self addChild:self.spriteSheet];
+        
+//        /Animations player1
+//        CCAnimation *walkAnimPlayer1 = [CCAnimation
+//                                        animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
+//        
+//        self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
+//        [self.player1 setPosition:ccp(size.height/2, size.width/2)];
+//        self.walkAction = [CCRepeatForever actionWithAction:
+//                           [CCAnimate actionWithAnimation:walkAnimPlayer1]];
+//        [self.player1 runAction:self.walkAction];
+//        [self.spriteSheet addChild:self.player1];
         
         //enable accelerometer
         self.isAccelerometerEnabled = YES;

@@ -602,9 +602,9 @@
     int stupidDurationForRocks = 0;
     int stupidXForStars = 0;
     int stupidDurationForStars = 0;
-    int rndValue = 0 + arc4random() % (20 - 0);
+//    int rndValue = 0 + arc4random() % (20 - 0);
     
-    if (rndValue % 2 == 0) {
+    if (counterForObstacles % 2 == 0) {
         if (counterForObstacles == 1) {
             stupidXForRocks = 300.0;
             stupidDurationForRocks = 2;
@@ -640,16 +640,9 @@
         }
     }
     
-    
-    if (counterForObstacles < 5) {
-        counterForObstacles += 1;
-    }else{
-        counterForObstacles = 1;
-    }
-    
     // Create the target slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
-    if (rndValue % 2 == 0){
+    if (counterForObstacles % 2 == 0){
         self.obstacle.position = ccp(stupidXForRocks ,winSize.height + (self.obstacle.contentSize.height/2));
         [self addChild:self.obstacle z:0 tag:31];
     }else{
@@ -674,7 +667,7 @@
 //----------------------------------------------------------------------------------------
     
     // Create the actions
-    if (rndValue % 2 == 0){
+    if (counterForObstacles % 2 == 0){
         id actionMove = [CCMoveTo actionWithDuration:stupidDurationForRocks
                                             position:ccp(stupidXForRocks ,-self.obstacle.contentSize.height)];
         id actionMoveDone = [CCCallFuncN actionWithTarget:self
@@ -688,6 +681,12 @@
                                                  selector:@selector(spriteMoveFinished:)];
         
         [self.starObstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    }
+    
+    if (counterForObstacles < 5) {
+        counterForObstacles += 1;
+    }else{
+        counterForObstacles = 1;
     }
     
 }

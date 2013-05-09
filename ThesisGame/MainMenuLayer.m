@@ -12,19 +12,17 @@
 
 @interface MainMenuLayer()
 
+@property (nonatomic, strong) CCSprite *backgroundForMainMenu;
+@property (nonatomic, strong) CCSprite *backgroundForAvatarSelection;
+@property (nonatomic, strong) CCMenu *backButtonMenu;
 -(void)displayMainMenu;
--(void)displaySceneSelectionSingleplayer;
--(void)displaySingleMultiplayerMenu;
--(void)displaySceneSelectionMultiplayer;
 
 @end
 
 @implementation MainMenuLayer
 @synthesize mainMenu = _mainMenu;
 @synthesize avatarMenu = _avatarMenu;
-@synthesize singleMultiplayerMenu = _singleMultiplayerMenu;
-@synthesize sceneSelectionSingleplayer = _sceneSelectionSingleplayer;
-@synthesize sceneSelectionMultiplayer = _sceneSelectionMultiplayer;
+
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
@@ -45,13 +43,12 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
-//        CGSize screenSize = [CCDirector sharedDirector].winSize;
-//        
-//        CCSprite *background =
-//        [CCSprite spriteWithFile:@"MainMenuBackground.png"];
-//        [background setPosition:ccp(screenSize.width/2,
-//                                    screenSize.height/2)];
-//        [self addChild:background];
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        
+        self.backgroundForMainMenu = [CCSprite spriteWithFile:@"mainMenu_background.png"];
+        [self.backgroundForMainMenu setPosition:ccp(screenSize.width/2,screenSize.height/2)];
+        self.backgroundForAvatarSelection = [CCSprite spriteWithFile:@"avatarSelectionBackground.png"];
+        [self.backgroundForAvatarSelection setPosition:ccp(screenSize.width/2,screenSize.height/2)];
         
         [self displayMainMenu];
         
@@ -141,9 +138,11 @@
     if(self.avatarMenu != nil) {
         [self.avatarMenu removeFromParentAndCleanup:YES];
     }
-    if (self.singleMultiplayerMenu != nil) {
-        [self.singleMultiplayerMenu removeAllChildrenWithCleanup:YES];
+    if (self.backgroundForAvatarSelection) {
+        [self removeChildByTag:31 cleanup:YES];
     }
+    
+    [self addChild:self.backgroundForMainMenu z:0 tag:30];
     
     // Main Menu
     CCMenuItemImage *playGameButton = [CCMenuItemImage
@@ -152,15 +151,9 @@
                                        disabledImage:nil
                                        target:self
                                        selector:@selector(displayAvatarMenu)];
-    
-    CCMenuItemImage *optionsButton = [CCMenuItemImage
-                                      itemWithNormalImage:@"OptionsButtonNormal.png"
-                                      selectedImage:@"OptionsButtonSelected.png"
-                                      target:self
-                                      selector:@selector(showOptions)];
                                          
     self.mainMenu = [CCMenu
-                menuWithItems:playGameButton,optionsButton,nil];
+                menuWithItems:playGameButton,nil];
     [self.mainMenu alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
     [self.mainMenu setPosition:
      ccp(screenSize.width * 2.0f,
@@ -180,60 +173,67 @@
     if (self.mainMenu != nil) {
         [self.mainMenu removeFromParentAndCleanup:YES];
     }
-    if (self.singleMultiplayerMenu != nil) {
-        [self.singleMultiplayerMenu removeFromParentAndCleanup:YES];
+    if (self.backgroundForMainMenu) {
+        [self removeChildByTag:30 cleanup:YES];
     }
     
+    [self addChild:self.backgroundForAvatarSelection z:0 tag:31];
+    
     CCMenuItemImage *avatar1Button = [CCMenuItemImage
-                                      itemWithNormalImage:@"Char1~ipad.png"
-                                      selectedImage:@"Char1_selected~ipad.png"
+                                      itemWithNormalImage:@"afroUnselected~ipad.png"
+                                      selectedImage:@"afroSelected~ipad.png"
                                       disabledImage:nil
                                       target:self
                                       selector:@selector(chooseAvatar:)];
     [avatar1Button setTag:1];
     
     CCMenuItemImage *avatar2Button = [CCMenuItemImage
-                                      itemWithNormalImage:@"Char2~ipad.png"
-                                      selectedImage:@"Char2_selected~ipad.png"
+                                      itemWithNormalImage:@"gingerUnselected~ipad.png"
+                                      selectedImage:@"gingerSelected~ipad.png"
                                       disabledImage:nil
                                       target:self
                                       selector:@selector(chooseAvatar:)];
     [avatar2Button setTag:2];
     
     CCMenuItemImage *avatar3Button = [CCMenuItemImage
-                                      itemWithNormalImage:@"Char3~ipad.png"
-                                      selectedImage:@"Char3_selected~ipad.png"
+                                      itemWithNormalImage:@"indianUnselected~ipad.png"
+                                      selectedImage:@"indianSelected~ipad.png"
                                       disabledImage:nil
                                       target:self
                                       selector:@selector(chooseAvatar:)];
     [avatar3Button setTag:3];
     
     CCMenuItemImage *avatar4Button = [CCMenuItemImage
-                                      itemWithNormalImage:@"Char4~ipad.png"
-                                      selectedImage:@"Char4_selected~ipad.png"
+                                      itemWithNormalImage:@"japaneseUnselected~ipad.png"
+                                      selectedImage:@"japaneseSelected~ipad.png"
                                       disabledImage:nil
                                       target:self
-                                      selector:@selector(chooseAvatar:)];
+                                      selector:@selector(chooseAvatar)];
     [avatar4Button setTag:4];
     
-    CCLabelBMFont *backButtonLabel =
-    [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *backButton =
-    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
-                          selector:@selector(displayMainMenu)];
+    CCMenuItemImage *backButtonImage = [CCMenuItemImage
+                                  itemWithNormalImage:@"backButtonMenu~ipad.png"
+                                  selectedImage:@"backButtonMenuSelected~ipad.png"
+                                  disabledImage:nil
+                                  target:self
+                                  selector:@selector(displayMainMenu)];
     
-    self.avatarMenu = [CCMenu menuWithItems:avatar1Button, avatar2Button, avatar3Button, avatar4Button, backButton, nil];
+    self.backButtonMenu = [CCMenu menuWithItems:backButtonImage,nil];
+    [self.backButtonMenu setPosition:ccp(screenSize.width * 2.0f, screenSize.height / 4.5f)];
+    
+    id moveActionForBackButton = [CCMoveTo actionWithDuration:1.2f position:ccp(screenSize.width * 0.85f, screenSize.height/4.5f)];
+    id moveEffectForBackButton = [CCEaseIn actionWithAction:moveActionForBackButton rate:1.0f];
+    [self.backButtonMenu runAction:moveEffectForBackButton];
+    [self addChild:self.backButtonMenu];
+
+    
+    self.avatarMenu = [CCMenu menuWithItems:avatar1Button, avatar2Button, avatar3Button, avatar4Button, nil];
     [self.avatarMenu alignItemsHorizontallyWithPadding:screenSize.width * 0.05f];
-    [self.avatarMenu setPosition:
-     ccp(screenSize.width * 0.059f,
-         screenSize.height / 2.0f)];
-    id moveAction =
-    [CCMoveTo actionWithDuration:1.2f
-                        position:ccp(screenSize.width * 0.50f,
-                                     screenSize.height/2.0f)];
-    id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
-    [self.avatarMenu runAction:moveEffect];
+    [self.avatarMenu setScale:0.85];
+    [self.avatarMenu setPosition:ccp(screenSize.width * 0.059f,screenSize.height / 3.f)];
+    id moveActionForAvatarMenu = [CCMoveTo actionWithDuration:1.2f position:ccp(screenSize.width * 0.43f, screenSize.height/3.f)];
+    id moveEffectForAvatarMenu = [CCEaseIn actionWithAction:moveActionForAvatarMenu rate:1.0f];
+    [self.avatarMenu runAction:moveEffectForAvatarMenu];
     [self addChild:self.avatarMenu z:0 tag:kAvatarMenuTagValue];
 }
 
