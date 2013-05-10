@@ -569,8 +569,8 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-//   if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
-    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player1]) {
+   if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
+//    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player1]) {
        NSLog(@"Player 1 COLISION");
         [scoreCounter substractLivesPlayer1];
        [[self getChildByTag:2] setTag:110];
@@ -580,8 +580,8 @@
         [self updateWinning];
     }
     
-//    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
-    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player2]) {
+    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
+//    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player2]) {
         NSLog(@"Player 2 COLISION");
         [scoreCounter substractLivesPlayer2];
         [[self getChildByTag:2] setTag:111];

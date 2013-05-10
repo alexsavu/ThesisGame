@@ -16,7 +16,6 @@
 		3E0DB8B9171994F800EEAAC6 /* collectGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0DB8B5171994F800EEAAC6 /* collectGreen.png */; };
 		3E0DB8BC1719B6DB00EEAAC6 /* ScoreCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0DB8BB1719B6DB00EEAAC6 /* ScoreCounter.m */; };
 		3E0E885016DF5F7300A1AB72 /* Obstacle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E884F16DF5F7300A1AB72 /* Obstacle.m */; };
-		3E0E885216DF663600A1AB72 /* handUp~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E885116DF663600A1AB72 /* handUp~ipad.png */; };
 		3E0E888B16E0B50F00A1AB72 /* CCNodeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888416E0B50F00A1AB72 /* CCNodeExtensions.m */; };
 		3E0E888C16E0B50F00A1AB72 /* KKPixelMaskSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888616E0B50F00A1AB72 /* KKPixelMaskSprite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3E0E888D16E0B50F00A1AB72 /* KKScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E888816E0B50F00A1AB72 /* KKScreenshot.m */; };
@@ -27,31 +26,18 @@
 		3E0E889816E0B6F600A1AB72 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 3E0E889316E0B6F600A1AB72 /* Makefile */; };
 		3E0E889916E0B6F600A1AB72 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 3E0E889416E0B6F600A1AB72 /* README */; };
 		3E0ED32316BE7CFB003AF327 /* GKMatchmakerViewController-LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */; };
-		3E0ED3C016C5620B003AF327 /* background~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED3BF16C5620B003AF327 /* background~ipad.png */; };
-		3E0ED56616C65863003AF327 /* dpadDown~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0ED56516C65863003AF327 /* dpadDown~ipad.png */; };
 		3E12B0BF16CE73B600B5485D /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0BE16CE73B600B5485D /* GameCharacter.m */; };
 		3E12B0C216CE7F5D00B5485D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C116CE7F5D00B5485D /* Player.m */; };
 		3E12B0C616CE95A800B5485D /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E12B0C516CE95A800B5485D /* GameManager.m */; };
 		3E20A396173AC3A8007DF8B0 /* avatarsResized_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A394173AC3A8007DF8B0 /* avatarsResized_default.plist */; };
 		3E20A397173AC3A8007DF8B0 /* avatarsResized_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A395173AC3A8007DF8B0 /* avatarsResized_default.png */; };
-		3E20A3AB173AE3DB007DF8B0 /* ProAvatarAnimations-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A3A5173AE3DB007DF8B0 /* ProAvatarAnimations-hd.plist */; };
-		3E20A3AC173AE3DB007DF8B0 /* ProAvatarAnimations-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A3A6173AE3DB007DF8B0 /* ProAvatarAnimations-hd.png */; };
-		3E20A3AD173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A3A7173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.plist */; };
-		3E20A3AE173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A3A8173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.png */; };
-		3E20A3AF173AE3DB007DF8B0 /* ProAvatarAnimations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A3A9173AE3DB007DF8B0 /* ProAvatarAnimations.plist */; };
-		3E20A3B0173AE3DB007DF8B0 /* ProAvatarAnimations.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E20A3AA173AE3DB007DF8B0 /* ProAvatarAnimations.png */; };
 		3E28F554171ABDAB00F60925 /* starObject_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E28F553171ABDAB00F60925 /* starObject_1.png */; };
 		3E46FA7816E246F200912942 /* MainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E46FA7716E246F200912942 /* MainMenuLayer.m */; };
 		3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B116D62D9F007C0FF2 /* GameObject.m */; };
-		3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5A73B616D7778F007C0FF2 /* redBackground.png */; };
 		3E7F8DE6172682120039A80E /* SingleMultiplayerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */; };
 		3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */; };
 		3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */; };
 		3E8278EC1736D583004B36F4 /* spaceBackground~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E8278EB1736D583004B36F4 /* spaceBackground~ipad.png */; };
-		3E91620D16E265FF0068DFD4 /* PlayGameButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */; };
-		3E91620E16E265FF0068DFD4 /* PlayGameButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */; };
-		3E91621116E266250068DFD4 /* OptionsButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */; };
-		3E91621216E266250068DFD4 /* OptionsButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621016E266250068DFD4 /* OptionsButtonSelected.png */; };
 		3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */; };
 		3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E91621616E266910068DFD4 /* VikingSpeechFont64.png */; };
 		3E91621D16E27AAF0068DFD4 /* CollectSinglelayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E91621C16E27AAF0068DFD4 /* CollectSinglelayerLayer.m */; };
@@ -82,6 +68,8 @@
 		3E9C1AB6173C30BE00FE0E06 /* backButtonMenuSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C1AB4173C30BE00FE0E06 /* backButtonMenuSelected~ipad.png */; };
 		3E9F42871739644400326B92 /* CollectAndAvoidMultiplayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9F42861739644400326B92 /* CollectAndAvoidMultiplayerLayer.m */; };
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
+		3EB227EC173CBDFC0042C583 /* startButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227EA173CBDFC0042C583 /* startButton~ipad.png */; };
+		3EB227ED173CBDFC0042C583 /* startButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227EB173CBDFC0042C583 /* startButtonSelected~ipad.png */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
 		3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD716B18277006F740A /* OpenAL.framework */; };
@@ -228,7 +216,6 @@
 		3E0DB8BB1719B6DB00EEAAC6 /* ScoreCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreCounter.m; sourceTree = "<group>"; };
 		3E0E884E16DF5F7300A1AB72 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obstacle.h; sourceTree = "<group>"; };
 		3E0E884F16DF5F7300A1AB72 /* Obstacle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obstacle.m; sourceTree = "<group>"; };
-		3E0E885116DF663600A1AB72 /* handUp~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handUp~ipad.png"; sourceTree = "<group>"; };
 		3E0E888116E0B50F00A1AB72 /* ccMoreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccMoreMacros.h; sourceTree = "<group>"; };
 		3E0E888216E0B50F00A1AB72 /* ccMoreTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccMoreTypes.h; sourceTree = "<group>"; };
 		3E0E888316E0B50F00A1AB72 /* CCNodeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeExtensions.h; sourceTree = "<group>"; };
@@ -247,8 +234,6 @@
 		3E0E889416E0B6F600A1AB72 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		3E0ED32116BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GKMatchmakerViewController-LandscapeOnly.h"; sourceTree = "<group>"; };
 		3E0ED32216BE7CFA003AF327 /* GKMatchmakerViewController-LandscapeOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GKMatchmakerViewController-LandscapeOnly.m"; sourceTree = "<group>"; };
-		3E0ED3BF16C5620B003AF327 /* background~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background~ipad.png"; sourceTree = "<group>"; };
-		3E0ED56516C65863003AF327 /* dpadDown~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dpadDown~ipad.png"; sourceTree = "<group>"; };
 		3E12B0BD16CE73B600B5485D /* GameCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCharacter.h; sourceTree = "<group>"; };
 		3E12B0BE16CE73B600B5485D /* GameCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCharacter.m; sourceTree = "<group>"; };
 		3E12B0C016CE7F5D00B5485D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
@@ -257,18 +242,11 @@
 		3E12B0C516CE95A800B5485D /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		3E20A394173AC3A8007DF8B0 /* avatarsResized_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = avatarsResized_default.plist; sourceTree = "<group>"; };
 		3E20A395173AC3A8007DF8B0 /* avatarsResized_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarsResized_default.png; sourceTree = "<group>"; };
-		3E20A3A5173AE3DB007DF8B0 /* ProAvatarAnimations-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ProAvatarAnimations-hd.plist"; sourceTree = "<group>"; };
-		3E20A3A6173AE3DB007DF8B0 /* ProAvatarAnimations-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ProAvatarAnimations-hd.png"; sourceTree = "<group>"; };
-		3E20A3A7173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ProAvatarAnimations-ipadhd.plist"; sourceTree = "<group>"; };
-		3E20A3A8173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ProAvatarAnimations-ipadhd.png"; sourceTree = "<group>"; };
-		3E20A3A9173AE3DB007DF8B0 /* ProAvatarAnimations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ProAvatarAnimations.plist; sourceTree = "<group>"; };
-		3E20A3AA173AE3DB007DF8B0 /* ProAvatarAnimations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ProAvatarAnimations.png; sourceTree = "<group>"; };
 		3E28F553171ABDAB00F60925 /* starObject_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starObject_1.png; sourceTree = "<group>"; };
 		3E46FA7616E246F200912942 /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLayer.h; sourceTree = "<group>"; };
 		3E46FA7716E246F200912942 /* MainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLayer.m; sourceTree = "<group>"; };
 		3E5A73B016D62D9F007C0FF2 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		3E5A73B116D62D9F007C0FF2 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
-		3E5A73B616D7778F007C0FF2 /* redBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redBackground.png; sourceTree = "<group>"; };
 		3E7F8DE4172682120039A80E /* SingleMultiplayerMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleMultiplayerMenu.h; sourceTree = "<group>"; };
 		3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleMultiplayerMenu.m; sourceTree = "<group>"; };
 		3E7F8DF017269D6D0039A80E /* MultiplayerSceneSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplayerSceneSelection.h; sourceTree = "<group>"; };
@@ -276,10 +254,6 @@
 		3E7F8DF317269D810039A80E /* SingleplayerSceneSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleplayerSceneSelection.h; sourceTree = "<group>"; };
 		3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleplayerSceneSelection.m; sourceTree = "<group>"; };
 		3E8278EB1736D583004B36F4 /* spaceBackground~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceBackground~ipad.png"; sourceTree = "<group>"; };
-		3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayGameButtonNormal.png; sourceTree = "<group>"; };
-		3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayGameButtonSelected.png; sourceTree = "<group>"; };
-		3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OptionsButtonNormal.png; sourceTree = "<group>"; };
-		3E91621016E266250068DFD4 /* OptionsButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OptionsButtonSelected.png; sourceTree = "<group>"; };
 		3E91621416E266550068DFD4 /* VikingSpeechFont64.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VikingSpeechFont64.fnt; sourceTree = "<group>"; };
 		3E91621616E266910068DFD4 /* VikingSpeechFont64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VikingSpeechFont64.png; sourceTree = "<group>"; };
 		3E91621B16E27AAF0068DFD4 /* CollectSinglelayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectSinglelayerLayer.h; sourceTree = "<group>"; };
@@ -315,6 +289,8 @@
 		3EA4CC3F16BD2516002F9B10 /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
 		3EA4CC4016BD2D43002F9B10 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCHelper.h; sourceTree = "<group>"; };
 		3EA4CC4116BD2D43002F9B10 /* GCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCHelper.m; sourceTree = "<group>"; };
+		3EB227EA173CBDFC0042C583 /* startButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227EB173CBDFC0042C583 /* startButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startButtonSelected~ipad.png"; sourceTree = "<group>"; };
 		3ECACACF16B18277006F740A /* ThesisGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThesisGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECACAD316B18277006F740A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3ECACAD516B18277006F740A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -701,12 +677,6 @@
 				3E9C1A72173C06D400FE0E06 /* totallyFinalAnimations-ipadhd.png */,
 				3E9C1A73173C06D400FE0E06 /* totallyFinalAnimations.plist */,
 				3E9C1A74173C06D400FE0E06 /* totallyFinalAnimations.png */,
-				3E20A3A5173AE3DB007DF8B0 /* ProAvatarAnimations-hd.plist */,
-				3E20A3A6173AE3DB007DF8B0 /* ProAvatarAnimations-hd.png */,
-				3E20A3A7173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.plist */,
-				3E20A3A8173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.png */,
-				3E20A3A9173AE3DB007DF8B0 /* ProAvatarAnimations.plist */,
-				3E20A3AA173AE3DB007DF8B0 /* ProAvatarAnimations.png */,
 			);
 			name = "TexturePacker Animations";
 			sourceTree = "<group>";
@@ -780,10 +750,6 @@
 			isa = PBXGroup;
 			children = (
 				3E9C1AB2173C30B500FE0E06 /* Buttons */,
-				3E91620F16E266250068DFD4 /* OptionsButtonNormal.png */,
-				3E91621016E266250068DFD4 /* OptionsButtonSelected.png */,
-				3E91620B16E265FF0068DFD4 /* PlayGameButtonNormal.png */,
-				3E91620C16E265FF0068DFD4 /* PlayGameButtonSelected.png */,
 			);
 			name = MainMenu;
 			sourceTree = "<group>";
@@ -829,6 +795,8 @@
 		3E9C1AB2173C30B500FE0E06 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				3EB227EA173CBDFC0042C583 /* startButton~ipad.png */,
+				3EB227EB173CBDFC0042C583 /* startButtonSelected~ipad.png */,
 				3E9C1AB3173C30BE00FE0E06 /* backButtonMenu~ipad.png */,
 				3E9C1AB4173C30BE00FE0E06 /* backButtonMenuSelected~ipad.png */,
 			);
@@ -918,10 +886,6 @@
 				3EF4B71C16E7BFAF00E64996 /* backButton~ipad.png */,
 				3E91621316E266370068DFD4 /* Fonts */,
 				3E91620A16E265CF0068DFD4 /* MainMenu */,
-				3E0E885116DF663600A1AB72 /* handUp~ipad.png */,
-				3E5A73B616D7778F007C0FF2 /* redBackground.png */,
-				3E0ED56516C65863003AF327 /* dpadDown~ipad.png */,
-				3E0ED3BF16C5620B003AF327 /* background~ipad.png */,
 				3ECACAE716B18277006F740A /* Default.png */,
 				3ECACAE916B18277006F740A /* Default-Landscape~ipad.png */,
 				3ECACAEB16B18277006F740A /* fps_images.png */,
@@ -1412,17 +1376,9 @@
 				3ECACAFC16B18277006F740A /* Icon@2x.png in Resources */,
 				3ECACAFF16B18277006F740A /* iTunesArtwork in Resources */,
 				3ECACC3D16B18279006F740A /* ChangeLog in Resources */,
-				3E0ED3C016C5620B003AF327 /* background~ipad.png in Resources */,
-				3E0ED56616C65863003AF327 /* dpadDown~ipad.png in Resources */,
-				3E5A73B716D7778F007C0FF2 /* redBackground.png in Resources */,
-				3E0E885216DF663600A1AB72 /* handUp~ipad.png in Resources */,
 				3E0E889616E0B6F600A1AB72 /* COPYING in Resources */,
 				3E0E889716E0B6F600A1AB72 /* COPYING.LESSER in Resources */,
 				3E0E889916E0B6F600A1AB72 /* README in Resources */,
-				3E91620D16E265FF0068DFD4 /* PlayGameButtonNormal.png in Resources */,
-				3E91620E16E265FF0068DFD4 /* PlayGameButtonSelected.png in Resources */,
-				3E91621116E266250068DFD4 /* OptionsButtonNormal.png in Resources */,
-				3E91621216E266250068DFD4 /* OptionsButtonSelected.png in Resources */,
 				3E91621516E266550068DFD4 /* VikingSpeechFont64.fnt in Resources */,
 				3E91621716E266910068DFD4 /* VikingSpeechFont64.png in Resources */,
 				3EF4B71D16E7BFAF00E64996 /* backButton~ipad.png in Resources */,
@@ -1443,12 +1399,6 @@
 				3E8278EC1736D583004B36F4 /* spaceBackground~ipad.png in Resources */,
 				3E20A396173AC3A8007DF8B0 /* avatarsResized_default.plist in Resources */,
 				3E20A397173AC3A8007DF8B0 /* avatarsResized_default.png in Resources */,
-				3E20A3AB173AE3DB007DF8B0 /* ProAvatarAnimations-hd.plist in Resources */,
-				3E20A3AC173AE3DB007DF8B0 /* ProAvatarAnimations-hd.png in Resources */,
-				3E20A3AD173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.plist in Resources */,
-				3E20A3AE173AE3DB007DF8B0 /* ProAvatarAnimations-ipadhd.png in Resources */,
-				3E20A3AF173AE3DB007DF8B0 /* ProAvatarAnimations.plist in Resources */,
-				3E20A3B0173AE3DB007DF8B0 /* ProAvatarAnimations.png in Resources */,
 				3E9C1A75173C06D400FE0E06 /* totallyFinalAnimations-hd.plist in Resources */,
 				3E9C1A76173C06D400FE0E06 /* totallyFinalAnimations-hd.png in Resources */,
 				3E9C1A77173C06D400FE0E06 /* totallyFinalAnimations-ipadhd.plist in Resources */,
@@ -1468,6 +1418,8 @@
 				3E9C1AB1173C2C9F00FE0E06 /* prototypeObstacle~ipad.png in Resources */,
 				3E9C1AB5173C30BE00FE0E06 /* backButtonMenu~ipad.png in Resources */,
 				3E9C1AB6173C30BE00FE0E06 /* backButtonMenuSelected~ipad.png in Resources */,
+				3EB227EC173CBDFC0042C583 /* startButton~ipad.png in Resources */,
+				3EB227ED173CBDFC0042C583 /* startButtonSelected~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

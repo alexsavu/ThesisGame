@@ -36,6 +36,8 @@ typedef enum {
     kMessageTypeMove3,
     kMessageTypeGameOver3,
     kMessageTypeAvatarNumber3,
+    kMessageTypeCollisionStar3,
+    kMessageTypeCollisionRock3
 } MessageType3;
 
 typedef struct {
@@ -46,6 +48,16 @@ typedef struct {
     Message3 message;
     uint32_t randomNumber;
 } MessageRandomNumber3;
+
+typedef struct {
+    Message3 message;
+    uint32_t collisionStar;
+} MessageCollidionStar3;
+
+typedef struct {
+    Message3 message;
+    uint32_t collisionRock;
+} MessageCollisionRock3;
 
 typedef struct {
     Message3 message;

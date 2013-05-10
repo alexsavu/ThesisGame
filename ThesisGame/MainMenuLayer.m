@@ -137,8 +137,6 @@
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     if(self.avatarMenu != nil) {
         [self.avatarMenu removeFromParentAndCleanup:YES];
-    }
-    if (self.backgroundForAvatarSelection) {
         [self removeChildByTag:31 cleanup:YES];
     }
     
@@ -146,8 +144,8 @@
     
     // Main Menu
     CCMenuItemImage *playGameButton = [CCMenuItemImage
-                                       itemWithNormalImage:@"PlayGameButtonNormal.png"
-                                       selectedImage:@"PlayGameButtonSelected.png"
+                                       itemWithNormalImage:@"startButton~ipad.png"
+                                       selectedImage:@"startButtonSelected~ipad.png"
                                        disabledImage:nil
                                        target:self
                                        selector:@selector(displayAvatarMenu)];
@@ -155,13 +153,8 @@
     self.mainMenu = [CCMenu
                 menuWithItems:playGameButton,nil];
     [self.mainMenu alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
-    [self.mainMenu setPosition:
-     ccp(screenSize.width * 2.0f,
-         screenSize.height / 2.0f)];
-    id moveAction =
-    [CCMoveTo actionWithDuration:1.2f
-                        position:ccp(screenSize.width * 0.85f,
-                                     screenSize.height/2.0f)];
+    [self.mainMenu setPosition:ccp(screenSize.width * 2.0f, screenSize.height / 4.f)];
+    id moveAction = [CCMoveTo actionWithDuration:1.2f position:ccp(screenSize.width * 0.75f, screenSize.height/4.f)];
     id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
     [self.mainMenu runAction:moveEffect];
     [self addChild:self.mainMenu z:0 tag:kMainMenuTagValue];
@@ -172,8 +165,6 @@
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     if (self.mainMenu != nil) {
         [self.mainMenu removeFromParentAndCleanup:YES];
-    }
-    if (self.backgroundForMainMenu) {
         [self removeChildByTag:30 cleanup:YES];
     }
     
@@ -208,7 +199,7 @@
                                       selectedImage:@"japaneseSelected~ipad.png"
                                       disabledImage:nil
                                       target:self
-                                      selector:@selector(chooseAvatar)];
+                                      selector:@selector(chooseAvatar:)];
     [avatar4Button setTag:4];
     
     CCMenuItemImage *backButtonImage = [CCMenuItemImage
