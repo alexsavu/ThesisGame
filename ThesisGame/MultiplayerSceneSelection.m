@@ -29,55 +29,58 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        CCSprite *backgroundForSingleMultiplayer = [CCSprite spriteWithFile:@"mainMenu_background.png"];
+        [backgroundForSingleMultiplayer setPosition:ccp(screenSize.width/2,screenSize.height/2)];
+        [self addChild:backgroundForSingleMultiplayer];
+        [self menuForMultiplayer];
     }
-    [self menuForMultiplayer];
     return self;
 }
 
 -(void)menuForMultiplayer{
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     
-    CCLabelBMFont *playScene1Label =
-    [CCLabelBMFont labelWithString:@"Collect the stars"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene1 =
-    [CCMenuItemLabel itemWithLabel:playScene1Label target:self
-                          selector:@selector(playSceneForMultiplayer:)];
-    [playScene1 setTag:3];
+    // Collect stars Multiplayer Button
+    CCMenuItemImage *collectStarsMultiplayer = [CCMenuItemImage
+                                          itemWithNormalImage:@"collectButton~ipad.png"
+                                          selectedImage:@"collectButtonSelected~ipad.png"
+                                          disabledImage:nil
+                                          target:self
+                                          selector:@selector(playSceneForMultiplayer:)];
+    [collectStarsMultiplayer setTag:3];
     
-    CCLabelBMFont *playScene2Label =
-    [CCLabelBMFont labelWithString:@"Dodge the obstacles"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene2 =
-    [CCMenuItemLabel itemWithLabel:playScene2Label target:self
-                          selector:@selector(playSceneForMultiplayer:)];
-    [playScene2 setTag:4];
+    // Avoid rocks Multiplayer Button
+    CCMenuItemImage *avoidRocksMultiplayer = [CCMenuItemImage
+                                          itemWithNormalImage:@"avoidButton~ipad.png"
+                                          selectedImage:@"avoidButtonSelected~ipad.png"
+                                          disabledImage:nil
+                                          target:self
+                                          selector:@selector(playSceneForMultiplayer:)];
+    [avoidRocksMultiplayer setTag:4];
     
-    CCLabelBMFont *playScene3Label =
-    [CCLabelBMFont labelWithString:@"Collect & Dodge the obstacles"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene3 =
-    [CCMenuItemLabel itemWithLabel:playScene3Label target:self
-                          selector:@selector(playSceneForMultiplayer:)];
-    [playScene3 setTag:5];
-
+    // Collect & Dodge Multiplayer Button
+    CCMenuItemImage *collectDodgeMultiplayer = [CCMenuItemImage
+                                          itemWithNormalImage:@"rockstarButton~ipad.png"
+                                          selectedImage:@"rockstarButtonSelected~ipad.png"
+                                          disabledImage:nil
+                                          target:self
+                                          selector:@selector(playSceneForMultiplayer:)];
+    [collectDodgeMultiplayer setTag:5];
     
-    CCLabelBMFont *backButtonLabel =
-    [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *backButton =
-    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
-                          selector:@selector(backToSingleMultiplayerSceneFromMultiplayer)];
+    // Back Button
+    CCMenuItemImage *backButton = [CCMenuItemImage
+                                   itemWithNormalImage:@"backButtonMenu~ipad.png"
+                                   selectedImage:@"backButtonMenuSelected~ipad.png"
+                                   disabledImage:nil
+                                   target:self
+                                   selector:@selector(backToSingleMultiplayerSceneFromMultiplayer)];
     
-    self.sceneSelectionMultiplayer = [CCMenu menuWithItems:playScene1,
-                                      playScene2, playScene3,backButton,nil];
-    [self.sceneSelectionMultiplayer alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
-    [self.sceneSelectionMultiplayer setPosition:ccp(screenSize.width * 2,
-                                                    screenSize.height / 2)];
+    self.sceneSelectionMultiplayer = [CCMenu menuWithItems:collectStarsMultiplayer, avoidRocksMultiplayer, collectDodgeMultiplayer,backButton,nil];
+    [self.sceneSelectionMultiplayer alignItemsVerticallyWithPadding:screenSize.height * 0.019f];
+    [self.sceneSelectionMultiplayer setPosition:ccp(screenSize.width * 2, screenSize.height / 3.f)];
     
-    id moveAction = [CCMoveTo actionWithDuration:0.5f
-                                        position:ccp(screenSize.width * 0.75f,
-                                                     screenSize.height/2)];
+    id moveAction = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width * 0.75f, screenSize.height/3.f)];
     id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
     [self.sceneSelectionMultiplayer runAction:moveEffect];
     [self addChild:self.sceneSelectionMultiplayer z:1 tag:kSceneMenuTagValue];

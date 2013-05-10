@@ -320,16 +320,15 @@
 //Back to main menu button
 - (void)addBackButton{
     CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCMenuItemImage *backArrow = [CCMenuItemImage
-                                  itemWithNormalImage:@"backButton.png"
-                                  selectedImage:nil
+    CCMenuItemImage *backButton = [CCMenuItemImage
+                                  itemWithNormalImage:@"inGameBackButton~ipad.png"
+                                  selectedImage:@"inGameBackButtonSelected~ipad.png"
                                   disabledImage:nil
                                   target:self
                                   selector:@selector(goBackToMenu:)];
     
-    self.backToMainMenu = [CCMenu
-                           menuWithItems:backArrow,nil];
-    [self.backToMainMenu setPosition:ccp(55.f,screenSize.height - 55.f)];
+    self.backToMainMenu = [CCMenu menuWithItems:backButton,nil];
+    [self.backToMainMenu setPosition:ccp(70.f,screenSize.height - 55.f)];
     //TODO: change tag value because is the same as the main menu
     [self addChild:self.backToMainMenu z:0];
 }

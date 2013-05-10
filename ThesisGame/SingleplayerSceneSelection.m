@@ -29,8 +29,12 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        CCSprite *backgroundForSingleMultiplayer = [CCSprite spriteWithFile:@"mainMenu_background.png"];
+        [backgroundForSingleMultiplayer setPosition:ccp(screenSize.width/2,screenSize.height/2)];
+        [self addChild:backgroundForSingleMultiplayer];
+        [self menuForSingleplayer];
     }
-    [self menuForSingleplayer];
     return self;
 }
 
@@ -38,38 +42,60 @@
 -(void)menuForSingleplayer {
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     
-    CCLabelBMFont *playScene1Label =
-    [CCLabelBMFont labelWithString:@"Collect the stars"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene1 =
-    [CCMenuItemLabel itemWithLabel:playScene1Label target:self
-                          selector:@selector(playSceneForSingleplayer:)];
-    [playScene1 setTag:1];
+    // Collect stars Singleplayer Button
+    CCMenuItemImage *collectStarsSingleplayer = [CCMenuItemImage
+                                           itemWithNormalImage:@"collectButton~ipad.png"
+                                           selectedImage:@"collectButtonSelected~ipad.png"
+                                           disabledImage:nil
+                                           target:self
+                                           selector:@selector(playSceneForSingleplayer:)];
+    [collectStarsSingleplayer setTag:1];
     
-    CCLabelBMFont *playScene2Label =
-    [CCLabelBMFont labelWithString:@"Dodge the obstacles"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *playScene2 =
-    [CCMenuItemLabel itemWithLabel:playScene2Label target:self
-                          selector:@selector(playSceneForSingleplayer:)];
-    [playScene2 setTag:2];
+    // Avoid rocks Singleplayer Button
+    CCMenuItemImage *avoidRocksSingleplayer = [CCMenuItemImage
+                                           itemWithNormalImage:@"avoidButton~ipad.png"
+                                           selectedImage:@"avoidButtonSelected~ipad.png"
+                                           disabledImage:nil
+                                           target:self
+                                            selector:@selector(playSceneForSingleplayer:)];
+    [avoidRocksSingleplayer setTag:2];
     
-    CCLabelBMFont *backButtonLabel =
-    [CCLabelBMFont labelWithString:@"Back"
-                           fntFile:@"magneto.fnt"];
-    CCMenuItemLabel *backButton =
-    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
-                          selector:@selector(backToSingleMultiplayerSceneFromSingleplayer)];
+    // Back Button
+    CCMenuItemImage *backButton = [CCMenuItemImage
+                                   itemWithNormalImage:@"backButtonMenu~ipad.png"
+                                   selectedImage:@"backButtonMenuSelected~ipad.png"
+                                   disabledImage:nil
+                                   target:self
+                                   selector:@selector(backToSingleMultiplayerSceneFromSingleplayer)];
     
-    self.sceneSelectionSingleplayer = [CCMenu menuWithItems:playScene1,
-                                       playScene2,backButton,nil];
+//    CCLabelBMFont *playScene1Label =
+//    [CCLabelBMFont labelWithString:@"Collect the stars"
+//                           fntFile:@"magneto.fnt"];
+//    CCMenuItemLabel *playScene1 =
+//    [CCMenuItemLabel itemWithLabel:playScene1Label target:self
+//                          selector:@selector(playSceneForSingleplayer:)];
+//    [playScene1 setTag:1];
+//    
+//    CCLabelBMFont *playScene2Label =
+//    [CCLabelBMFont labelWithString:@"Dodge the obstacles"
+//                           fntFile:@"magneto.fnt"];
+//    CCMenuItemLabel *playScene2 =
+//    [CCMenuItemLabel itemWithLabel:playScene2Label target:self
+//                          selector:@selector(playSceneForSingleplayer:)];
+//    [playScene2 setTag:2];
+//    
+//    CCLabelBMFont *backButtonLabel =
+//    [CCLabelBMFont labelWithString:@"Back"
+//                           fntFile:@"magneto.fnt"];
+//    CCMenuItemLabel *backButton =
+//    [CCMenuItemLabel itemWithLabel:backButtonLabel target:self
+//                          selector:@selector(backToSingleMultiplayerSceneFromSingleplayer)];
+    
+    self.sceneSelectionSingleplayer = [CCMenu menuWithItems:collectStarsSingleplayer, avoidRocksSingleplayer,backButton,nil];
     [self.sceneSelectionSingleplayer alignItemsVerticallyWithPadding:screenSize.height * 0.059f];
-    [self.sceneSelectionSingleplayer setPosition:ccp(screenSize.width * 2,
-                                                     screenSize.height / 2)];
+    [self.sceneSelectionSingleplayer setPosition:ccp(screenSize.width * 2, screenSize.height / 3.f)];
     
-    id moveAction = [CCMoveTo actionWithDuration:0.5f
-                                        position:ccp(screenSize.width * 0.75f,
-                                                     screenSize.height/2)];
+    id moveAction = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width * 0.75f, screenSize.height/3.f)];
     id moveEffect = [CCEaseIn actionWithAction:moveAction rate:1.0f];
     [self.sceneSelectionSingleplayer runAction:moveEffect];
     [self addChild:self.sceneSelectionSingleplayer z:1 tag:kSceneMenuTagValue];

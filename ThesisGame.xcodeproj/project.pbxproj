@@ -70,6 +70,18 @@
 		3EA4CC4216BD2D43002F9B10 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4CC4116BD2D43002F9B10 /* GCHelper.m */; };
 		3EB227EC173CBDFC0042C583 /* startButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227EA173CBDFC0042C583 /* startButton~ipad.png */; };
 		3EB227ED173CBDFC0042C583 /* startButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227EB173CBDFC0042C583 /* startButtonSelected~ipad.png */; };
+		3EB227FA173D591E0042C583 /* avoidButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227EE173D591C0042C583 /* avoidButton~ipad.png */; };
+		3EB227FB173D591E0042C583 /* avoidButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227EF173D591C0042C583 /* avoidButtonSelected~ipad.png */; };
+		3EB227FC173D591E0042C583 /* collectButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F0173D591C0042C583 /* collectButton~ipad.png */; };
+		3EB227FD173D591E0042C583 /* collectButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F1173D591D0042C583 /* collectButtonSelected~ipad.png */; };
+		3EB227FE173D591E0042C583 /* inGameBackButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F2173D591D0042C583 /* inGameBackButton~ipad.png */; };
+		3EB227FF173D591E0042C583 /* inGameBackButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F3173D591D0042C583 /* inGameBackButtonSelected~ipad.png */; };
+		3EB22800173D591E0042C583 /* multiplayerButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F4173D591D0042C583 /* multiplayerButton~ipad.png */; };
+		3EB22801173D591E0042C583 /* multiplayerButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F5173D591D0042C583 /* multiplayerButtonSelected~ipad.png */; };
+		3EB22802173D591E0042C583 /* rockstarButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F6173D591D0042C583 /* rockstarButton~ipad.png */; };
+		3EB22803173D591E0042C583 /* rockstarButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F7173D591D0042C583 /* rockstarButtonSelected~ipad.png */; };
+		3EB22804173D591E0042C583 /* singlePlayerButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F8173D591D0042C583 /* singlePlayerButton~ipad.png */; };
+		3EB22805173D591E0042C583 /* singlePlayerButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F9173D591D0042C583 /* singlePlayerButtonSelected~ipad.png */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
 		3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD716B18277006F740A /* OpenAL.framework */; };
@@ -291,6 +303,18 @@
 		3EA4CC4116BD2D43002F9B10 /* GCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCHelper.m; sourceTree = "<group>"; };
 		3EB227EA173CBDFC0042C583 /* startButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startButton~ipad.png"; sourceTree = "<group>"; };
 		3EB227EB173CBDFC0042C583 /* startButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3EB227EE173D591C0042C583 /* avoidButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avoidButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227EF173D591C0042C583 /* avoidButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avoidButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3EB227F0173D591C0042C583 /* collectButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227F1173D591D0042C583 /* collectButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3EB227F2173D591D0042C583 /* inGameBackButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inGameBackButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227F3173D591D0042C583 /* inGameBackButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inGameBackButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3EB227F4173D591D0042C583 /* multiplayerButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multiplayerButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227F5173D591D0042C583 /* multiplayerButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multiplayerButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3EB227F6173D591D0042C583 /* rockstarButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rockstarButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227F7173D591D0042C583 /* rockstarButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rockstarButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3EB227F8173D591D0042C583 /* singlePlayerButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "singlePlayerButton~ipad.png"; sourceTree = "<group>"; };
+		3EB227F9173D591D0042C583 /* singlePlayerButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "singlePlayerButtonSelected~ipad.png"; sourceTree = "<group>"; };
 		3ECACACF16B18277006F740A /* ThesisGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThesisGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECACAD316B18277006F740A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3ECACAD516B18277006F740A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -795,6 +819,18 @@
 		3E9C1AB2173C30B500FE0E06 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				3EB227EE173D591C0042C583 /* avoidButton~ipad.png */,
+				3EB227EF173D591C0042C583 /* avoidButtonSelected~ipad.png */,
+				3EB227F0173D591C0042C583 /* collectButton~ipad.png */,
+				3EB227F1173D591D0042C583 /* collectButtonSelected~ipad.png */,
+				3EB227F2173D591D0042C583 /* inGameBackButton~ipad.png */,
+				3EB227F3173D591D0042C583 /* inGameBackButtonSelected~ipad.png */,
+				3EB227F4173D591D0042C583 /* multiplayerButton~ipad.png */,
+				3EB227F5173D591D0042C583 /* multiplayerButtonSelected~ipad.png */,
+				3EB227F6173D591D0042C583 /* rockstarButton~ipad.png */,
+				3EB227F7173D591D0042C583 /* rockstarButtonSelected~ipad.png */,
+				3EB227F8173D591D0042C583 /* singlePlayerButton~ipad.png */,
+				3EB227F9173D591D0042C583 /* singlePlayerButtonSelected~ipad.png */,
 				3EB227EA173CBDFC0042C583 /* startButton~ipad.png */,
 				3EB227EB173CBDFC0042C583 /* startButtonSelected~ipad.png */,
 				3E9C1AB3173C30BE00FE0E06 /* backButtonMenu~ipad.png */,
@@ -1420,6 +1456,18 @@
 				3E9C1AB6173C30BE00FE0E06 /* backButtonMenuSelected~ipad.png in Resources */,
 				3EB227EC173CBDFC0042C583 /* startButton~ipad.png in Resources */,
 				3EB227ED173CBDFC0042C583 /* startButtonSelected~ipad.png in Resources */,
+				3EB227FA173D591E0042C583 /* avoidButton~ipad.png in Resources */,
+				3EB227FB173D591E0042C583 /* avoidButtonSelected~ipad.png in Resources */,
+				3EB227FC173D591E0042C583 /* collectButton~ipad.png in Resources */,
+				3EB227FD173D591E0042C583 /* collectButtonSelected~ipad.png in Resources */,
+				3EB227FE173D591E0042C583 /* inGameBackButton~ipad.png in Resources */,
+				3EB227FF173D591E0042C583 /* inGameBackButtonSelected~ipad.png in Resources */,
+				3EB22800173D591E0042C583 /* multiplayerButton~ipad.png in Resources */,
+				3EB22801173D591E0042C583 /* multiplayerButtonSelected~ipad.png in Resources */,
+				3EB22802173D591E0042C583 /* rockstarButton~ipad.png in Resources */,
+				3EB22803173D591E0042C583 /* rockstarButtonSelected~ipad.png in Resources */,
+				3EB22804173D591E0042C583 /* singlePlayerButton~ipad.png in Resources */,
+				3EB22805173D591E0042C583 /* singlePlayerButtonSelected~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -150,8 +150,6 @@
         int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
         int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
         star.position = ccp(50 + xOffset, yOffset);
-        NSLog(@"X Offset: %i", xOffset);
-        NSLog(@"Y Offset: %i", yOffset);
         star.tag = i + 3; // use i here if you like
         [self addChild:star];
     }
@@ -173,16 +171,15 @@
 //Back to main menu button
 - (void)addBackButton{
     CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCMenuItemImage *backArrow = [CCMenuItemImage
-                                  itemWithNormalImage:@"backButton.png"
-                                  selectedImage:nil
-                                  disabledImage:nil
-                                  target:self
-                                  selector:@selector(goBackToMenu:)];
+    CCMenuItemImage *backButton = [CCMenuItemImage
+                                   itemWithNormalImage:@"inGameBackButton~ipad.png"
+                                   selectedImage:@"inGameBackButtonSelected~ipad.png"
+                                   disabledImage:nil
+                                   target:self
+                                   selector:@selector(goBackToMenu:)];
     
-    self.backToMainMenuFromScene2 = [CCMenu
-                                     menuWithItems:backArrow,nil];
-    [self.backToMainMenuFromScene2 setPosition:ccp(55.f,screenSize.height - 55.f)];
+    self.backToMainMenuFromScene2 = [CCMenu menuWithItems:backButton,nil];
+    [self.backToMainMenuFromScene2 setPosition:ccp(70.f,screenSize.height - 55.f)];
     //TODO: change tag value because is the same as the main menu
     [self addChild:self.backToMainMenuFromScene2 z:0 tag:kMainMenuTagValue];
 }
