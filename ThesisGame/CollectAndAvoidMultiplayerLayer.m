@@ -90,9 +90,6 @@
         
         counterForObstacles = 1;
         
-        // ask director for the window size
-        CGSize size = [[CCDirector sharedDirector] winSize];
-        
         //Preload sound effects
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"dropRock.mp3"];
         
@@ -929,6 +926,12 @@
         } else if (endReason == kEndReasonLose3) {
             [self sendGameOver:false];
         }
+    }else{
+        if (endReason == kEndReasonWin3) {
+            [self sendGameOver:true];
+        }else if (endReason == kEndReasonLose3){
+            [self sendGameOver:false];
+        }
     }
     
 }
@@ -1102,6 +1105,7 @@
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
                 
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:messageInit->avatarNumber selected:NO]];
+                [self.player1 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer1]];
                 [self.player1 runAction:self.walkAction];
@@ -1112,6 +1116,7 @@
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
                 
                 self.player2 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
+                [self.player2 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer2]];
                 [self.player2 runAction:self.walkAction];
@@ -1190,10 +1195,10 @@
         
         if (messageGameOver->player1Won) {
             [self endScene:kEndReasonLose3];
-            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne + 1]];
+//            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne + 1]];
         } else {
             [self endScene:kEndReasonWin3];
-            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo + 1]];
+//            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo + 1]];
         }
     }
 }

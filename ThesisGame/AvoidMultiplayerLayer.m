@@ -137,12 +137,6 @@
 //        [self.player2 setPosition:ccp(size.height/2, size.width/2)];
 //        [self addChild:self.player2 z:0 tag:1];
         
-        //Animations
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
-        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
-        [self addChild:self.spriteSheet];
-        
-        
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
@@ -428,6 +422,17 @@
     [self sendData:avatarData];
 }
 
+//Send score after rock collision
+
+- (void)sendScoreForRock:(int)rockScore {
+    MessageCollisionRock2 message;
+    message.message.messageType = kMessageTypeCollisionRock2;
+    message.collisionRock = rockScore;
+    
+    NSData *starScoreData = [NSData dataWithBytes:&message length:sizeof(MessageCollisionRock2)];
+    [self sendData:starScoreData];
+}
+
 - (void)sendGameBegin {
     MessageGameBegin2 message;
     message.message.messageType = kMessageTypeGameBegin2;
@@ -563,27 +568,71 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-   if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
-//    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player1]) {
-       NSLog(@"Player 1 COLISION");
-        [scoreCounter substractLivesPlayer1];
-       [[self getChildByTag:2] setTag:110];
-        [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
-        [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
-       NSLog(@"Lives for player 1: %d", scoreCounter.livesLeftPlayer1);
-        [self updateWinning];
+    if (isPlayer1) {
+        //Detection for avoiding player 1
+        if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
+//    if ([(KKPixelMaskSprite *)[self getChildByTag:31] pixelMaskIntersectsNode:(KKPixelMaskSprite *)self.player1]) {
+            [scoreCounter substractLivesPlayer1];
+            [self sendScoreForRock:scoreCounter.livesLeftPlayer1];
+            [[self getChildByTag:2] setTag:110];
+            [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+            [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
+            [self updateWinning];
+            
+            NSLog(@"Remove life locally player 1");
+        }
+        
+        //Detection for avoiding player 2
+        if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
+            [[self getChildByTag:2] setTag:111];
+            [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+        }
+    }else{
+        //Detection for avoiding player 1
+        if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
+            [[self getChildByTag:2] setTag:110];
+            [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+        }
+        
+        //Detection for avoiding player 2
+        if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
+//    if ([(KKPixelMaskSprite *)[self getChildByTag:31] pixelMaskIntersectsNode:(KKPixelMaskSprite *)self.player2]) {
+            //Score for avoiding
+            [scoreCounter substractLivesPlayer2];
+            [self sendScoreForRock:scoreCounter.livesLeftPlayer2];
+            [[self getChildByTag:2] setTag:111];
+            [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+            [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
+            [self updateWinning];
+            
+            
+            
+            NSLog(@"Remove life locally player 2");
+        }
     }
     
-    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
-//    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player2]) {
-        NSLog(@"Player 2 COLISION");
-        [scoreCounter substractLivesPlayer2];
-        [[self getChildByTag:2] setTag:111];
-        [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
-        [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
-        NSLog(@"Lives for player 2: %d", scoreCounter.livesLeftPlayer2);
-        [self updateWinning];
-    }
+    
+//   if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
+////    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player1]) {
+//       NSLog(@"Player 1 COLISION");
+//        [scoreCounter substractLivesPlayer1];
+//       [[self getChildByTag:2] setTag:110];
+//        [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+//        [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
+//       NSLog(@"Lives for player 1: %d", scoreCounter.livesLeftPlayer1);
+//        [self updateWinning];
+//    }
+//    
+//    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
+////    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player2]) {
+//        NSLog(@"Player 2 COLISION");
+//        [scoreCounter substractLivesPlayer2];
+//        [[self getChildByTag:2] setTag:111];
+//        [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
+//        [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
+//        NSLog(@"Lives for player 2: %d", scoreCounter.livesLeftPlayer2);
+//        [self updateWinning];
+//    }
 }
 
 #pragma mark Score handling
@@ -596,7 +645,8 @@
         } else {
             [self endScene:kEndReasonWin2];
         }
-    }else if (scoreCounter.livesLeftPlayer2 == 0){
+    }
+    if (scoreCounter.livesLeftPlayer2 == 0){
         NSLog(@"Player 2 NO LIVES LEFT");
         if (isPlayer1) {
             [self endScene:kEndReasonWin2];
@@ -787,6 +837,12 @@
         } else if (endReason == kEndReasonLose2) {
             [self sendGameOver:false];
         }
+    }else{
+        if (endReason == kEndReasonWin2) {
+            [self sendGameOver:true];
+        }else if (endReason == kEndReasonLose2){
+            [self sendGameOver:false];
+        }
     }
     
 }
@@ -905,6 +961,11 @@
                 [alert show];
             }
             if(!sameAvatar){
+                //Animations
+                [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
+                self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
+                [self addChild:self.spriteSheet];
+                
                 //Animations player1
                 CCAnimation *walkAnimPlayer1 = [CCAnimation
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
@@ -943,6 +1004,11 @@
                 [self addChild:label];
             }
             if(!sameAvatar){
+                //Animations
+                [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
+                self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
+                [self addChild:self.spriteSheet];
+                
                 //Animations player1
                 CCAnimation *walkAnimPlayer1 = [CCAnimation
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
@@ -1057,6 +1123,16 @@
             self.player2.position = ccp(player2Position->x, player2Position->y);
         } else {
             self.player1.position = ccp(player1Position->x, player1Position->y);
+        }
+    }else if (message->messageType == kMessageTypeCollisionRock2){
+        MessageCollisionRock2 * messageInit = (MessageCollisionRock2 *) [data bytes];
+        NSLog(@"Lifes left received: %d", messageInit->collisionRock);
+        if (isPlayer1) {
+            [self removeChildByTag:messageInit->collisionRock + 8 cleanup:YES];
+            NSLog(@"Remove life for player 2");
+        }else{
+            [self removeChildByTag:messageInit->collisionRock + 3 cleanup:YES];
+            NSLog(@"Remove life for player 1");
         }
     } else if (message->messageType == kMessageTypeGameOver2) {
         MessageGameOver2 * messageGameOver = (MessageGameOver2 *) [data bytes];

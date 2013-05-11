@@ -22,7 +22,7 @@ typedef enum {
     kGameStateWaitingForStart,
     kGameStateActive,
     kGameStateDone,
-    kGameStateWaitingForAvatarNumber
+    kGameStateWaitingForAvatarNumber,
 } GameState;
 
 typedef enum {
@@ -37,6 +37,7 @@ typedef enum {
     kMessageTypeMove,
     kMessageTypeGameOver,
     kMessageTypeAvatarNumber,
+    kMessageTypeCollisionStar,
 } MessageType;
 
 typedef struct {
@@ -47,6 +48,11 @@ typedef struct {
     Message message;
     uint32_t randomNumber;
 } MessageRandomNumber;
+
+typedef struct {
+    Message message;
+    uint32_t collisionStar;
+} MessageCollisionStar;
 
 typedef struct {
     Message message;

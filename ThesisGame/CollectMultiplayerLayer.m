@@ -134,10 +134,6 @@
         [labelScorePlayerTwo setScale:2.5];
         [self addChild:labelScorePlayerTwo];
         
-        //Animations
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"animationAtlas_default.plist"];
-        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"animationAtlas_default.png"];
-        [self addChild:self.spriteSheet];
 //        NSMutableArray *walkAnimFrames = [NSMutableArray array];
 //        for (int i=1; i<=8; i++) {
 //            [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"afroSelected_%d~ipad.png",i]]];
@@ -374,6 +370,17 @@
     [self sendData:data];
 }
 
+//Send score after star collision
+
+- (void)sendScoreForStar:(int)starScore {
+    MessageCollisionStar message;
+    message.message.messageType = kMessageTypeCollisionStar;
+    message.collisionStar = starScore;
+    
+    NSData *starScoreData = [NSData dataWithBytes:&message length:sizeof(MessageCollisionStar)];
+    [self sendData:starScoreData];
+}
+
 //Send avatar number
 - (void)sendAvatarNumber {
     MessageAvatarNumber message;
@@ -519,33 +526,80 @@
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-    //Collision for player 1
-//    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
-    if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player1.boundingBox)) {
-        //Update score
-        [scoreCounter countScoreForPlayerOne];
-        //Remove star
-        [self removeChild:[self getChildByTag:5] cleanup:YES];
-        //Display score
-        [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne]];
-        labelScorePlayerOne.visible = YES;
-        self.scorePlayerOne.visible = YES;
-        [self updateWinning];
+    if (isPlayer1) {
+        //Detection for collecting player 1
+        if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player1.boundingBox)){
+//    if ([(KKPixelMaskSprite *)[self getChildByTag:32] pixelMaskIntersectsNode:(KKPixelMaskSprite *)self.player1]) {
+            //Update score
+            [scoreCounter countScoreForPlayerOne];
+            //Remove star
+            [self removeChild:[self getChildByTag:5] cleanup:YES];
+            //Display score
+            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne]];
+            labelScorePlayerOne.visible = YES;
+            self.scorePlayerOne.visible = YES;
+            [self updateWinning];
+            
+            [self sendScoreForStar:scoreCounter.scoreForPlayerOne];
+        }
+        
+        //Detection for collecting player 2
+        if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player2.boundingBox)){
+            [self removeChild:[self getChildByTag:5] cleanup:YES];
+        }
+        
+    }else{
+        //Detection for collecting player 1
+        if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player1.boundingBox)){
+            [self removeChild:[self getChildByTag:5] cleanup:YES];
+        }
+        
+        //Detection for collecting player 2
+        if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player2.boundingBox)){
+//    if ([(KKPixelMaskSprite *)[self getChildByTag:32] pixelMaskIntersectsNode:(KKPixelMaskSprite *)self.player2]) {
+            //Score for collecting
+            //Update score
+            [scoreCounter countScoreForPlayerTwo];
+            //Remove star
+            [self removeChild:[self getChildByTag:5] cleanup:YES];
+            //Display score
+            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo]];
+            labelScorePlayerTwo.visible = YES;
+            self.scorePlayerTwo.visible = YES;
+            [self updateWinning];
+            
+            [self sendScoreForStar:scoreCounter.scoreForPlayerTwo];
+        }
     }
     
-    //Collision for player 2
-//    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:4]]) {
-    if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player2.boundingBox)) {
-        //Update score
-        [scoreCounter countScoreForPlayerTwo];
-        //Remove star
-        [self removeChild:[self getChildByTag:5] cleanup:YES];
-        //Display score
-        [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo]];
-        labelScorePlayerTwo.visible = YES;
-        self.scorePlayerTwo.visible = YES;
-        [self updateWinning];
-    }
+    
+//    //Collision for player 1
+////    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:3]]) {
+//    if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player1.boundingBox)) {
+//        //Update score
+//        [scoreCounter countScoreForPlayerOne];
+//        //Remove star
+//        [self removeChild:[self getChildByTag:5] cleanup:YES];
+//        //Display score
+//        [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne]];
+//        labelScorePlayerOne.visible = YES;
+//        self.scorePlayerOne.visible = YES;
+//        [self updateWinning];
+//    }
+//    
+//    //Collision for player 2
+////    if ([(KKPixelMaskSprite *)[self getChildByTag:5] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:4]]) {
+//    if (CGRectIntersectsRect([self getChildByTag:5].boundingBox, self.player2.boundingBox)) {
+//        //Update score
+//        [scoreCounter countScoreForPlayerTwo];
+//        //Remove star
+//        [self removeChild:[self getChildByTag:5] cleanup:YES];
+//        //Display score
+//        [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo]];
+//        labelScorePlayerTwo.visible = YES;
+//        self.scorePlayerTwo.visible = YES;
+//        [self updateWinning];
+//    }
 }
 
 #pragma mark Score handling
@@ -738,6 +792,12 @@
         } else if (endReason == kEndReasonLose) {
             [self sendGameOver:false];
         }
+    }else{
+        if (endReason == kEndReasonWin) {
+            [self sendGameOver:true];
+        }else if (endReason == kEndReasonLose){
+            [self sendGameOver:false];
+        }
     }
 }
 
@@ -815,6 +875,9 @@
 }
 
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerID {
+    // ask director for the window size
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
     // Store away other player ID for later
     if (otherPlayerID == nil) {
         otherPlayerID = playerID;
@@ -864,11 +927,17 @@
 //                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
 //                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
                 
+                //Animations
+                [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
+                self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
+                [self addChild:self.spriteSheet];
+                
                 //Animations player1
                 CCAnimation *walkAnimPlayer1 = [CCAnimation
                                          animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
                 
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
+                [self.player1 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer1]];
                 [self.player1 runAction:self.walkAction];
@@ -879,6 +948,7 @@
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
                 
                 self.player2 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:messageInit->avatarNumber selected:NO]];
+                [self.player2 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer2]];
                 [self.player2 runAction:self.walkAction];
@@ -906,11 +976,17 @@
 //                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
 //                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
                 
+                //Animations
+                [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
+                self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
+                [self addChild:self.spriteSheet];
+                
                 //Animations player1
                 CCAnimation *walkAnimPlayer1 = [CCAnimation
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
                 
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:messageInit->avatarNumber selected:NO]];
+                [self.player1 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer1]];
                 [self.player1 runAction:self.walkAction];
@@ -921,6 +997,7 @@
                                                 animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
                 
                 self.player2 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
+                [self.player2 setPosition:ccp(size.height/2, size.width/2)];
                 self.walkAction = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer2]];
                 [self.player2 runAction:self.walkAction];
@@ -971,6 +1048,20 @@
         } else {
             self.player1.position = ccp(player1Position->x, player1Position->y);
         }
+    }else if (message->messageType == kMessageTypeCollisionStar){
+        MessageCollisionStar * messageInit = (MessageCollisionStar *) [data bytes];
+        if (isPlayer1) {
+            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",messageInit->collisionStar]];
+            labelScorePlayerTwo.visible = YES;
+            self.scorePlayerTwo.visible = YES;
+            NSLog(@"Add score for collecting for player 2: %d",messageInit->collisionStar);
+        }else{
+            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",messageInit->collisionStar]];
+            labelScorePlayerOne.visible = YES;
+            self.scorePlayerOne.visible = YES;
+            NSLog(@"Add score for collecting for player 1: %d", messageInit->collisionStar);
+        }
+
     } else if (message->messageType == kMessageTypeGameOver) {
         MessageGameOver * messageGameOver = (MessageGameOver *) [data bytes];
         
