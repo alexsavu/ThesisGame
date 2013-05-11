@@ -895,30 +895,54 @@
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
-    NSString *message;
+    CCSprite *messageLost = [CCSprite spriteWithFile:@"lost~ipad.png"];
+    [messageLost setPosition:ccp(winSize.width/2, winSize.height/2.f)];
+    messageLost.scale = 0.1;
+    CCSprite *messageWon = [CCSprite spriteWithFile:@"won~ipad.png"];
+    [messageWon setPosition:ccp(winSize.width/2, winSize.height/2.f)];
+    messageWon.scale = 0.1;
+
+    
+    CCSprite *endsceneImage = [CCSprite spriteWithFile:@"gameOver~ipad.png"];
+    endsceneImage.scale = 0.1;
+    endsceneImage.position = ccp(winSize.width/2, winSize.height - winSize.height/3.f);
+    [self addChild:endsceneImage];
+    
+    CCMenuItemImage *restartImage = [CCMenuItemImage
+                                   itemWithNormalImage:@"RestartButtonUnselected~ipad.png"
+                                   selectedImage:@"RestartButtonSelected~ipad.png"
+                                   disabledImage:nil
+                                   target:self
+                                   selector:@selector(restartTapped:)];
+    
+    CCMenu *restartMenu = [CCMenu menuWithItems:restartImage,nil];
+    [restartMenu setPosition:ccp(173.f + restartImage.boundingBox.size.width, 180.f)];
+//    restartMenu.scale = 0.1;
+    [self addChild:restartMenu z:0];
+    
+    CCMenuItemImage *backButtonEndSceneImage = [CCMenuItemImage
+                                   itemWithNormalImage:@"inGameBackButton~ipad.png"
+                                   selectedImage:@"inGameBackButtonSelected~ipad.png"
+                                   disabledImage:nil
+                                   target:self
+                                   selector:@selector(goBackToMenu:)];
+    
+    CCMenu *backButtonEndScene = [CCMenu menuWithItems:backButtonEndSceneImage,nil];
+    [backButtonEndScene setPosition:ccp(858.f - backButtonEndSceneImage.boundingBox.size.width/2.f, 180.f)];
+//    backButtonEndScene.scale = 0.1;
+    [self addChild:backButtonEndScene z:0];
+    
     if (endReason == kEndReasonWin3) {
-        message = @"You win!";
+        [self addChild:messageWon];
+        [messageWon runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
     } else if (endReason == kEndReasonLose3) {
-        message = @"You lose!";
+        [self addChild:messageLost];
+        [messageLost runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
     }
     
-    CCLabelBMFont *label = [CCLabelBMFont labelWithString:message fntFile:@"magneto.fnt"];
-    label.scale = 0.1;
-    label.position = ccp(winSize.width/2, 180);
-    [self addChild:label];
-    
-    CCLabelBMFont *restartLabel = [CCLabelBMFont labelWithString:@"Restart" fntFile:@"magneto.fnt"];
-    
-    CCMenuItemLabel *restartItem = [CCMenuItemLabel itemWithLabel:restartLabel target:self selector:@selector(restartTapped:)];
-    restartItem.scale = 0.1;
-    restartItem.position = ccp(winSize.width/2, 140);
-    
-    CCMenu *menu = [CCMenu menuWithItems:restartItem, nil];
-    menu.position = CGPointZero;
-    [self addChild:menu];
-    
-    [restartItem runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
-    [label runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    [endsceneImage runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+//    [restartMenu runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+//    [backButtonEndScene runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
     
     if (isPlayer1) {
         if (endReason == kEndReasonWin3) {

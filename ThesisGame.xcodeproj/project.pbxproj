@@ -34,6 +34,13 @@
 		3E28F554171ABDAB00F60925 /* starObject_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E28F553171ABDAB00F60925 /* starObject_1.png */; };
 		3E46FA7816E246F200912942 /* MainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E46FA7716E246F200912942 /* MainMenuLayer.m */; };
 		3E5A73B216D62D9F007C0FF2 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5A73B116D62D9F007C0FF2 /* GameObject.m */; };
+		3E7F3765173E8ABD0055693B /* finishBackButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F375E173E8ABD0055693B /* finishBackButtonSelected~ipad.png */; };
+		3E7F3766173E8ABD0055693B /* finishBackButtonUnselected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F375F173E8ABD0055693B /* finishBackButtonUnselected~ipad.png */; };
+		3E7F3767173E8ABD0055693B /* gameOver~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F3760173E8ABD0055693B /* gameOver~ipad.png */; };
+		3E7F3768173E8ABD0055693B /* lost~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F3761173E8ABD0055693B /* lost~ipad.png */; };
+		3E7F3769173E8ABD0055693B /* RestartButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F3762173E8ABD0055693B /* RestartButtonSelected~ipad.png */; };
+		3E7F376A173E8ABD0055693B /* RestartButtonUnselected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F3763173E8ABD0055693B /* RestartButtonUnselected~ipad.png */; };
+		3E7F376B173E8ABD0055693B /* won~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7F3764173E8ABD0055693B /* won~ipad.png */; };
 		3E7F8DE6172682120039A80E /* SingleMultiplayerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */; };
 		3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF117269D6D0039A80E /* MultiplayerSceneSelection.m */; };
 		3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F8DF417269D810039A80E /* SingleplayerSceneSelection.m */; };
@@ -259,6 +266,13 @@
 		3E46FA7716E246F200912942 /* MainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLayer.m; sourceTree = "<group>"; };
 		3E5A73B016D62D9F007C0FF2 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		3E5A73B116D62D9F007C0FF2 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
+		3E7F375E173E8ABD0055693B /* finishBackButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finishBackButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3E7F375F173E8ABD0055693B /* finishBackButtonUnselected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finishBackButtonUnselected~ipad.png"; sourceTree = "<group>"; };
+		3E7F3760173E8ABD0055693B /* gameOver~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gameOver~ipad.png"; sourceTree = "<group>"; };
+		3E7F3761173E8ABD0055693B /* lost~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lost~ipad.png"; sourceTree = "<group>"; };
+		3E7F3762173E8ABD0055693B /* RestartButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RestartButtonSelected~ipad.png"; sourceTree = "<group>"; };
+		3E7F3763173E8ABD0055693B /* RestartButtonUnselected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RestartButtonUnselected~ipad.png"; sourceTree = "<group>"; };
+		3E7F3764173E8ABD0055693B /* won~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "won~ipad.png"; sourceTree = "<group>"; };
 		3E7F8DE4172682120039A80E /* SingleMultiplayerMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleMultiplayerMenu.h; sourceTree = "<group>"; };
 		3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleMultiplayerMenu.m; sourceTree = "<group>"; };
 		3E7F8DF017269D6D0039A80E /* MultiplayerSceneSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplayerSceneSelection.h; sourceTree = "<group>"; };
@@ -760,6 +774,20 @@
 			name = Scene4;
 			sourceTree = "<group>";
 		};
+		3E7F375D173E8A950055693B /* EndScene */ = {
+			isa = PBXGroup;
+			children = (
+				3E7F375E173E8ABD0055693B /* finishBackButtonSelected~ipad.png */,
+				3E7F375F173E8ABD0055693B /* finishBackButtonUnselected~ipad.png */,
+				3E7F3760173E8ABD0055693B /* gameOver~ipad.png */,
+				3E7F3761173E8ABD0055693B /* lost~ipad.png */,
+				3E7F3762173E8ABD0055693B /* RestartButtonSelected~ipad.png */,
+				3E7F3763173E8ABD0055693B /* RestartButtonUnselected~ipad.png */,
+				3E7F3764173E8ABD0055693B /* won~ipad.png */,
+			);
+			name = EndScene;
+			sourceTree = "<group>";
+		};
 		3E8278EA1736D542004B36F4 /* Backgrounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -912,6 +940,7 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E7F375D173E8A950055693B /* EndScene */,
 				3E9F427C1738F81000326B92 /* Animations */,
 				3E8278EA1736D542004B36F4 /* Backgrounds */,
 				3E05B841171D596800882703 /* Lives */,
@@ -1468,6 +1497,13 @@
 				3EB22803173D591E0042C583 /* rockstarButtonSelected~ipad.png in Resources */,
 				3EB22804173D591E0042C583 /* singlePlayerButton~ipad.png in Resources */,
 				3EB22805173D591E0042C583 /* singlePlayerButtonSelected~ipad.png in Resources */,
+				3E7F3765173E8ABD0055693B /* finishBackButtonSelected~ipad.png in Resources */,
+				3E7F3766173E8ABD0055693B /* finishBackButtonUnselected~ipad.png in Resources */,
+				3E7F3767173E8ABD0055693B /* gameOver~ipad.png in Resources */,
+				3E7F3768173E8ABD0055693B /* lost~ipad.png in Resources */,
+				3E7F3769173E8ABD0055693B /* RestartButtonSelected~ipad.png in Resources */,
+				3E7F376A173E8ABD0055693B /* RestartButtonUnselected~ipad.png in Resources */,
+				3E7F376B173E8ABD0055693B /* won~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
