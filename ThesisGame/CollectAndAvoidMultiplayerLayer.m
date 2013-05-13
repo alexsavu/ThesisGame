@@ -889,6 +889,8 @@
 
 // Helper code to show a menu to restart the level
 - (void)endScene:(EndReason3)endReason {
+    //Stop the game loop
+    [self unscheduleAllSelectors];
     
     if (gameState == kGameStateDone3) return;
     [self setGameState:kGameStateDone3];

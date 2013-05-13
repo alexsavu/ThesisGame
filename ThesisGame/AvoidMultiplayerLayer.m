@@ -605,8 +605,6 @@
             [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
             [self updateWinning];
             
-            
-            
             NSLog(@"Remove life locally player 2");
         }
     }
@@ -800,6 +798,8 @@
 
 // Helper code to show a menu to restart the level
 - (void)endScene:(EndReason2)endReason {
+    //Stop the game loop
+    [self unscheduleAllSelectors];
     
     if (gameState == kGameStateDone2) return;
     [self setGameState:kGameStateDone2];

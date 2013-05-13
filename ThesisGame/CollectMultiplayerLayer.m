@@ -755,6 +755,8 @@
 
 // Helper code to show a menu to restart the level
 - (void)endScene:(EndReason)endReason {
+    //Stop the game loop
+    [self unscheduleAllSelectors];
     
     if (gameState == kGameStateDone) return;
     [self setGameState:kGameStateDone];
@@ -1091,10 +1093,8 @@
         
         if (messageGameOver->player1Won) {
             [self endScene:kEndReasonLose];
-            [labelScorePlayerOne setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerOne + 1]];
         } else {
             [self endScene:kEndReasonWin];
-            [labelScorePlayerTwo setString:[NSString stringWithFormat:@"%i",scoreCounter.scoreForPlayerTwo + 1]];
         }
         
     }
