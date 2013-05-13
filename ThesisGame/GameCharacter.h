@@ -6,10 +6,8 @@
 
 @interface GameCharacter : GameObject {
     int characterHealth;
-    CharacterStates characterState;
 }
 
 -(void)checkAndClampSpritePosition;
 
-@property (readwrite) CharacterStates characterState; 
 @end

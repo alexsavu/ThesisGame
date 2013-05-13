@@ -5,8 +5,6 @@
 #import "GameManager.h"
 
 @implementation GameCharacter
-@synthesize characterState; 
-
 
 -(void)checkAndClampSpritePosition {
     CGPoint currentSpritePosition = [self position];
