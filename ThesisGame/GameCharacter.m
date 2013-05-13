@@ -5,15 +5,8 @@
 #import "GameManager.h"
 
 @implementation GameCharacter
-@synthesize characterHealth;
 @synthesize characterState; 
 
-
--(int)getWeaponDamage {
-    // Default to zero damage
-    CCLOG(@"getWeaponDamage should be overriden");
-    return 0;
-}
 
 -(void)checkAndClampSpritePosition {
     CGPoint currentSpritePosition = [self position];

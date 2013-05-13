@@ -9,9 +9,7 @@
     CharacterStates characterState;
 }
 
--(void)checkAndClampSpritePosition; 
--(int)getWeaponDamage;
+-(void)checkAndClampSpritePosition;
 
-@property (readwrite) int characterHealth;
 @property (readwrite) CharacterStates characterState; 
 @end
