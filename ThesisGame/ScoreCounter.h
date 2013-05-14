@@ -16,6 +16,7 @@
 @property (nonatomic) NSInteger livesLeftPlayer1;
 @property (nonatomic) NSInteger livesLeftPlayer2;
 @property (nonatomic) NSInteger timeCounter;
+@property (nonatomic) NSInteger timeCounterAvoidMultiplayer;
 
 -(void)countScoreForPlayerOne;
 -(void)countScoreForPlayerTwo;
@@ -23,5 +24,6 @@
 -(void)substractLivesPlayer1;
 -(void)substractLivesPlayer2;
 -(void)countDownTimer;
+-(void)countTimeAvoidMultiplayer;
 
 @end

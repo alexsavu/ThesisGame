@@ -21,6 +21,9 @@
 #define kFilteringFactor 0.1
 #define MIN_COURSE_X 173.0
 #define MAX_COURSE_X 858.0
+#define kActionTagWalkPlayer1 66
+#define kActionTagWalkPlayer2 67
+#define kActionWord1Tag 39
 
 @interface AvoidMultiplayerLayer (){
     BOOL stop;
@@ -31,6 +34,9 @@
     int obstacleDurationReceived;
     
     NSInteger counterForObstacles;
+    NSInteger counterForActionWords;
+    NSInteger counterforAddingActionWords;
+    NSInteger counterforRemovingActionWords;
     
     ScoreCounter *scoreCounter;
 }
@@ -94,6 +100,9 @@
         scoreCounter = [[ScoreCounter alloc] init];
         
         counterForObstacles = 1;
+        counterForActionWords = -1;
+        counterforAddingActionWords = 0;
+        counterforRemovingActionWords = 0;
         
         //Preload sound effects
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"dropRock.mp3"];
@@ -124,22 +133,11 @@
         self.scorePlayerTwo.position = ccp(size.width - 74.f, size.height/2);
         [self addChild:self.scorePlayerTwo];
         
-//        //Add the player character. It has it's own class derived from GameCharacter
-//        //self.avatar is set by player's choice.
-//        self.player1 = [[Player alloc] initWithFile:@"Char2~ipad.png" alphaThreshold:0];
-//        //self.player1 = [Player alloc];
-//        [self.player1 setPosition:ccp(size.height/2, size.width/2)];
-//        [self addChild:self.player1 z:0 tag:0];
-//        //self.player1.id = 1
-//        
-//        self.player2 = [[Player alloc] initWithFile:@"Char1~ipad.png" alphaThreshold:0];
-//        //self.player2 = [Player alloc];
-//        [self.player2 setPosition:ccp(size.height/2, size.width/2)];
-//        [self addChild:self.player2 z:0 tag:1];
-        
         //The method that gets called to find a match between 2 players
         AppController * delegate = (AppController *) [UIApplication sharedApplication].delegate;
         [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:delegate.director delegate:self];
+        
+        [self schedule:@selector(secondsPassedInAvoidMultiplayer) interval:1];
         
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
@@ -149,37 +147,44 @@
         [self setGameState:kGameStateWaitingForMatch2];
         
         [self addBackButton];
-        [self addLivesPlayer1];
-        [self addLivesPlayer2];
+//        [self addLivesPlayer1];
+//        [self addLivesPlayer2];
 	}
 	return self;
 }
 
--(void)addLivesPlayer1{
+-(void)addLivesPlayer1:(BOOL)player1 selected:(BOOL)isSelected{
     static int padding = 1;
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    for(int i = 0; i < 5; i++) {
-        // Create star and add it to the layer
-        CCSprite *star = [CCSprite spriteWithFile:@"avoidHeart.png"];
-        int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
-        int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
-        star.position = ccp(50 + xOffset, yOffset);
-        star.tag = i + 3; // use i here if you like
-        [self addChild:star];
-    }
-}
-
--(void)addLivesPlayer2{
-    static int padding = 1;
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    for(int i = 0; i < 5; i++) {
-        // Create star and add it to the layer
-        CCSprite *star = [CCSprite spriteWithFile:@"avoidHeart.png"];
-        int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
-        int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
-        star.position = ccp(900 + xOffset, yOffset);
-        star.tag = i + 8; // use i here if you like
-        [self addChild:star];
+    CCSprite *star = nil;
+    if (player1) {
+        for(int i = 0; i < 5; i++) {
+            // Create star and add it to the layer
+            if (isSelected) {
+                star = [CCSprite spriteWithFile:@"avoidHeartSelected~ipad.png"];
+            }else{
+                star = [CCSprite spriteWithFile:@"avoidHeart.png"];
+            }
+            int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
+            int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
+            star.position = ccp(50 + xOffset, yOffset);
+            star.tag = i + 3; // use i here if you like
+            [self addChild:star];
+        }
+    }else{
+        for(int i = 0; i < 5; i++) {
+            // Create star and add it to the layer
+            if (isSelected) {
+                star = [CCSprite spriteWithFile:@"avoidHeartSelected~ipad.png"];
+            }else{
+                star = [CCSprite spriteWithFile:@"avoidHeart.png"];
+            }
+            int xOffset = padding+(int)(star.contentSize.width/2+((star.contentSize.width+padding)*(i/2))); // or /cols to fill cols first
+            int yOffset = padding+(int)(winSize.height/2-((star.contentSize.width+padding)*(i%2))); // or %cols to fill cols first
+            star.position = ccp(900 + xOffset, yOffset);
+            star.tag = i + 8; // use i here if you like
+            [self addChild:star];
+        }
     }
 }
 
@@ -194,38 +199,91 @@
     }
 }
 
-#pragma TEST TEST
+#pragma mark Time Passed in game
 
-//Finds the correct .png for the chosen avatar, returns .png location in NSString form.
-- (NSString*) chosenAvatar: (NSInteger) value {
-    NSString *avatarString = [[NSString alloc] init];
-    switch(value)
-    {
-        case 1:
-            //self.avatar = @"Char1~ipad.png";
-            avatarString = @"Char1~ipad.png";
-            break;
-        case 2:
-            //self.avatar = @"Char2~ipad.png";
-            avatarString = @"Char2~ipad.png";
-            break;
-        case 3:
-            //self.avatar = @"Char3~ipad.png";
-            avatarString = @"Char3~ipad.png";
-            break;
-        case 4:
-            //self.avatar = @"Char4~ipad.png";
-            avatarString = @"Char4~ipad.png";
-            break;
-        case 5:
-            //self.avatar = @"Char5~ipad.png";
-            avatarString = @"Char5~ipad.png";
-            break;
-    }
+-(void)secondsPassedInAvoidMultiplayer{
+    scoreCounter.timeCounterAvoidMultiplayer -= 1;
     
-    return avatarString;
+    //Wining condition when timer stops
+    if(scoreCounter.timeCounterAvoidMultiplayer <= 0){
+        if (isPlayer1) {
+            if ( scoreCounter.livesLeftPlayer1 > scoreCounter.livesLeftPlayer2) {
+                [self endScene:kEndReasonWin2];
+            }else if (scoreCounter.livesLeftPlayer1 < scoreCounter.livesLeftPlayer2){
+                [self endScene:kEndReasonLose2];
+            }
+        }else{
+            if (scoreCounter.livesLeftPlayer1 > scoreCounter.livesLeftPlayer2) {
+                [self endScene:kEndReasonLose2];
+            }else if (scoreCounter.livesLeftPlayer1 < scoreCounter.livesLeftPlayer2){
+                [self endScene:kEndReasonWin2];
+            }
+        }
+    }
 }
 
+#pragma mark Action Words
+
+-(void)addFirstWords{
+    CCSprite *actionWord1 = [CCSprite spriteWithFile:@"actionWord_1~ipad.png"];
+    [actionWord1 setPosition:ccp(74.f, actionWord1.boundingBox.size.height + 10)];
+    [self addChild:actionWord1 z:0 tag:kActionWord1Tag];
+}
+
+-(void)removeFirstActionWord{
+    [self removeChildByTag:kActionWord1Tag cleanup:YES];
+}
+
+-(void)actionWords{
+    // ask director for the window size
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    counterForActionWords += 1;
+    if (counterForActionWords > 4) {
+        counterForActionWords = 0;
+    }
+    CCSprite *actionWord2 = [CCSprite spriteWithFile:@"actionWord_2~ipad.png"];
+    CCSprite *actionWord3 = [CCSprite spriteWithFile:@"actionWord_3~ipad.png"];
+    CCSprite *actionWord4 = [CCSprite spriteWithFile:@"actionWord_4~ipad.png"];
+    CCSprite *actionWord5 = [CCSprite spriteWithFile:@"actionWord_5~ipad.png"];
+    CCSprite *actionWord6 = [CCSprite spriteWithFile:@"actionWord_6~ipad.png"];
+    NSArray *actionWordsSprites = nil;
+    actionWordsSprites = [NSArray arrayWithObjects:actionWord2, actionWord3, actionWord4, actionWord5, actionWord6, nil];
+    NSLog(@"Action Words COUNTER: %d", counterForActionWords);
+    
+    if (counterForActionWords % 2) {
+        [[actionWordsSprites objectAtIndex:counterForActionWords] setPosition:ccp(74.f, actionWord2.boundingBox.size.height + 10)];
+        [self addChild:[actionWordsSprites objectAtIndex:counterForActionWords] z:0 tag:counterForActionWords + 40];
+    }else{
+        [[actionWordsSprites objectAtIndex:counterForActionWords] setPosition:ccp(size.width - 74.f, actionWord2.boundingBox.size.height + 10)];
+        [self addChild:[actionWordsSprites objectAtIndex:counterForActionWords] z:0 tag:counterForActionWords + 40];
+    }
+}
+
+-(void)addRemoveActionWordsCounter{
+    counterforAddingActionWords += 1;
+    counterforRemovingActionWords +=1;
+    
+    if (counterforAddingActionWords > 18) {
+        counterforAddingActionWords = 0;
+    }
+    if (counterforRemovingActionWords > 18) {
+        counterforRemovingActionWords = 0;
+    }
+    
+    if (counterforAddingActionWords == 15) {
+        [self actionWords];
+    }
+    
+    if (counterforRemovingActionWords == 18) {
+        [self removeActionWords];
+    }
+}
+
+-(void)removeActionWords{
+    NSLog(@"Remove action word");
+    [self removeChildByTag:counterForActionWords + 40 cleanup:YES];
+}
 
 #pragma mark Choose Avatar based on number
 
@@ -608,29 +666,6 @@
             NSLog(@"Remove life locally player 2");
         }
     }
-    
-    
-//   if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player1.boundingBox)) {
-////    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player1]) {
-//       NSLog(@"Player 1 COLISION");
-//        [scoreCounter substractLivesPlayer1];
-//       [[self getChildByTag:2] setTag:110];
-//        [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
-//        [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
-//       NSLog(@"Lives for player 1: %d", scoreCounter.livesLeftPlayer1);
-//        [self updateWinning];
-//    }
-//    
-//    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player2.boundingBox)) {
-////    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:self.player2]) {
-//        NSLog(@"Player 2 COLISION");
-//        [scoreCounter substractLivesPlayer2];
-//        [[self getChildByTag:2] setTag:111];
-//        [[self getChildByTag:111] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
-//        [self removeChildByTag:scoreCounter.livesLeftPlayer2 + 8 cleanup:YES];
-//        NSLog(@"Lives for player 2: %d", scoreCounter.livesLeftPlayer2);
-//        [self updateWinning];
-//    }
 }
 
 #pragma mark Score handling
@@ -709,11 +744,11 @@
         counterForObstacles = 1;
     }
 
-        // Create the target slightly off-screen along the right edge,
-        // and along a random position along the Y axis as calculated above
-        self.obstacle.position = ccp(stupidX ,winSize.height + (self.obstacle.contentSize.height/2));
-        [self addChild:self.obstacle z:0 tag:2];
-        
+    // Create the target slightly off-screen along the right edge,
+    // and along a random position along the Y axis as calculated above
+    self.obstacle.position = ccp(stupidX ,winSize.height + (self.obstacle.contentSize.height/2));
+    [self addChild:self.obstacle z:0 tag:2];
+    
 //-----------------------------------------
         
 //        // Determine speed of the target
@@ -738,7 +773,8 @@
 
 //----------------------------------------------------------------------------------------
         
-    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];    
+    [self.obstacle runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    [[SimpleAudioEngine sharedEngine] playEffect:@"dropRock.mp3"];
 }
 
 //Remove onstacle after going out of screen
@@ -757,10 +793,16 @@
         [self schedule:@selector(step:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(scroll:) interval:0.0000000001];
+        [self performSelector:@selector(addFirstWords) withObject:nil afterDelay:2.f];
+        [self performSelector:@selector(removeFirstActionWord) withObject:nil afterDelay:5.f];
+        [self schedule:@selector(addRemoveActionWordsCounter) interval:1];
+        
+        //Background music
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+		[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"game.mp3" loop:YES];
         
         [self sendGameBegin];
     }
-    
 }
 
 #pragma mark Accelerometer
@@ -800,6 +842,9 @@
 - (void)endScene:(EndReason2)endReason {
     //Stop the game loop
     [self unscheduleAllSelectors];
+    [self stopAction:self.walkActionPlayer1];
+    [self stopAction:self.walkActionPlayer2];
+    [[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
     
     if (gameState == kGameStateDone2) return;
     [self setGameState:kGameStateDone2];
@@ -985,30 +1030,28 @@
                 [alert show];
             }
             if(!sameAvatar){
+                //Add lives
+                [self addLivesPlayer1:YES selected:YES];
+                [self addLivesPlayer1:NO selected:NO];
+                
                 //Animations
                 [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
                 self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
                 [self addChild:self.spriteSheet];
                 
                 //Animations player1
-                CCAnimation *walkAnimPlayer1 = [CCAnimation
-                                                animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
-                
+                CCAnimation *walkAnimPlayer1 = [CCAnimation animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
                 [self.player1 setPosition:ccp(size.height/2, size.width/2)];
-                self.walkAction = [CCRepeatForever actionWithAction:
-                                   [CCAnimate actionWithAnimation:walkAnimPlayer1]];
-                [self.player1 runAction:self.walkAction];
+                self.walkActionPlayer1 = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:walkAnimPlayer1]];
+                [self.player1 runAction:self.walkActionPlayer1];
                 [self.spriteSheet addChild:self.player1];
                 
                 //Animations player2
-                CCAnimation *walkAnimPlayer2 = [CCAnimation
-                                                animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
-                
+                CCAnimation *walkAnimPlayer2 = [CCAnimation animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
                 self.player2 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:messageInit->avatarNumber selected:NO]];
-                self.walkAction = [CCRepeatForever actionWithAction:
-                                   [CCAnimate actionWithAnimation:walkAnimPlayer2]];
-                [self.player2 runAction:self.walkAction];
+                self.walkActionPlayer2 = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimPlayer2]];
+                [self.player2 runAction:self.walkActionPlayer2];
                 [self.spriteSheet addChild:self.player2];
                 
                 receivedAvatar = YES;
@@ -1028,30 +1071,29 @@
                 [self addChild:label];
             }
             if(!sameAvatar){
+                //Add lives
+                [self addLivesPlayer1:YES selected:NO];
+                [self addLivesPlayer1:NO selected:YES];
+                
                 //Animations
                 [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
                 self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
                 [self addChild:self.spriteSheet];
                 
                 //Animations player1
-                CCAnimation *walkAnimPlayer1 = [CCAnimation
-                                                animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
-                
+                CCAnimation *walkAnimPlayer1 = [CCAnimation animationWithSpriteFrames:[self animFramesArrayForCharacter:messageInit->avatarNumber selected:NO] delay:0.1f];
                 self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:messageInit->avatarNumber selected:NO]];
                 [self.player1 setPosition:ccp(size.height/2, size.width/2)];
-                self.walkAction = [CCRepeatForever actionWithAction:
-                                   [CCAnimate actionWithAnimation:walkAnimPlayer1]];
-                [self.player1 runAction:self.walkAction];
+                self.walkActionPlayer1 = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:walkAnimPlayer1]];
+                [self.player1 runAction:self.walkActionPlayer1];
                 [self.spriteSheet addChild:self.player1 z:0 tag:3];
                 
                 //Animations player2
-                CCAnimation *walkAnimPlayer2 = [CCAnimation
-                                                animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
-                
+                CCAnimation *walkAnimPlayer2 = [CCAnimation animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
                 self.player2 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
-                self.walkAction = [CCRepeatForever actionWithAction:
+                self.walkActionPlayer2 = [CCRepeatForever actionWithAction:
                                    [CCAnimate actionWithAnimation:walkAnimPlayer2]];
-                [self.player2 runAction:self.walkAction];
+                [self.player2 runAction:self.walkActionPlayer2];
                 [self.spriteSheet addChild:self.player2 z:0 tag:4];
                 
                 receivedAvatar = YES;
@@ -1062,55 +1104,6 @@
             }
         }
         
-//        MessageAvatarNumber2 * messageInit = (MessageAvatarNumber2 *) [data bytes];
-//        CCLOG(@"Received Avatar number: %ud, ours %ud", messageInit->avatarNumber, avatarInt);
-//        bool sameAvatar = false;
-//        
-//        if(messageInit->avatarNumber == avatarInt){
-//            CCLOG(@"Same avatar!");
-//            sameAvatar = true;
-//        }
-//        else{
-//            CCLOG(@"Different avatars!");
-//        }
-//        if(isPlayer1){
-//            if (sameAvatar) {
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Same Avatar" message:@"You have chosen the same avatar as the other player./n Please go back and choose another avatar" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-//                [alert show];
-//            }
-//            if(!sameAvatar){
-//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
-//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
-//                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
-//                
-//                receivedAvatar = YES;
-//                if (gameState == kGameStateWaitingForAvatarNumber2) {
-//                    [self setGameState:kGameStateWaitingForStart2];
-//                }
-//                [self tryStartGame];
-//            }
-//            
-//        }
-//        else{
-//            if(!sameAvatar){
-//                //Þessi inniheldur ekki fallið initWithFile. Ég get kannski bara skítamixað
-//                //fall í þessum klasa sem gerir það sama eða svipað og initWithFile?
-//                self.otherAvatar = [self chosenAvatar:messageInit->avatarNumber];
-//                CCLOG(@"self.otherAvatar is now, %@", self.otherAvatar);
-//                self.player1.texture = [[CCTextureCache sharedTextureCache] addImage:self.otherAvatar];
-//                self.player2.texture = [[CCTextureCache sharedTextureCache] addImage:self.avatar];
-//                
-//                receivedAvatar = YES;
-//                if (gameState == kGameStateWaitingForAvatarNumber2) {
-//                    [self setGameState:kGameStateWaitingForStart2];
-//                }
-//                [self tryStartGame];
-//                
-//            }
-//        }
-
-        
     } else if (message->messageType == kMessageTypeGameBegin2) {
         [self setGameState:kGameStateActive2];
         
@@ -1119,6 +1112,13 @@
         [self schedule:@selector(step:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(scroll:) interval:0.0000000001];
+        [self performSelector:@selector(addFirstWords) withObject:nil afterDelay:2.f];
+        [self performSelector:@selector(removeFirstActionWord) withObject:nil afterDelay:5.f];
+        [self schedule:@selector(addRemoveActionWordsCounter) interval:1];
+        
+        //Background music
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+		[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"game.mp3" loop:YES];
         
     } else if (message->messageType == kMessageTypeMove2) {
         CGPoint *player1Position;

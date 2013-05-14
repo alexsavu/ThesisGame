@@ -14,6 +14,11 @@
 @class Player;
 @class Obstacle;
 
+typedef enum {
+    kEndReasonWinCollectSingleplayer,
+    kEndReasonLoseCollectSingleplayer
+} EndReasonCollectSingleplayer;
+
 @interface CollectSinglelayerLayer : CCLayer{
     CGPoint thing_pos;
 	CGPoint thing_vel;
@@ -21,6 +26,7 @@
 }
 
 @property (nonatomic, strong) Player *player;
+@property (nonatomic, strong) CCAction *walkAction;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;
 

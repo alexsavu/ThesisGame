@@ -15,6 +15,7 @@
 @synthesize livesLeftPlayer1 = _livesLeftPlayer1;
 @synthesize livesLeftPlayer2 = _livesLeftPlayer2;
 @synthesize timeCounter = _timeCounter;
+@synthesize timeCounterAvoidMultiplayer = _timeCounterAvoidMultiplayer;
 
 -(id)init{
     if (self == [super init]) {
@@ -24,6 +25,7 @@
         self.livesLeftPlayer1 = 5;
         self.livesLeftPlayer2 = 5;
         self.timeCounter = 30;
+        self.timeCounterAvoidMultiplayer = 120;
     }
     return self;
 }
@@ -50,6 +52,10 @@
 
 -(void)countDownTimer{
     self.timeCounter -= 1;
+}
+
+-(void)countTimeAvoidMultiplayer{
+    self.timeCounterAvoidMultiplayer -= 1;
 }
 
 @end

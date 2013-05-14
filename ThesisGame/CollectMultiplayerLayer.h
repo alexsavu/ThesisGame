@@ -98,7 +98,8 @@ typedef struct {
 
 @property (nonatomic, strong) Player *player1;
 @property (nonatomic, strong) Player *player2;
-@property (nonatomic, strong) CCAction *walkAction;
+@property (nonatomic, strong) CCAction *walkActionPlayer1;
+@property (nonatomic, strong) CCAction *walkActionPlayer2;
 @property (nonatomic, strong) Obstacle *obstacle;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;

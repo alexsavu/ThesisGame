@@ -14,6 +14,11 @@
 @class Player;
 @class Obstacle;
 
+typedef enum {
+    kEndReasonWinAvoidSingleplayer,
+    kEndReasonLoseAvoidSingleplayer
+} EndReasonAvoidSingleplayer;
+
 @interface AvoidSingleplayerLayer : CCLayer{
     CGPoint thing_pos;
 	CGPoint thing_vel;
@@ -22,6 +27,7 @@
 
 @property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) Obstacle *obstacle;
+@property (nonatomic, strong) CCAction *walkAction;
 @property (nonatomic, strong) CCSprite *background;
 @property (nonatomic, strong) CCSprite *background2;
 

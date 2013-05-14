@@ -34,9 +34,9 @@
 @property (nonatomic, strong) CCSpriteBatchNode *spriteSheet;
 
 -(void)addObstaclesAvoidSingleplayer;
--(NSString*)chosenAvatar:(NSInteger)value;
+-(NSString*)chosenAvatar:(NSInteger)value selected:(BOOL)isSelected;
 -(void)updateWinningCondition;
--(void)endScene;
+-(void)endScene:(EndReasonAvoidSingleplayer)endReason;
 -(void)displayLabelFont:(int)displayNumber withScaleing:(BOOL)scale;
 //Scheduled methods
 -(void)step:(ccTime)dt;
@@ -77,16 +77,12 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
-        
-        // ask director for the window size
-		CGSize size = [[CCDirector sharedDirector] winSize];
-        
         scoreCounter = [[ScoreCounter alloc] init];
         
         //chosen avatar is retrieved from userDefaults
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
         avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];
-        self.avatar = [self chosenAvatar:avatarInt];
+        self.avatar = [self chosenAvatar:avatarInt selected:NO];
         
         timeStartGame = 3;
         
@@ -103,27 +99,6 @@
         self.background2.anchorPoint = ccp(0, 0);
         self.background2.position = ccp(0, self.background.boundingBox.size.height);
         [self addChild:self.background2];
-        
-        //Add the player character. It has it's own class derived from GameCharacter
-        self.player = [[Player alloc] initWithFile:self.avatar alphaThreshold:0];
-        [self.player setPosition:ccp(size.height/2, self.player.contentSize.height/2)];
-        [self addChild:self.player z:0 tag:1];
-        
-        //Animations
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"avatarAnimations-ipadhd.plist"];
-        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"avatarAnimations-ipadhd.png"];
-        [self addChild:self.spriteSheet];
-        
-//        /Animations player1
-//        CCAnimation *walkAnimPlayer1 = [CCAnimation
-//                                        animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:YES] delay:0.1f];
-//        
-//        self.player1 = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
-//        [self.player1 setPosition:ccp(size.height/2, size.width/2)];
-//        self.walkAction = [CCRepeatForever actionWithAction:
-//                           [CCAnimate actionWithAnimation:walkAnimPlayer1]];
-//        [self.player1 runAction:self.walkAction];
-//        [self.spriteSheet addChild:self.player1];
         
         //enable accelerometer
         self.isAccelerometerEnabled = YES;
@@ -225,62 +200,120 @@
 -(void)spriteMoveFinished:(id)sender {
     Obstacle *obstacle = (Obstacle *)sender;
     [self removeChild:obstacle cleanup:YES];
-    
-//	if (sprite.tag == 1) { // target
-//		[_targets removeObject:sprite];
-//
-//		GameOverScene *gameOverScene = [GameOverScene node];
-//		[gameOverScene.layer.label setString:@"You Lose :["];
-//		[[CCDirector sharedDirector] replaceScene:gameOverScene];
-//
-//	} else if (sprite.tag == 2) { // projectile
-//		[_projectiles removeObject:sprite];
-//	}
 }
 
 #pragma mark Choose Avatar based on number
 
 //Finds the correct .png for the chosen avatar, returns .png location in NSString form.
--(NSString*)chosenAvatar:(NSInteger)value{
+-(NSString*)chosenAvatar:(NSInteger)value selected:(BOOL)isSelected{
     NSString *avatarString = [[NSString alloc] init];
-    switch(value)
-    {
-        case 1:
-            //self.avatar = @"Char1~ipad.png";
-            avatarString = @"Char1~ipad.png";
-            break;
-        case 2:
-            //self.avatar = @"Char2~ipad.png";
-            avatarString = @"Char2~ipad.png";
-            break;
-        case 3:
-            //self.avatar = @"Char3~ipad.png";
-            avatarString = @"Char3~ipad.png";
-            break;
-        case 4:
-            //self.avatar = @"Char4~ipad.png";
-            avatarString = @"Char4~ipad.png";
-            break;
-        case 5:
-            //self.avatar = @"Char5~ipad.png";
-            avatarString = @"Char5~ipad.png";
-            break;
+    if (isSelected) {
+        switch(value)
+        {
+            case 1:
+                avatarString = @"afroSelected_1~ipad.png";
+                break;
+            case 2:
+                avatarString = @"gingerSelected_1~ipad.png";
+                break;
+            case 3:
+                avatarString = @"indianSelected_1~ipad.png";
+                break;
+            case 4:
+                avatarString = @"japaneseSelected_1~ipad.png";
+                break;
+        }
+    }else{
+        switch(value)
+        {
+            case 1:
+                avatarString = @"afroUnselected_1~ipad.png";
+                break;
+            case 2:
+                avatarString = @"gingerUnselected_1~ipad.png";
+                break;
+            case 3:
+                avatarString = @"indianUnselected_1~ipad.png";
+                break;
+            case 4:
+                avatarString = @"japaneseUnselected_1~ipad.png";
+                break;
+        }
     }
     
     return avatarString;
 }
 
--(void)displayLabelFont:(int)displayNumber withScaleing:(BOOL)scale{
+#pragma mark Choose Animation Frames based on number
+
+-(NSArray*)animFramesArrayForCharacter:(NSInteger)value selected:(BOOL)isSelected{
+    NSMutableArray *walkAnimFrames = [NSMutableArray array];
+    if (isSelected) {
+        switch (value) {
+            case 1:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"afroSelected_%d~ipad.png",i]]];
+                }
+                break;
+            case 2:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"gingerSelected_%d~ipad.png",i]]];
+                }
+                break;
+            case 3:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"indianSelected_%d~ipad.png",i]]];
+                }
+                break;
+            case 4:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"japaneseSelected_%d~ipad.png",i]]];
+                }
+                break;
+                
+            default:
+                break;
+        }
+    }else{
+        switch (value) {
+            case 1:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"afroUnselected_%d~ipad.png",i]]];
+                }
+                break;
+            case 2:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"gingerUnselected_%d~ipad.png",i]]];
+                }
+                break;
+            case 3:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"indianUnselected_%d~ipad.png",i]]];
+                }
+                break;
+            case 4:
+                for (int i=1; i<=8; i++) {
+                    [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"japaneseUnselected_%d~ipad.png",i]]];
+                }
+                break;
+                
+            default:
+                break;
+        }
+    }
     
+    return walkAnimFrames;
+}
+
+-(void)displayLabelFont:(int)displayNumber withScaleing:(BOOL)scale{
+    CGSize winSize = [CCDirector sharedDirector].winSize;
     if (scale) {
-        CGSize winSize = [CCDirector sharedDirector].winSize;
         countdown = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", displayNumber] fntFile:@"magneto.fnt"];
         countdown.scale = 0.1;
         countdown.position = ccp(winSize.width/2, winSize.height/2);
         [self addChild:countdown];
         [countdown runAction:[CCScaleTo actionWithDuration:0.5 scale:3.0]];
     }else{
-        CGSize winSize = [CCDirector sharedDirector].winSize;
         countdown = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", displayNumber] fntFile:@"magneto.fnt"];
         countdown.scale = 3.0;
         countdown.position = ccp(55.f, winSize.height - 150.f);
@@ -291,6 +324,8 @@
 #pragma mark Scheduled methods
 
 -(void)countdownStartGame:(ccTime)dt{
+    // ask director for the window size
+    CGSize size = [[CCDirector sharedDirector] winSize];
     
     if (countdown != nil) {
         [countdown removeFromParentAndCleanup:YES];
@@ -308,6 +343,22 @@
         [self schedule:@selector(obstaclesStepAvoidSingleplayer:) interval:2.0];
         [self schedule:@selector(scroll:) interval:0.0000000001];
         [self schedule:@selector(secondsPassedInGame:) interval:1];
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+		[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"game.mp3" loop:YES];
+        
+        //STart animation
+        //Animations
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"totallyFinalAnimations-hd.plist"];
+        self.spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"totallyFinalAnimations-hd.png"];
+        [self addChild:self.spriteSheet];
+        
+        //Animations player1
+        CCAnimation *walkAnimPlayer1 = [CCAnimation animationWithSpriteFrames:[self animFramesArrayForCharacter:avatarInt selected:NO] delay:0.1f];
+        self.player = [CCSprite spriteWithSpriteFrameName:[self chosenAvatar:avatarInt selected:YES]];
+        [self.player setPosition:ccp(size.height/2, size.width/2)];
+        self.walkAction = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:walkAnimPlayer1]];
+        [self.player runAction:self.walkAction];
+        [self.spriteSheet addChild:self.player];
     }
 }
 
@@ -370,12 +421,17 @@
     
     //collision method
     [self checkForCollision];
+    
+    //Wining condition when timer stops
+     if((scoreCounter.timeCounter <= 0) && (scoreCounter.livesLeftPlayer1 > 0)){
+        [self endScene:kEndReasonWinAvoidSingleplayer];
+     }
 }
 
 #pragma mark Collision Detection
 
 -(void)checkForCollision{
-    if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
+    if (CGRectIntersectsRect([self getChildByTag:2].boundingBox, self.player.boundingBox)) {
         [scoreCounter substractLivesPlayer1];
         [[self getChildByTag:2] setTag:110];
         [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
@@ -386,39 +442,64 @@
 
 - (void)updateWinningCondition{
     if (scoreCounter.livesLeftPlayer1 == 0) {
-        [self endScene];
+        [self endScene:kEndReasonLoseAvoidSingleplayer];
     }
 }
 
 #pragma mark End Scene
 
-- (void)endScene{
+-(void)endScene:(EndReasonAvoidSingleplayer)endReason{
     //Stop the game
     [self unscheduleAllSelectors];
+    [self stopAction:self.walkAction];
+    [[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
-    CCLabelBMFont *label = [CCLabelBMFont labelWithString:@"You lost" fntFile:@"magneto.fnt"];
-    label.scale = 0.1;
-    label.position = ccp(winSize.width/2, 180);
-    [self addChild:label];
+    CCSprite *messageLost = [CCSprite spriteWithFile:@"lost~ipad.png"];
+    [messageLost setPosition:ccp(winSize.width/2, winSize.height/2.f)];
+    messageLost.scale = 0.1;
+    CCSprite *messageWon = [CCSprite spriteWithFile:@"won~ipad.png"];
+    [messageWon setPosition:ccp(winSize.width/2, winSize.height/2.f)];
+    messageWon.scale = 0.1;
     
-    CCLabelBMFont *restartLabel = [CCLabelBMFont labelWithString:@"Restart" fntFile:@"magneto.fnt"];
     
-    CCMenuItemLabel *restartItem = [CCMenuItemLabel itemWithLabel:restartLabel target:self selector:@selector(restartTapped:)];
-    restartItem.scale = 0.1;
-    restartItem.position = ccp(winSize.width/2, 140);
+    CCSprite *endsceneImage = [CCSprite spriteWithFile:@"gameOver~ipad.png"];
+    endsceneImage.scale = 0.1;
+    endsceneImage.position = ccp(winSize.width/2, winSize.height - winSize.height/3.f);
+    [self addChild:endsceneImage];
     
-    CCMenu *menu = [CCMenu menuWithItems:restartItem, nil];
-    menu.position = CGPointZero;
-    [self addChild:menu];
+    CCMenuItemImage *restartImage = [CCMenuItemImage
+                                     itemWithNormalImage:@"RestartButtonUnselected~ipad.png"
+                                     selectedImage:@"RestartButtonSelected~ipad.png"
+                                     disabledImage:nil
+                                     target:self
+                                     selector:@selector(restartTapped:)];
     
-    [restartItem runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
-    [label runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    CCMenu *restartMenu = [CCMenu menuWithItems:restartImage,nil];
+    [restartMenu setPosition:ccp(173.f + restartImage.boundingBox.size.width, 180.f)];
+    [self addChild:restartMenu z:0];
     
-    [self unschedule:@selector(step:)];
-    [self unschedule:@selector(obstaclesStepAvoidSingleplayer:)];
-    [self unschedule:@selector(scroll:)];
+    CCMenuItemImage *backButtonEndSceneImage = [CCMenuItemImage
+                                                itemWithNormalImage:@"inGameBackButton~ipad.png"
+                                                selectedImage:@"inGameBackButtonSelected~ipad.png"
+                                                disabledImage:nil
+                                                target:self
+                                                selector:@selector(goBackToMenu:)];
+    
+    CCMenu *backButtonEndScene = [CCMenu menuWithItems:backButtonEndSceneImage,nil];
+    [backButtonEndScene setPosition:ccp(858.f - backButtonEndSceneImage.boundingBox.size.width/2.f, 180.f)];
+    [self addChild:backButtonEndScene z:0];
+    
+    if (endReason == kEndReasonWinAvoidSingleplayer) {
+        [self addChild:messageWon];
+        [messageWon runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    } else if (endReason == kEndReasonLoseAvoidSingleplayer) {
+        [self addChild:messageLost];
+        [messageLost runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    }
+    
+    [endsceneImage runAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
 }
 
 //restart scene
@@ -451,8 +532,6 @@
     else if (rollingX >= 0) {
         inclination = 3 * M_PI/2.0;
     }
-    
-    //    NSLog(@"Accelerometer: %f", inclination);
 }
 
 
