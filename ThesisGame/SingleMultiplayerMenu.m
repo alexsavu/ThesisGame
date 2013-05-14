@@ -31,7 +31,7 @@
     self = [super init];
     if (self != nil) {
         CGSize screenSize = [CCDirector sharedDirector].winSize;
-        CCSprite *backgroundForSingleMultiplayer = [CCSprite spriteWithFile:@"mainMenu_background.png"];
+        CCSprite *backgroundForSingleMultiplayer = [CCSprite spriteWithFile:@"mainMenuBackground~ipad.png"];
         [backgroundForSingleMultiplayer setPosition:ccp(screenSize.width/2,screenSize.height/2)];
         [self addChild:backgroundForSingleMultiplayer];
         [self displaySingleMultiplayerMenu];

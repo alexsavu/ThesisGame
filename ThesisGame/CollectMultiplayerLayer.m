@@ -22,11 +22,15 @@
 #define kFilteringFactor 0.1
 #define MIN_COURSE_X 173.0
 #define MAX_COURSE_X 858.0
+#define kActionWord1Tag 39
 
 @interface CollectMultiplayerLayer (){
     NSInteger avatarInt;
     NSInteger scoreCounterPlayerOne;
     NSInteger scoreCounterPlayerTwo;
+    NSInteger counterForActionWords;
+    NSInteger counterforAddingActionWords;
+    NSInteger counterforRemovingActionWords;
     
     NSInteger counterForObstacles;
     
@@ -93,6 +97,9 @@
         scoreCounter = [[ScoreCounter alloc] init];
         
         counterForObstacles = 1;
+        counterForActionWords = -1;
+        counterforAddingActionWords = 0;
+        counterforRemovingActionWords = 0;
         
         //chosen avatar is retrieved from userDefaults
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
@@ -175,6 +182,71 @@
         [self addBackButton];
 	}
 	return self;
+}
+
+#pragma mark Action Words
+
+-(void)addFirstWords{
+    CCSprite *actionWord1 = [CCSprite spriteWithFile:@"actionWord_1~ipad.png"];
+    [actionWord1 setPosition:ccp(74.f, actionWord1.boundingBox.size.height + 10)];
+    [self addChild:actionWord1 z:0 tag:kActionWord1Tag];
+}
+
+-(void)removeFirstActionWord{
+    [self removeChildByTag:kActionWord1Tag cleanup:YES];
+}
+
+-(void)actionWords{
+    // ask director for the window size
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    counterForActionWords += 1;
+    if (counterForActionWords > 3) {
+        counterForActionWords = 0;
+    }
+    CCSprite *actionWord2 = [CCSprite spriteWithFile:@"actionWord_2~ipad.png"];
+    CCSprite *actionWord3 = [CCSprite spriteWithFile:@"actionWord_3~ipad.png"];
+    CCSprite *actionWord4 = [CCSprite spriteWithFile:@"actionWord_4~ipad.png"];
+    CCSprite *actionWord5 = [CCSprite spriteWithFile:@"actionWord_5~ipad.png"];
+    NSArray *actionWordsSprites = nil;
+    actionWordsSprites = [NSArray arrayWithObjects:actionWord2, actionWord3, actionWord4, actionWord5, nil];
+    NSLog(@"Action Words COUNTER: %d", counterForActionWords);
+    
+    if (counterForActionWords % 2) {
+        [[actionWordsSprites objectAtIndex:counterForActionWords] setPosition:ccp(74.f, actionWord2.boundingBox.size.height + 10)];
+        [self addChild:[actionWordsSprites objectAtIndex:counterForActionWords] z:0 tag:counterForActionWords + 40];
+    }else{
+        [[actionWordsSprites objectAtIndex:counterForActionWords] setPosition:ccp(size.width - 74.f, actionWord2.boundingBox.size.height + 10)];
+        [self addChild:[actionWordsSprites objectAtIndex:counterForActionWords] z:0 tag:counterForActionWords + 40];
+    }
+}
+
+-(void)addRemoveActionWordsCounter{
+    counterforAddingActionWords += 1;
+    counterforRemovingActionWords +=1;
+    
+    if (counterforAddingActionWords > 18) {
+        counterforAddingActionWords = 0;
+    }
+    if (counterforRemovingActionWords > 18) {
+        counterforRemovingActionWords = 0;
+    }
+    
+    if (counterforAddingActionWords == 15) {
+        [self actionWords];
+    }
+    
+    if (counterforRemovingActionWords == 18) {
+        [self removeActionWords];
+    }
+    
+    NSLog(@"!!!!!!!!!COUNTER for adding words: %d", counterforAddingActionWords);
+    NSLog(@"@@@@@@@@@COUNTER for removing words: %d", counterforRemovingActionWords);
+}
+
+-(void)removeActionWords{
+    NSLog(@"Remove action word");
+    [self removeChildByTag:counterForActionWords + 40 cleanup:YES];
 }
 
 -(void)scroll:(ccTime)dt{
@@ -715,6 +787,11 @@
         [self schedule:@selector(step:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(scroll:) interval:0.0000000001];
+        [self performSelector:@selector(addFirstWords) withObject:nil afterDelay:2.f];
+        [self performSelector:@selector(removeFirstActionWord) withObject:nil afterDelay:5.f];
+        [self schedule:@selector(addRemoveActionWordsCounter) interval:1];
+//        [self schedule:@selector(actionWords) interval:15.f];
+//        [self schedule:@selector(removeActionWords) interval:18.f];
         
         [self sendGameBegin];
     }
@@ -1045,6 +1122,11 @@
         [self schedule:@selector(step:)];
         [self schedule:@selector(obstaclesStep:) interval:2.0];
         [self schedule:@selector(scroll:) interval:0.0000000001];
+        [self performSelector:@selector(addFirstWords) withObject:nil afterDelay:2.f];
+        [self performSelector:@selector(removeFirstActionWord) withObject:nil afterDelay:5.f];
+        [self schedule:@selector(addRemoveActionWordsCounter) interval:1];
+//        [self schedule:@selector(actionWords) interval:15.f];
+//        [self schedule:@selector(removeActionWords) interval:18.f];
         
     } else if (message->messageType == kMessageTypeMove) {
         CGPoint *player1Position;

@@ -133,8 +133,6 @@
         //as long as our game is running
         [self schedule:@selector(countdownStartGame:) interval:1.5];
         
-//        self.scale = 0.4;
-        
         [self addBackButton];
         [self addLives];
 	}
@@ -379,7 +377,6 @@
 -(void)checkForCollision{
     if ([(KKPixelMaskSprite *)[self getChildByTag:2] pixelMaskIntersectsNode:(KKPixelMaskSprite *)[self getChildByTag:1]]) {
         [scoreCounter substractLivesPlayer1];
-        NSLog(@"@@@@@@@@@@@@: %i", scoreCounter.livesLeftPlayer1);
         [[self getChildByTag:2] setTag:110];
         [[self getChildByTag:110] runAction:[CCShake actionWithDuration:.5f amplitude:ccp(7, 0)]];
         [self removeChildByTag:scoreCounter.livesLeftPlayer1 + 3 cleanup:YES];
@@ -390,13 +387,15 @@
 - (void)updateWinningCondition{
     if (scoreCounter.livesLeftPlayer1 == 0) {
         [self endScene];
-//        [self removeChildByTag:<#(NSInteger)#> cleanup:<#(BOOL)#>]
     }
 }
 
 #pragma mark End Scene
 
 - (void)endScene{
+    //Stop the game
+    [self unscheduleAllSelectors];
+    
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:@"You lost" fntFile:@"magneto.fnt"];

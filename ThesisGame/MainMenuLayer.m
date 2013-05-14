@@ -45,7 +45,7 @@
     if (self != nil) {
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         
-        self.backgroundForMainMenu = [CCSprite spriteWithFile:@"mainMenu_background.png"];
+        self.backgroundForMainMenu = [CCSprite spriteWithFile:@"mainMenuBackground~ipad.png"];
         [self.backgroundForMainMenu setPosition:ccp(screenSize.width/2,screenSize.height/2)];
         self.backgroundForAvatarSelection = [CCSprite spriteWithFile:@"avatarSelectionBackground.png"];
         [self.backgroundForAvatarSelection setPosition:ccp(screenSize.width/2,screenSize.height/2)];
