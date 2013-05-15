@@ -52,7 +52,7 @@
 		// Create the intro animation, and load it from intro1 to intro7.png
 		CCAnimation *introAnimation = [CCAnimation animation];
         [introAnimation setDelayPerUnit:2.5f];
-		for (int frameNumber=1; frameNumber < 3; frameNumber++) {
+		for (int frameNumber = 1; frameNumber < 5; frameNumber++) {
 			CCLOG(@"Adding image intro_%d~ipad.png to the introAnimation.",frameNumber);
 			[introAnimation addSpriteFrameWithFilename:[NSString stringWithFormat:@"intro_%d~ipad.png",frameNumber]];
 		}
