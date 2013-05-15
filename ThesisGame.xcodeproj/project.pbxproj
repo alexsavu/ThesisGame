@@ -61,6 +61,10 @@
 		3E99C9F11742CF5F00E8A6A4 /* avoidHeartSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E99C9F01742CF5F00E8A6A4 /* avoidHeartSelected~ipad.png */; };
 		3E99C9F41742D11A00E8A6A4 /* collectSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E99C9F21742D11A00E8A6A4 /* collectSelected~ipad.png */; };
 		3E99C9F51742D11A00E8A6A4 /* collectUnselected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E99C9F31742D11A00E8A6A4 /* collectUnselected~ipad.png */; };
+		3E9B77251743870100A367AB /* AvatarSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B77241743870100A367AB /* AvatarSelection.m */; };
+		3E9B772917438A2800A367AB /* StoryLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9B772817438A2800A367AB /* StoryLayer.m */; };
+		3E9B772D17438C3000A367AB /* intro_1~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9B772B17438C3000A367AB /* intro_1~ipad.png */; };
+		3E9B772E17438C3000A367AB /* intro_2~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9B772C17438C3000A367AB /* intro_2~ipad.png */; };
 		3E9C1A75173C06D400FE0E06 /* totallyFinalAnimations-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C1A6F173C06D400FE0E06 /* totallyFinalAnimations-hd.plist */; };
 		3E9C1A76173C06D400FE0E06 /* totallyFinalAnimations-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C1A70173C06D400FE0E06 /* totallyFinalAnimations-hd.png */; };
 		3E9C1A77173C06D400FE0E06 /* totallyFinalAnimations-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E9C1A71173C06D400FE0E06 /* totallyFinalAnimations-ipadhd.plist */; };
@@ -303,6 +307,12 @@
 		3E99C9F01742CF5F00E8A6A4 /* avoidHeartSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avoidHeartSelected~ipad.png"; sourceTree = "<group>"; };
 		3E99C9F21742D11A00E8A6A4 /* collectSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectSelected~ipad.png"; sourceTree = "<group>"; };
 		3E99C9F31742D11A00E8A6A4 /* collectUnselected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collectUnselected~ipad.png"; sourceTree = "<group>"; };
+		3E9B77231743870100A367AB /* AvatarSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarSelection.h; sourceTree = "<group>"; };
+		3E9B77241743870100A367AB /* AvatarSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvatarSelection.m; sourceTree = "<group>"; };
+		3E9B772717438A2800A367AB /* StoryLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryLayer.h; sourceTree = "<group>"; };
+		3E9B772817438A2800A367AB /* StoryLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryLayer.m; sourceTree = "<group>"; };
+		3E9B772B17438C3000A367AB /* intro_1~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_1~ipad.png"; sourceTree = "<group>"; };
+		3E9B772C17438C3000A367AB /* intro_2~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_2~ipad.png"; sourceTree = "<group>"; };
 		3E9C1A6F173C06D400FE0E06 /* totallyFinalAnimations-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "totallyFinalAnimations-hd.plist"; sourceTree = "<group>"; };
 		3E9C1A70173C06D400FE0E06 /* totallyFinalAnimations-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "totallyFinalAnimations-hd.png"; sourceTree = "<group>"; };
 		3E9C1A71173C06D400FE0E06 /* totallyFinalAnimations-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "totallyFinalAnimations-ipadhd.plist"; sourceTree = "<group>"; };
@@ -748,6 +758,8 @@
 			children = (
 				3E46FA7616E246F200912942 /* MainMenuLayer.h */,
 				3E46FA7716E246F200912942 /* MainMenuLayer.m */,
+				3E9B77231743870100A367AB /* AvatarSelection.h */,
+				3E9B77241743870100A367AB /* AvatarSelection.m */,
 				3E7F8DE4172682120039A80E /* SingleMultiplayerMenu.h */,
 				3E7F8DE5172682120039A80E /* SingleMultiplayerMenu.m */,
 				3E7F8DF317269D810039A80E /* SingleplayerSceneSelection.h */,
@@ -871,6 +883,24 @@
 			name = "Texture Atlas";
 			sourceTree = "<group>";
 		};
+		3E9B7726174389DB00A367AB /* Story Scene */ = {
+			isa = PBXGroup;
+			children = (
+				3E9B772717438A2800A367AB /* StoryLayer.h */,
+				3E9B772817438A2800A367AB /* StoryLayer.m */,
+			);
+			name = "Story Scene";
+			sourceTree = "<group>";
+		};
+		3E9B772A17438C0C00A367AB /* Story */ = {
+			isa = PBXGroup;
+			children = (
+				3E9B772B17438C3000A367AB /* intro_1~ipad.png */,
+				3E9B772C17438C3000A367AB /* intro_2~ipad.png */,
+			);
+			name = Story;
+			sourceTree = "<group>";
+		};
 		3E9C1AB2173C30B500FE0E06 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -964,6 +994,7 @@
 		3ECACAE616B18277006F740A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E9B772A17438C0C00A367AB /* Story */,
 				3E5774FF17414CD4006AB7FB /* Action Words */,
 				3E7F375D173E8A950055693B /* EndScene */,
 				3E9F427C1738F81000326B92 /* Animations */,
@@ -1339,6 +1370,7 @@
 		3EEA983416CE65F600A953EB /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3E9B7726174389DB00A367AB /* Story Scene */,
 				3E46FA7216E240E900912942 /* Scene1 */,
 				3E91621A16E27A8A0068DFD4 /* Scene2 */,
 				3E4D6578171844F600068368 /* Scene3 */,
@@ -1534,6 +1566,8 @@
 				3E99C9F11742CF5F00E8A6A4 /* avoidHeartSelected~ipad.png in Resources */,
 				3E99C9F41742D11A00E8A6A4 /* collectSelected~ipad.png in Resources */,
 				3E99C9F51742D11A00E8A6A4 /* collectUnselected~ipad.png in Resources */,
+				3E9B772D17438C3000A367AB /* intro_1~ipad.png in Resources */,
+				3E9B772E17438C3000A367AB /* intro_2~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1671,6 +1705,8 @@
 				3E7F8DF217269D6D0039A80E /* MultiplayerSceneSelection.m in Sources */,
 				3E7F8DF517269D810039A80E /* SingleplayerSceneSelection.m in Sources */,
 				3E9F42871739644400326B92 /* CollectAndAvoidMultiplayerLayer.m in Sources */,
+				3E9B77251743870100A367AB /* AvatarSelection.m in Sources */,
+				3E9B772917438A2800A367AB /* StoryLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

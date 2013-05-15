@@ -9,9 +9,9 @@
 typedef enum {
     kNoSceneUninitialized=0,
     kMainMenuScene=1,
-    kOptionsScene=2,
+    kAvatarSelection=2,
     kCreditsScene=3,
-    kIntroScene=4,
+    kStoryScene=4,
     kLevelCompleteScene=5,
     kSingleMultiplayerScene=6,
     kSingleplayerSceneSelection=7,

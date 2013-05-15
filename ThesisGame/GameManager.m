@@ -16,6 +16,8 @@
 #import "SingleplayerSceneSelection.h"
 #import "MultiplayerSceneSelection.h"
 #import "CollectAndAvoidMultiplayerLayer.h"
+#import "AvatarSelection.h"
+#import "StoryLayer.h"
 
 @implementation GameManager
 @synthesize isMusicON;
@@ -66,15 +68,15 @@ static GameManager* _sharedGameManager = nil;
         case kMainMenuScene:
             sceneToRun = [MainMenuLayer node];
             break;
-//        case kOptionsScene:
-//            sceneToRun = [OptionsScene node];
-//            break;
+        case kAvatarSelection:
+            sceneToRun = [AvatarSelection node];
+            break;
 //        case kCreditsScene:
 //            sceneToRun = [CreditsScene node];
 //            break;
-//        case kIntroScene:
-//            sceneToRun = [IntroScene node];
-//            break;
+        case kStoryScene:
+            sceneToRun = [StoryLayer node];
+            break;
 //        case kLevelCompleteScene:
 //            sceneToRun = [LevelCompleteScene node];
 //            break;
@@ -151,9 +153,7 @@ static GameManager* _sharedGameManager = nil;
     CGSize levelSize;
     switch (currentScene) {
         case kMainMenuScene:
-        case kOptionsScene:
         case kCreditsScene:
-        case kIntroScene:
         case kLevelCompleteScene:
         case kGameLevel1:
 //            levelSize = screenSize;

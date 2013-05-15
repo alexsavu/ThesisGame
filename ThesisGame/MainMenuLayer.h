@@ -15,6 +15,7 @@
 @interface MainMenuLayer : CCLayer
 
 @property (nonatomic, strong) CCMenu *mainMenu;
-@property (nonatomic, strong) CCMenu *avatarMenu;
+
++(CCScene *) scene;
 
 @end
