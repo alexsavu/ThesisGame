@@ -79,6 +79,8 @@
 	if( (self=[super init]) ) {
         scoreCounter = [[ScoreCounter alloc] init];
         
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        
         //chosen avatar is retrieved from userDefaults
         NSUserDefaults *savedAvatar = [NSUserDefaults standardUserDefaults];
         avatarInt = [savedAvatar integerForKey:@"chosenAvatar"];

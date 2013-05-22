@@ -94,6 +94,8 @@
 	if( (self=[super init]) ) {
         scoreCounter = [[ScoreCounter alloc] init];
         
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        
         counterForObstacles = 1;
         counterForActionWords = -1;
         counterforAddingActionWords = 0;

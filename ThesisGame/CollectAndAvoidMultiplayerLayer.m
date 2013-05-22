@@ -88,6 +88,8 @@
 	if( (self=[super init]) ) {
         scoreCounter = [[ScoreCounter alloc] init];
         
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        
         counterForObstacles = 1;
         
         //Preload sound effects

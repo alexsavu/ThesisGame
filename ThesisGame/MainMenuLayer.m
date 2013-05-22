@@ -9,6 +9,7 @@
 #import "MainMenuLayer.h"
 #import "AppDelegate.h"
 #import <GameKit/GameKit.h>
+#import "SimpleAudioEngine.h"
 
 @interface MainMenuLayer()
 
@@ -42,6 +43,11 @@
     self = [super init];
     if (self != nil) {
         CGSize screenSize = [CCDirector sharedDirector].winSize;
+        //Preload sound effects
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"menu_Music.mp3"];
+        //Background music
+		[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"menu_Music.mp3" loop:YES];
         
         self.backgroundForMainMenu = [CCSprite spriteWithFile:@"mainMenuBackground~ipad.png"];
         [self.backgroundForMainMenu setPosition:ccp(screenSize.width/2,screenSize.height/2)];        

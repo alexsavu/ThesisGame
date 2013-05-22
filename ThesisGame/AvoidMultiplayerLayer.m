@@ -96,6 +96,8 @@
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        
         stop = NO;
         scoreCounter = [[ScoreCounter alloc] init];
         
