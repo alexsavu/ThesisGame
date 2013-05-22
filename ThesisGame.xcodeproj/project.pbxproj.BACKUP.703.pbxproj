@@ -904,7 +904,11 @@
 		3E9B772A17438C0C00A367AB /* Story */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				3E968B2F174520980045ABB4 /* intro_1~ipad.png */,
+=======
+				3EC3A3A01744D6DD00E09BD8 /* intro_1~ipad.png */,
+>>>>>>> 1fbef8acc59a069be8505574c38d381d69731337
 				3E968B211743C1610045ABB4 /* intro_3~ipad.png */,
 				3E968B221743C1610045ABB4 /* intro_4~ipad.png */,
 				3E9B772C17438C3000A367AB /* intro_2~ipad.png */,
@@ -1579,9 +1583,13 @@
 				3E9B772E17438C3000A367AB /* intro_2~ipad.png in Resources */,
 				3E968B231743C1610045ABB4 /* intro_3~ipad.png in Resources */,
 				3E968B241743C1610045ABB4 /* intro_4~ipad.png in Resources */,
+<<<<<<< HEAD
 				3E968B2C1743C69E0045ABB4 /* Default-Landscape~ipad.png in Resources */,
 				3E968B2E1743D0E60045ABB4 /* menu_Music.mp3 in Resources */,
 				3E968B30174520980045ABB4 /* intro_1~ipad.png in Resources */,
+=======
+				3EC3A3A11744D6DD00E09BD8 /* intro_1~ipad.png in Resources */,
+>>>>>>> 1fbef8acc59a069be8505574c38d381d69731337
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

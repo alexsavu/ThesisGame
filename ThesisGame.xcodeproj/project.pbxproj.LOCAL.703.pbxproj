@@ -103,7 +103,6 @@
 		3EB22803173D591E0042C583 /* rockstarButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F7173D591D0042C583 /* rockstarButtonSelected~ipad.png */; };
 		3EB22804173D591E0042C583 /* singlePlayerButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F8173D591D0042C583 /* singlePlayerButton~ipad.png */; };
 		3EB22805173D591E0042C583 /* singlePlayerButtonSelected~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB227F9173D591D0042C583 /* singlePlayerButtonSelected~ipad.png */; };
-		3EC3A3A11744D6DD00E09BD8 /* intro_1~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EC3A3A01744D6DD00E09BD8 /* intro_1~ipad.png */; };
 		3ECACAD416B18277006F740A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD316B18277006F740A /* QuartzCore.framework */; };
 		3ECACAD616B18277006F740A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD516B18277006F740A /* OpenGLES.framework */; };
 		3ECACAD816B18277006F740A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ECACAD716B18277006F740A /* OpenAL.framework */; };
@@ -359,7 +358,6 @@
 		3EB227F7173D591D0042C583 /* rockstarButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rockstarButtonSelected~ipad.png"; sourceTree = "<group>"; };
 		3EB227F8173D591D0042C583 /* singlePlayerButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "singlePlayerButton~ipad.png"; sourceTree = "<group>"; };
 		3EB227F9173D591D0042C583 /* singlePlayerButtonSelected~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "singlePlayerButtonSelected~ipad.png"; sourceTree = "<group>"; };
-		3EC3A3A01744D6DD00E09BD8 /* intro_1~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_1~ipad.png"; sourceTree = "<group>"; };
 		3ECACACF16B18277006F740A /* ThesisGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThesisGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECACAD316B18277006F740A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3ECACAD516B18277006F740A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
