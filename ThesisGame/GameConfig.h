@@ -2,8 +2,7 @@
 //  GameConfig.h
 //  CatRace
 //
-//  Created by Ray Wenderlich on 4/23/11.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Created by Alexandru Savu on 2/1/13
 //
 
 #ifndef __GAME_CONFIG_H

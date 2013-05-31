@@ -681,7 +681,7 @@
 #pragma mark Obstacles
 
 -(void)addObstacles{
-    self.obstacle = [[Obstacle alloc] initWithFile:@"starObject_1.png" alphaThreshold:0];
+    self.obstacle = [[Obstacle alloc] initWithFile:@"starObject_1.png"];
     // Determine where to spawn the target along the Y axis
     CGSize winSize = [[CCDirector sharedDirector] winSize];
 //    int minX = MIN_COURSE_X + self.obstacle.contentSize.width/2;
